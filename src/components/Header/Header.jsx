@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import user from "../../assets/hue.jpg";
 import bell from "../../assets/bell.png";
 import logo from "../../assets/logo.png";
+
 const Header = () => {
   const navigate = useNavigate();
   return (
