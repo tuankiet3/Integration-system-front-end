@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import ReactPaginate from "react-paginate";
 import "./SalaryManagement.scss";
 import { Table, Dropdown } from "react-bootstrap";
 import { FaEllipsisV } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { FaAngleRight } from "react-icons/fa6";
+import { IoIosSearch } from "react-icons/io";
+import anh from "../../../assets/hue.jpg";
 const SalaryManagement = () => {
   const employees = [
     {
       id: "A0B1C028",
-      name: "Jeremy",
+      avatar: anh,
       phone: "123456789",
       department: "Support",
       email: "abc@gmail.com",
@@ -20,10 +22,10 @@ const SalaryManagement = () => {
     },
     {
       id: "A0B1C086",
-      name: "Annett",
+      avatar: anh,
       phone: "123456789",
       department: "QA",
-      email: "abc@gmail.com",
+      email: "abcxyzsds@gmail.com",
       basicSalary: 12000,
       bonus: 800,
       deductions: 300,
@@ -32,7 +34,7 @@ const SalaryManagement = () => {
     },
     {
       id: "A0B1C025",
-      name: "Therese",
+      avatar: anh,
       phone: "123456789",
       department: "People Ops",
       email: "abc@gmail.com",
@@ -44,7 +46,7 @@ const SalaryManagement = () => {
     },
     {
       id: "A0B1C044",
-      name: "Kathyr",
+      avatar: anh,
       phone: "123456788",
       department: "IT",
       email: "abc@gmail.com",
@@ -56,7 +58,7 @@ const SalaryManagement = () => {
     },
     {
       id: "A0B1C099",
-      name: "Courtn",
+      avatar: anh,
       phone: "123456789",
       department: "Customer",
       email: "abc@gmail.com",
@@ -68,7 +70,7 @@ const SalaryManagement = () => {
     },
     {
       id: "A0B1C095",
-      name: "Jane C.",
+      avatar: anh,
       phone: "123456789",
       department: "Product",
       email: "abc@gmail.com",
@@ -80,7 +82,7 @@ const SalaryManagement = () => {
     },
     {
       id: "A0B1C0950",
-      name: "Jane C.",
+      avatar: anh,
       phone: "123456789",
       department: "Product",
       email: "abc@gmail.com",
@@ -92,7 +94,7 @@ const SalaryManagement = () => {
     },
     {
       id: "A0B1C0980",
-      name: "Jane C.",
+      avatar: anh,
       phone: "123456789",
       department: "Product",
       email: "abc@gmail.com",
@@ -104,7 +106,7 @@ const SalaryManagement = () => {
     },
     {
       id: "A0B1C0580",
-      name: "Jane C.",
+      avatar: anh,
       phone: "123456789",
       department: "Product",
       email: "abc@gmail.com",
@@ -116,7 +118,7 @@ const SalaryManagement = () => {
     },
     {
       id: "A0B1C0580",
-      name: "Jane C.",
+      avatar: anh,
       phone: "123456789",
       department: "Product",
       email: "abc@gmail.com",
@@ -128,7 +130,7 @@ const SalaryManagement = () => {
     },
     {
       id: "A0B1C0580",
-      name: "Jane C.",
+      avatar: anh,
       phone: "123456789",
       department: "Product",
       email: "abc@gmail.com",
@@ -140,7 +142,7 @@ const SalaryManagement = () => {
     },
     {
       id: "A0B1C0580",
-      name: "Jane C.",
+      avatar: anh,
       phone: "123456789",
       department: "Product",
       email: "abc@gmail.com",
@@ -152,7 +154,7 @@ const SalaryManagement = () => {
     },
     {
       id: "A0B1C0580",
-      name: "Jane C.",
+      avatar: anh,
       phone: "123456789",
       department: "Product",
       email: "abc@gmail.com",
@@ -164,31 +166,7 @@ const SalaryManagement = () => {
     },
     {
       id: "A0B1C0580",
-      name: "Jane C.",
-      phone: "123456789",
-      department: "Product",
-      email: "abc@gmail.com",
-      basicSalary: 11500,
-      bonus: 800,
-      deductions: 300,
-      totalSalary: 12500,
-      paymentDate: "8/2/19",
-    },
-    {
-      id: "A0B1C0580",
-      name: "Jane C.",
-      phone: "123456789",
-      department: "Product",
-      email: "abc@gmail.com",
-      basicSalary: 11500,
-      bonus: 800,
-      deductions: 300,
-      totalSalary: 12500,
-      paymentDate: "8/2/19",
-    },
-    {
-      id: "A0B1C0580",
-      name: "Jane C.",
+      avatar: anh,
       phone: "123456789",
       department: "Product",
       email: "abc@gmail.com",
@@ -199,70 +177,116 @@ const SalaryManagement = () => {
       paymentDate: "8/2/19",
     },
   ];
-  const [currentPage, setCurrentPage] = useState(0); // react-paginate starts from page 0
+  const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 5;
 
-  // Tính toán các phần tử cần hiển thị trong bảng
   const indexOfLastItem = (currentPage + 1) * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = employees.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Xử lý thay đổi trang
-  const handlePageChange = (selectedPage) => {
-    setCurrentPage(selectedPage.selected); // `selected` có sẵn từ react-paginate
+  const handlePreviousPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
   };
+
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(employees.length / itemsPerPage) - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const previousLabel = (
+    <span
+      className={`page-link ${currentPage === 0 ? "disabled" : ""}`}
+      onClick={handlePreviousPage}
+      style={{ cursor: currentPage === 0 ? "not-allowed" : "pointer" }}
+    >
+      Prev
+    </span>
+  );
+
+  const nextLabel = (
+    <span
+      className={`page-link ${
+        currentPage >= Math.ceil(employees.length / itemsPerPage) - 1
+          ? "disabled"
+          : ""
+      }`}
+      onClick={handleNextPage}
+      style={{
+        cursor:
+          currentPage >= Math.ceil(employees.length / itemsPerPage) - 1
+            ? "not-allowed"
+            : "pointer",
+      }}
+    >
+      Next
+    </span>
+  );
+
   return (
     <div className="salary-management-container">
       <div className="salary-management-header">
         <div className="smh-top">
-          <div className="smh-user">Hue</div>
+          <div className="smh-user">
+            Hue <FaAngleRight />
+          </div>
           <div className="smh-fc">Salary Management</div>
         </div>
       </div>
       <div className="salary-management-content">
         <div className="smt-detail">
           <div className="smt-search">
-            <input type="search" placeholder="Search" />
+            <div className="smt-search-container">
+              <input
+                type="search"
+                placeholder="Search"
+                className="smt-search-input"
+              />
+              <IoIosSearch className="smt-search-icon" />
+            </div>
           </div>
-          <div className="smt-title">Announcements</div>
           <div className="smt-table">
             <div className="container mt-4">
               <Table bordered hover className="smt-table-content">
                 <thead style={{ backgroundColor: "#f5f5f5" }}>
                   <tr>
-                    <th>Profile</th>
-                    <th>ID</th>
-                    <th>Phone</th>
-                    <th>Department</th>
-                    <th>Email</th>
-                    <th>Basic Salary</th>
-                    <th>Bonus</th>
-                    <th>Deductions</th>
-                    <th>Total Salary</th>
-                    <th>Payment Date</th>
-                    <th>Action</th>
+                    <th style={{ width: "80px" }}>Profile</th>
+                    <th style={{ width: "50px" }}>ID</th>
+                    <th style={{ width: "100px" }}>Phone</th>
+                    <th style={{ width: "150px" }}>Department</th>
+                    <th style={{ width: "170px" }}>Email</th>
+                    <th style={{ width: "100px" }}>Basic Salary</th>
+                    <th style={{ width: "100px" }}>Bonus</th>
+                    <th style={{ width: "100px" }}>Deductions</th>
+                    <th style={{ width: "100px" }}>Total Salary</th>
+                    <th style={{ width: "100px" }}>Payment Date</th>
+                    <th style={{ width: "50px" }}>Action</th>
                   </tr>
                 </thead>
 
                 <tbody>
                   {currentItems.map((emp, index) => (
                     <tr key={index}>
-                      <td className="td-click">{emp.name}</td>
-                      <td className="td-click">{emp.id}</td>
-                      <td className="td-click">{emp.phone}</td>
-                      <td className="td-click">{emp.department}</td>
-                      <td className="td-click">{emp.email}</td>
-                      <td className="td-click">
-                        {emp.basicSalary.toLocaleString()}
+                      <td>
+                        <img
+                          src={emp.avatar}
+                          alt={emp.name}
+                          width="30"
+                          height="30"
+                          style={{ borderRadius: "50%" }}
+                        />
                       </td>
-                      <td className="td-click">{emp.bonus.toLocaleString()}</td>
-                      <td className="td-click">
-                        {emp.deductions.toLocaleString()}
-                      </td>
-                      <td className="td-click">
-                        {emp.totalSalary.toLocaleString()}
-                      </td>
-                      <td className="td-click">{emp.paymentDate}</td>
+                      <td>{emp.id}</td>
+                      <td>{emp.phone}</td>
+                      <td>{emp.department}</td>
+                      <td>{emp.email}</td>
+                      <td>{emp.basicSalary.toLocaleString()}</td>
+                      <td>{emp.bonus.toLocaleString()}</td>
+                      <td>{emp.deductions.toLocaleString()}</td>
+                      <td>{emp.totalSalary.toLocaleString()}</td>
+                      <td>{emp.paymentDate}</td>
                       <td className="smt-action">
                         <Dropdown>
                           <Dropdown.Toggle
@@ -272,7 +296,13 @@ const SalaryManagement = () => {
                             <FaEllipsisV />
                           </Dropdown.Toggle>
                           <Dropdown.Menu>
-                            <Dropdown.Item href="#">Delete</Dropdown.Item>
+                            <Dropdown.Item
+                              href="#"
+                              className="delete"
+                              style={{ color: "red" }}
+                            >
+                              Delete
+                            </Dropdown.Item>
                             <Dropdown.Item href="#">Update</Dropdown.Item>
                             <Dropdown.Item href="#">
                               History Salary
@@ -286,21 +316,17 @@ const SalaryManagement = () => {
               </Table>
             </div>
           </div>
-
-          <ReactPaginate
-            previousLabel={"Previous"}
-            nextLabel={"Next"}
-            pageCount={Math.ceil(employees.length / itemsPerPage)} // Tổng số trang
-            onPageChange={handlePageChange}
-            containerClassName={"pagination"}
-            activeClassName={"active"}
-            pageClassName={"page-item"}
-            pageLinkClassName={"page-link"}
-            previousClassName={"page-item"}
-            previousLinkClassName={"page-link"}
-            nextClassName={"page-item"}
-            nextLinkClassName={"page-link"}
-          />
+          <div className="smt-pagination">
+            {previousLabel}
+            {nextLabel}
+            <label className="current-page-label">
+              Page <input type="text" value={currentPage + 1} readOnly />{" "}
+              <span>
+                {" "}
+                of {Math.ceil(employees.length / itemsPerPage)} pages
+              </span>
+            </label>
+          </div>
         </div>
       </div>
     </div>

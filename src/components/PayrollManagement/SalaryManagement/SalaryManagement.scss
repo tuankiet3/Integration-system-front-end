@@ -1,15 +1,18 @@
 .salary-management-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  // gap: 20px;
   width: 1050px;
 
   .salary-management-header {
-    padding: 0 20px;
+    padding: 20px;
 
     .smh-top {
       display: flex;
-      gap: 20px;
+      gap: 10px;
+      .smh-user {
+        color: #838992;
+      }
     }
   }
   .salary-management-content {
@@ -20,6 +23,25 @@
       background-color: #ffff;
       border-radius: 10px;
       padding: 20px;
+      .smt-search-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      .smt-search-input {
+        padding-left: 35px; /* Chừa khoảng trống cho icon */
+        width: 500px;
+        height: 40px;
+        border-radius: 10px;
+        outline: none;
+      }
+
+      .smt-search-icon {
+        position: absolute;
+        left: 10px;
+        color: gray;
+      }
       .smt-table {
         font-size: 14px;
         text-align: center;
@@ -54,4 +76,48 @@
 
 .smt-table {
   height: 350px;
+}
+.smt-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; // Đẩy về bên phải
+  gap: 10px; // Tạo khoảng cách giữa các phần tử
+  border-top: 1px solid #ccc; // Thêm đường viền trên
+  .page-link {
+    margin-top: 10px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #f8f9fa;
+
+    &:hover {
+      background-color: #146adc;
+    }
+  }
+
+  .current-page-label {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    input {
+      width: 70px;
+      // text-align: center;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 8px 12px;
+
+      background-color: #fff;
+    }
+
+    span {
+      color: #146adc;
+    }
+  }
+}
+.delete {
+  color: red;
 }
