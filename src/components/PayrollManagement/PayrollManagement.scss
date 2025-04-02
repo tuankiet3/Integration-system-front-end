@@ -6,13 +6,16 @@
 }
 
 .payroll-content {
+  margin: 0 auto;
   max-width: 1300px;
   padding-top: 60px;
   display: flex;
   margin: 0 auto;
   .payroll-tool {
-    width: 250px;
+    width: 220px;
     background-color: #f5f5f5;
+    border-right: 1px solid #000000;
+
     .payroll-tool-box {
       max-width: 100%;
       margin: 0 10px;
@@ -30,7 +33,7 @@
 
   .payroll-detail {
     flex: 1;
-    max-width: calc(100% - 250px);
-    border: 1px solid #be0d0d;
+    max-width: calc(100% - 220px);
+    // border: 1px solid #be0d0d;
   }
 }
