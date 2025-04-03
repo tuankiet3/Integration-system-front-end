@@ -119,5 +119,74 @@
   }
 }
 .delete {
-  color: red;
+  color: sred;
+}
+
+.modal-update {
+  .modal-content {
+    padding: 20px;
+    width: 290px;
+    .update-pr-header {
+      .update-pr-header-title {
+        font-size: 28px;
+        font-weight: 600;
+      }
+      .update-pr-header-user {
+        img {
+          height: 35px;
+          width: 35px;
+          border-radius: 50%;
+          margin-right: 10px;
+        }
+        margin: 10px 0;
+      }
+    }
+
+    .update-pr-main {
+      .update-pr-box {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 10px;
+
+        input {
+          border-radius: 5px;
+          height: 44px;
+          outline: none;
+          border: 2px solid #ccc;
+          width: 246px;
+        }
+      }
+    }
+
+    .update-pr-footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-top: 10px;
+      .save {
+        width: 65px;
+        height: 33px;
+        background-color: #212143;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 6px;
+        color: #fff;
+        cursor: pointer;
+      }
+      .cancel {
+        width: 65px;
+        height: 33px;
+        background-color: #ff0000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 6px;
+        color: #fff;
+        cursor: pointer;
+      }
+    }
+  }
 }
