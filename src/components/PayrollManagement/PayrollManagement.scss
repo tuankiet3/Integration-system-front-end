@@ -1,0 +1,38 @@
+.payroll-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.payroll-content {
+  margin: 0 auto;
+  max-width: 1300px;
+  padding-top: 60px;
+  display: flex;
+  .payroll-tool {
+    width: 220px;
+    background-color: #f5f5f5;
+    border-right: 1px solid #000000;
+
+    .payroll-tool-box {
+      max-width: 100%;
+      margin: 0 10px;
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      padding: 10px;
+      img {
+        width: 25px;
+        height: 25px;
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .payroll-detail {
+    flex: 1;
+    width: 1050px;
+    // border: 1px solid #be0d0d;
+  }
+}
