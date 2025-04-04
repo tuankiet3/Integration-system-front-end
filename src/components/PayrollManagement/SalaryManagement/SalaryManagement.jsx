@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "./SalaryManagement.scss";
-import { Table, Dropdown } from "react-bootstrap";
+import { Table, Dropdown, Modal, Form, Button } from "react-bootstrap";
 import { FaEllipsisV } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaAngleRight } from "react-icons/fa6";
 import { IoIosSearch } from "react-icons/io";
 import anh from "../../../assets/hue.jpg";
+// import ModalUpdatePayroll from "../ModalUpdate/ModalUpdatePayroll";
 const SalaryManagement = () => {
   const employees = [
     {
@@ -177,6 +178,9 @@ const SalaryManagement = () => {
       paymentDate: "8/2/19",
     },
   ];
+
+  const [showUpdate, setShowUpdate] = useState(false);
+
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 5;
 
@@ -303,7 +307,9 @@ const SalaryManagement = () => {
                             >
                               Delete
                             </Dropdown.Item>
-                            <Dropdown.Item href="#">Update</Dropdown.Item>
+                            <Dropdown.Item onClick={() => setShowUpdate(true)}>
+                              Update
+                            </Dropdown.Item>
                             <Dropdown.Item href="#">
                               History Salary
                             </Dropdown.Item>
@@ -329,6 +335,38 @@ const SalaryManagement = () => {
           </div>
         </div>
       </div>
+      {/* <ModalUpdatePayroll show={showUpdate} setShow={setShowUpdate} /> */}
+      <Modal show={showUpdate} className="modal-update" centered>
+        <div className="update-pr-header">
+          <div className="update-pr-header-title">Update</div>
+          <div className="update-pr-header-user">
+            <img src={anh} alt="" />
+            Hue
+          </div>
+        </div>
+        <div className="update-pr-main">
+          <div className="update-pr-box">
+            <div className="up-box-title">salary</div>
+            <input type="text" />
+          </div>
+          <div className="update-pr-box">
+            <div className="up-box-title">salary</div>
+            <input type="text" />
+          </div>
+          <div className="update-pr-box">
+            <div className="up-box-title">salary</div>
+            <input type="text" />
+          </div>
+        </div>
+        <div className="update-pr-footer">
+          <div className="save" onClick={() => setShowUpdate(false)}>
+            Save
+          </div>
+          <div className="cancel" onClick={() => setShowUpdate(false)}>
+            Cancel
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
