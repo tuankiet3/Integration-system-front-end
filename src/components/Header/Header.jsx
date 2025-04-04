@@ -1,16 +1,14 @@
 import React from "react";
 import "./Header.scss";
-import { useNavigate } from "react-router-dom";
 import user from "../../assets/hue.jpg";
 import bell from "../../assets/bell.png";
 import logo from "../../assets/logo.png";
 
 const Header = () => {
-  const navigate = useNavigate();
   return (
     <div className="header-container">
       <div className="header-content">
-        <div className="header-logo" onClick={() => navigate("/")}>
+        <div className="header-logo">
           <img src={logo} alt="" />
           <div className="logo-text">HMD</div>
         </div>
