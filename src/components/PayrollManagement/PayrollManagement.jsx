@@ -15,11 +15,10 @@ const PayrollManagement = () => {
       </div>
       <div className="payroll-content">
         <div className="payroll-tool">
-          <div className="payroll-tool-box">
+          <div className="payroll-tool-box" onClick={() => navigate("/")}>
             <img src={home} alt="" />
             DashBoard
           </div>
-          {/* <div className="payroll-tool-box">Tiểu Tam</div> */}
           <div
             className="payroll-tool-box"
             onClick={() => navigate("/salary-management")}
@@ -31,7 +30,10 @@ const PayrollManagement = () => {
             <img src={flag} alt="" />
             Salary reports
           </div>
-          <div className="payroll-tool-box">
+          <div
+            className="payroll-tool-box"
+            onClick={() => navigate("/salary-history")}
+          >
             <img src={icon_hrreport} alt="" />
             Salary History
           </div>

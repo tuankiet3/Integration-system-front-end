@@ -5,6 +5,7 @@ import React from "react";
 import SalaryManagement from "./components/PayrollManagement/SalaryManagement/SalaryManagement";
 import HRManagement from "./components/HRManager/HRManagement";
 import DashBoardPayroll from "./components/PayrollManagement/DashBoardPayroll/DashBoardPayroll";
+import HistoryPayroll from "./components/PayrollManagement/HistoryPayroll/HistoryPayroll";
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
       <Route path="/" element={<PayrollManagement />}>
         <Route index element={<DashBoardPayroll />} />
         <Route path="/salary-management" element={<SalaryManagement />} />
+        <Route path="/salary-history" element={<HistoryPayroll />} />
       </Route>
       <Route path="/HRManagement" element={<HRManagement />} />
     </Routes>
