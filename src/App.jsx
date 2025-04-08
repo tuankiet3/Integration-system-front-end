@@ -5,6 +5,9 @@ import React from "react";
 import SalaryManagement from "./components/PayrollManagement/SalaryManagement/SalaryManagement";
 import HRManagement from "./components/HRManager/HRManagement";
 import DashBoardPayroll from "./components/PayrollManagement/DashBoardPayroll/DashBoardPayroll";
+import HRDashboard from "./components/HRManager/HRDashboard/HRDashboard";
+import EmployeeManagement from "./components/HRManager/EmployeeManagement/EmployeeManagement";
+import HistoryPayroll from "./components/PayrollManagement/HistoryPayroll/HistoryPayroll";
 
 const App = () => {
   return (
