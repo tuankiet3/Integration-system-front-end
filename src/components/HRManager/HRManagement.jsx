@@ -21,13 +21,13 @@ const HRManagement = () => {
             DashBoard</div>
           <div className="hr-tool-box" onClick={() => navigate("/HRManagement/EmployeeManagement")}>
             <img src={user} alt="" />
-            Employee management</div>
+            Employee Management</div>
           <div className="hr-tool-box">
             <img src={flag} alt="" />
-            HR reports</div>
+            HR Reports</div>
           <div className="hr-tool-box">
             <img src={icon_hrreport} alt="" />
-            Salary history</div>
+            Salary History</div>
         </div>
         <div className="hr-detail">
           <Outlet />
