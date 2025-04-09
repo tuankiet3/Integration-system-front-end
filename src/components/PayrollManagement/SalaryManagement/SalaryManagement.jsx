@@ -12,6 +12,7 @@ const SalaryManagement = () => {
     {
       id: "A0B1C028",
       avatar: anh,
+      name: "Muối Chanh",
       phone: "123456789",
       department: "Support",
       email: "abc@gmail.com",
@@ -24,6 +25,7 @@ const SalaryManagement = () => {
     {
       id: "A0B1C086",
       avatar: anh,
+      name: "Muối Chanh",
       phone: "123456789",
       department: "QA",
       email: "abcxyzsds@gmail.com",
@@ -36,6 +38,7 @@ const SalaryManagement = () => {
     {
       id: "A0B1C025",
       avatar: anh,
+      name: "Muối Chanh",
       phone: "123456789",
       department: "People Ops",
       email: "abc@gmail.com",
@@ -48,6 +51,7 @@ const SalaryManagement = () => {
     {
       id: "A0B1C044",
       avatar: anh,
+      name: "Muối Chanh",
       phone: "123456788",
       department: "IT",
       email: "abc@gmail.com",
@@ -60,6 +64,7 @@ const SalaryManagement = () => {
     {
       id: "A0B1C099",
       avatar: anh,
+      name: "Muối Chanh",
       phone: "123456789",
       department: "Customer",
       email: "abc@gmail.com",
@@ -72,6 +77,7 @@ const SalaryManagement = () => {
     {
       id: "A0B1C095",
       avatar: anh,
+      name: "Muối Chanh",
       phone: "123456789",
       department: "Product",
       email: "abc@gmail.com",
@@ -84,6 +90,7 @@ const SalaryManagement = () => {
     {
       id: "A0B1C0950",
       avatar: anh,
+      name: "Muối Chanh",
       phone: "123456789",
       department: "Product",
       email: "abc@gmail.com",
@@ -96,6 +103,7 @@ const SalaryManagement = () => {
     {
       id: "A0B1C0980",
       avatar: anh,
+      name: "Muối Chanh",
       phone: "123456789",
       department: "Product",
       email: "abc@gmail.com",
@@ -108,6 +116,7 @@ const SalaryManagement = () => {
     {
       id: "A0B1C0580",
       avatar: anh,
+      name: "Muối Chanh",
       phone: "123456789",
       department: "Product",
       email: "abc@gmail.com",
@@ -120,6 +129,7 @@ const SalaryManagement = () => {
     {
       id: "A0B1C0580",
       avatar: anh,
+      name: "Muối Chanh",
       phone: "123456789",
       department: "Product",
       email: "abc@gmail.com",
@@ -132,6 +142,7 @@ const SalaryManagement = () => {
     {
       id: "A0B1C0580",
       avatar: anh,
+      name: "Muối Chanh",
       phone: "123456789",
       department: "Product",
       email: "abc@gmail.com",
@@ -144,6 +155,7 @@ const SalaryManagement = () => {
     {
       id: "A0B1C0580",
       avatar: anh,
+      name: "Muối Chanh",
       phone: "123456789",
       department: "Product",
       email: "abc@gmail.com",
@@ -156,18 +168,7 @@ const SalaryManagement = () => {
     {
       id: "A0B1C0580",
       avatar: anh,
-      phone: "123456789",
-      department: "Product",
-      email: "abc@gmail.com",
-      basicSalary: 11500,
-      bonus: 800,
-      deductions: 300,
-      totalSalary: 12500,
-      paymentDate: "8/2/19",
-    },
-    {
-      id: "A0B1C0580",
-      avatar: anh,
+      name: "Muối Chanh",
       phone: "123456789",
       department: "Product",
       email: "abc@gmail.com",
@@ -179,14 +180,36 @@ const SalaryManagement = () => {
     },
   ];
 
+  const [searchTerm, setSearchTerm] = useState("");
   const [showUpdate, setShowUpdate] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 5;
 
+  // Hàm xử lý tìm kiếm
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(0); // Reset về trang đầu tiên khi tìm kiếm
+  };
+
+  // Lọc dữ liệu dựa trên searchTerm
+  const filteredEmployees = employees.filter((emp) => {
+    const searchLower = searchTerm.toLowerCase();
+    return (
+      emp.id.toLowerCase().includes(searchLower) ||
+      emp.name.toLowerCase().includes(searchLower) ||
+      emp.department.toLowerCase().includes(searchLower) ||
+      emp.email.toLowerCase().includes(searchLower) ||
+      emp.phone.includes(searchTerm)
+    );
+  });
+
   const indexOfLastItem = (currentPage + 1) * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = employees.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredEmployees.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   const handlePreviousPage = () => {
     if (currentPage > 0) {
@@ -195,7 +218,7 @@ const SalaryManagement = () => {
   };
 
   const handleNextPage = () => {
-    if (currentPage < Math.ceil(employees.length / itemsPerPage) - 1) {
+    if (currentPage < Math.ceil(filteredEmployees.length / itemsPerPage) - 1) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -213,14 +236,14 @@ const SalaryManagement = () => {
   const nextLabel = (
     <span
       className={`page-link ${
-        currentPage >= Math.ceil(employees.length / itemsPerPage) - 1
+        currentPage >= Math.ceil(filteredEmployees.length / itemsPerPage) - 1
           ? "disabled"
           : ""
       }`}
       onClick={handleNextPage}
       style={{
         cursor:
-          currentPage >= Math.ceil(employees.length / itemsPerPage) - 1
+          currentPage >= Math.ceil(filteredEmployees.length / itemsPerPage) - 1
             ? "not-allowed"
             : "pointer",
       }}
@@ -240,13 +263,15 @@ const SalaryManagement = () => {
         </div>
       </div>
       <div className="salary-management-content">
-        <div className="smt-detail">
+        <div className="smt-detail" style={{ width: "100%" }}>
           <div className="smt-search">
             <div className="smt-search-container">
               <input
                 type="search"
                 placeholder="Search"
                 className="smt-search-input"
+                value={searchTerm}
+                onChange={handleSearch}
               />
               <IoIosSearch className="smt-search-icon" />
             </div>
@@ -256,33 +281,23 @@ const SalaryManagement = () => {
               <Table bordered hover className="smt-table-content">
                 <thead style={{ backgroundColor: "#f5f5f5" }}>
                   <tr>
-                    <th style={{ width: "80px" }}>Profile</th>
-                    <th style={{ width: "50px" }}>ID</th>
-                    <th style={{ width: "100px" }}>Phone</th>
-                    <th style={{ width: "150px" }}>Department</th>
-                    <th style={{ width: "170px" }}>Email</th>
-                    <th style={{ width: "100px" }}>Basic Salary</th>
-                    <th style={{ width: "100px" }}>Bonus</th>
-                    <th style={{ width: "100px" }}>Deductions</th>
-                    <th style={{ width: "100px" }}>Total Salary</th>
-                    <th style={{ width: "100px" }}>Payment Date</th>
-                    <th style={{ width: "50px" }}>Action</th>
+                    <th>Profile</th>
+                    <th>Phone</th>
+                    <th>Department</th>
+                    <th>Email</th>
+                    <th>Basic Salary</th>
+                    <th>Bonus</th>
+                    <th>Deductions</th>
+                    <th>Total Salary</th>
+                    <th>Payment Date</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
 
                 <tbody>
                   {currentItems.map((emp, index) => (
                     <tr key={index}>
-                      <td>
-                        <img
-                          src={emp.avatar}
-                          alt={emp.name}
-                          width="30"
-                          height="30"
-                          style={{ borderRadius: "50%" }}
-                        />
-                      </td>
-                      <td>{emp.id}</td>
+                      <td>{emp.name}</td>
                       <td>{emp.phone}</td>
                       <td>{emp.department}</td>
                       <td>{emp.email}</td>
@@ -329,7 +344,7 @@ const SalaryManagement = () => {
               Page <input type="text" value={currentPage + 1} readOnly />{" "}
               <span>
                 {" "}
-                of {Math.ceil(employees.length / itemsPerPage)} pages
+                of {Math.ceil(filteredEmployees.length / itemsPerPage)} pages
               </span>
             </label>
           </div>

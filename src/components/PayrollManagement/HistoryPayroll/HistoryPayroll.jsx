@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-// import "./SalaryManagement.scss";
 import { Table, Dropdown, Modal, Form, Button } from "react-bootstrap";
-import { FaEllipsisV } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaAngleRight } from "react-icons/fa6";
 import { IoIosSearch } from "react-icons/io";
 import anh from "../../../assets/hue.jpg";
-// import ModalUpdatePayroll from "../ModalUpdate/ModalUpdatePayroll";
+import "./HistoryPayroll.scss";
+
 const HistoryPayroll = () => {
   const employees = [
     {
@@ -19,7 +18,7 @@ const HistoryPayroll = () => {
       bonus: 500,
       deductions: 200,
       totalSalary: 10300,
-      paymentDate: "11/7/16",
+      paymentDate: "11/7/2016",
     },
     {
       id: "A0B1C086",
@@ -31,7 +30,7 @@ const HistoryPayroll = () => {
       bonus: 800,
       deductions: 300,
       totalSalary: 12500,
-      paymentDate: "7/21/19",
+      paymentDate: "7/21/2019",
     },
     {
       id: "A0B1C025",
@@ -79,7 +78,7 @@ const HistoryPayroll = () => {
       bonus: 800,
       deductions: 300,
       totalSalary: 12500,
-      paymentDate: "8/2/19",
+      paymentDate: "8/2/25",
     },
     {
       id: "A0B1C0950",
@@ -91,7 +90,7 @@ const HistoryPayroll = () => {
       bonus: 800,
       deductions: 300,
       totalSalary: 12500,
-      paymentDate: "8/2/19",
+      paymentDate: "8/2/25",
     },
     {
       id: "A0B1C0980",
@@ -103,7 +102,7 @@ const HistoryPayroll = () => {
       bonus: 800,
       deductions: 300,
       totalSalary: 12500,
-      paymentDate: "8/2/19",
+      paymentDate: "8/2/25",
     },
     {
       id: "A0B1C0580",
@@ -115,7 +114,7 @@ const HistoryPayroll = () => {
       bonus: 800,
       deductions: 300,
       totalSalary: 12500,
-      paymentDate: "8/2/19",
+      paymentDate: "8/2/25",
     },
     {
       id: "A0B1C0580",
@@ -127,7 +126,7 @@ const HistoryPayroll = () => {
       bonus: 800,
       deductions: 300,
       totalSalary: 12500,
-      paymentDate: "8/2/19",
+      paymentDate: "8/2/25",
     },
     {
       id: "A0B1C0580",
@@ -139,7 +138,7 @@ const HistoryPayroll = () => {
       bonus: 800,
       deductions: 300,
       totalSalary: 12500,
-      paymentDate: "8/2/19",
+      paymentDate: "8/2/25",
     },
     {
       id: "A0B1C0580",
@@ -151,7 +150,7 @@ const HistoryPayroll = () => {
       bonus: 800,
       deductions: 300,
       totalSalary: 12500,
-      paymentDate: "8/2/19",
+      paymentDate: "8/2/25",
     },
     {
       id: "A0B1C0580",
@@ -163,7 +162,7 @@ const HistoryPayroll = () => {
       bonus: 800,
       deductions: 300,
       totalSalary: 12500,
-      paymentDate: "8/2/19",
+      paymentDate: "8/2/25",
     },
     {
       id: "A0B1C0580",
@@ -175,18 +174,31 @@ const HistoryPayroll = () => {
       bonus: 800,
       deductions: 300,
       totalSalary: 12500,
-      paymentDate: "8/2/19",
+      paymentDate: "8/2/25",
     },
   ];
 
-  const [showUpdate, setShowUpdate] = useState(false);
-
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 5;
 
+  // Hàm xử lý tìm kiếm
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(0); // Reset về trang đầu tiên khi tìm kiếm
+  };
+
+  // Lọc dữ liệu dựa trên searchTerm
+  const filteredEmployees = employees.filter((emp) => {
+    return emp.paymentDate.includes(searchTerm);
+  });
+
   const indexOfLastItem = (currentPage + 1) * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = employees.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredEmployees.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   const handlePreviousPage = () => {
     if (currentPage > 0) {
@@ -195,7 +207,7 @@ const HistoryPayroll = () => {
   };
 
   const handleNextPage = () => {
-    if (currentPage < Math.ceil(employees.length / itemsPerPage) - 1) {
+    if (currentPage < Math.ceil(filteredEmployees.length / itemsPerPage) - 1) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -213,14 +225,14 @@ const HistoryPayroll = () => {
   const nextLabel = (
     <span
       className={`page-link ${
-        currentPage >= Math.ceil(employees.length / itemsPerPage) - 1
+        currentPage >= Math.ceil(filteredEmployees.length / itemsPerPage) - 1
           ? "disabled"
           : ""
       }`}
       onClick={handleNextPage}
       style={{
         cursor:
-          currentPage >= Math.ceil(employees.length / itemsPerPage) - 1
+          currentPage >= Math.ceil(filteredEmployees.length / itemsPerPage) - 1
             ? "not-allowed"
             : "pointer",
       }}
@@ -236,82 +248,61 @@ const HistoryPayroll = () => {
           <div className="smh-user">
             Hue <FaAngleRight />
           </div>
-          <div className="smh-fc">Salary Management</div>
+          <div className="smh-fc">Salary History</div>
         </div>
       </div>
       <div className="salary-management-content">
-        <div className="smt-detail">
+        <div className="smt-detail" style={{ width: "100%" }}>
           <div className="smt-search">
             <div className="smt-search-container">
               <input
                 type="search"
-                placeholder="Search"
+                placeholder="Search by Date, eg: 03/20/2024"
                 className="smt-search-input"
+                value={searchTerm}
+                onChange={handleSearch}
               />
               <IoIosSearch className="smt-search-icon" />
             </div>
           </div>
+          <div className="history-profile">
+            <div className="hp-img">
+              <img src={anh} alt="?" />
+            </div>
+            <div className="hp-name">Hue</div>
+          </div>
+
           <div className="smt-table">
             <div className="container mt-4">
               <Table bordered hover className="smt-table-content">
                 <thead style={{ backgroundColor: "#f5f5f5" }}>
                   <tr>
-                    <th style={{ width: "110px" }}>Profile</th>
-                    <th style={{ width: "110px" }}>ID</th>
-                    <th style={{ width: "110px" }}>Department</th>
-                    <th style={{ width: "110px" }}>Basic Salary</th>
-                    <th style={{ width: "90px" }}>Bonus</th>
-                    <th style={{ width: "110px" }}>Deductions</th>
-                    <th style={{ width: "110px" }}>Total Salary</th>
-                    <th style={{ width: "130px" }}>Payment Date</th>
-                    <th style={{ width: "110px" }}>Action</th>
+                    <th style={{ padding: "15px 0" }}>Department</th>
+                    <th style={{ padding: "15px 0" }}>Basic Salary</th>
+                    <th style={{ padding: "15px 0" }}>Bonus</th>
+                    <th style={{ padding: "15px 0" }}>Deductions</th>
+                    <th style={{ padding: "15px 0" }}>Total Salary</th>
+                    <th style={{ padding: "15px 0" }}>Payment Date</th>
                   </tr>
                 </thead>
 
                 <tbody>
                   {currentItems.map((emp, index) => (
                     <tr key={index}>
-                      <td>
-                        <img
-                          src={emp.avatar}
-                          alt={emp.name}
-                          width="30"
-                          height="30"
-                          style={{ borderRadius: "50%" }}
-                        />
+                      <td style={{ padding: "15px 0" }}>{emp.department}</td>
+                      <td style={{ padding: "15px 0" }}>
+                        {emp.basicSalary.toLocaleString()}
                       </td>
-                      <td>{emp.id}</td>
-                      <td>{emp.department}</td>
-                      <td>{emp.basicSalary.toLocaleString()}</td>
-                      <td>{emp.bonus.toLocaleString()}</td>
-                      <td>{emp.deductions.toLocaleString()}</td>
-                      <td>{emp.totalSalary.toLocaleString()}</td>
-                      <td>{emp.paymentDate}</td>
-                      <td className="smt-action">
-                        <Dropdown>
-                          <Dropdown.Toggle
-                            variant="none"
-                            id={`dropdown-${index}`}
-                          >
-                            <FaEllipsisV />
-                          </Dropdown.Toggle>
-                          <Dropdown.Menu>
-                            <Dropdown.Item
-                              href="#"
-                              className="delete"
-                              style={{ color: "red" }}
-                            >
-                              Delete
-                            </Dropdown.Item>
-                            <Dropdown.Item onClick={() => setShowUpdate(true)}>
-                              Update
-                            </Dropdown.Item>
-                            <Dropdown.Item href="#">
-                              History Salary
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
+                      <td style={{ padding: "15px 0" }}>
+                        {emp.bonus.toLocaleString()}
                       </td>
+                      <td style={{ padding: "15px 0" }}>
+                        {emp.deductions.toLocaleString()}
+                      </td>
+                      <td style={{ padding: "15px 0" }}>
+                        {emp.totalSalary.toLocaleString()}
+                      </td>
+                      <td style={{ padding: "15px 0" }}>{emp.paymentDate}</td>{" "}
                     </tr>
                   ))}
                 </tbody>
@@ -325,44 +316,12 @@ const HistoryPayroll = () => {
               Page <input type="text" value={currentPage + 1} readOnly />{" "}
               <span>
                 {" "}
-                of {Math.ceil(employees.length / itemsPerPage)} pages
+                of {Math.ceil(filteredEmployees.length / itemsPerPage)} pages
               </span>
             </label>
           </div>
         </div>
       </div>
-      {/* <ModalUpdatePayroll show={showUpdate} setShow={setShowUpdate} /> */}
-      <Modal show={showUpdate} className="modal-update" centered>
-        <div className="update-pr-header">
-          <div className="update-pr-header-title">Update</div>
-          <div className="update-pr-header-user">
-            <img src={anh} alt="" />
-            Hue
-          </div>
-        </div>
-        <div className="update-pr-main">
-          <div className="update-pr-box">
-            <div className="up-box-title">salary</div>
-            <input type="text" />
-          </div>
-          <div className="update-pr-box">
-            <div className="up-box-title">salary</div>
-            <input type="text" />
-          </div>
-          <div className="update-pr-box">
-            <div className="up-box-title">salary</div>
-            <input type="text" />
-          </div>
-        </div>
-        <div className="update-pr-footer">
-          <div className="save" onClick={() => setShowUpdate(false)}>
-            Save
-          </div>
-          <div className="cancel" onClick={() => setShowUpdate(false)}>
-            Cancel
-          </div>
-        </div>
-      </Modal>
     </div>
   );
 };
