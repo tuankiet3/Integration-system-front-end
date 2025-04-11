@@ -139,7 +139,22 @@
             to {
                 transform: translateX(-100%);
             }
-        }               
+        }   
+        
+        .emc-table td.smt-action {
+            overflow: visible; /* Đảm bảo dropdown không bị ẩn */
+            max-width: none; /* Không giới hạn chiều rộng cho Action */
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            // font-weight: 500;
+            height: 26px;
+            display: flex;
+            justify-content: center;
+        }
 
         .emc-pagination {
             display: flex;
