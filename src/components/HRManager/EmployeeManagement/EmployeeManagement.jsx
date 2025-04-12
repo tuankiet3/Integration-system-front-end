@@ -12,16 +12,16 @@ import plus from "../../../assets/plus.png";
 const EmployeeManagement = () => {
   // Sample employee data
   const initialEmployees = [
-    { id: "AOBTNC028", name: "Jeremy Neibour Bella", phone: "123456789", department: "Support", email: "abc@gmail.com", status: "Part-time", joiningDate: "9/23/16", job: "abc" },
-    { id: "AOBTNC088", name: "Annette Bi", phone: "123456789", department: "QA", email: "abc@gmail.com", status: "On-Contract", joiningDate: "7/27/13", job: "abc" },
-    { id: "AOBTNC025", name: "Theresa Wu", phone: "123456789", department: "People Ops", email: "abc@gmail.com", status: "Seasonal", joiningDate: "11/7/16", job: "abc" },
-    { id: "AOBTNC044", name: "Kathryn Mt", phone: "123456789", department: "IT", email: "abc@gmail.com", status: "Part-time", joiningDate: "6/19/14", job: "abc" },
-    { id: "AOBTNC099", name: "Courtney H", phone: "123456789", department: "Customer Success", email: "abc@gmail.com", status: "Full-time", joiningDate: "7/11/19", job: "abc" },
-    { id: "AOBTNC095", name: "Jane Coop", phone: "123456789", department: "Product", email: "abc@gmail.com", status: "Full-time", joiningDate: "8/2/19", job: "abc" },
-    { id: "AOBTNC027", name: "Theresa Wu", phone: "123456789", department: "People Ops", email: "abc@gmail.com", status: "Seasonal", joiningDate: "11/7/16", job: "abc" },
-    { id: "AOBTNC040", name: "Kathryn Mt", phone: "123456789", department: "IT", email: "abc@gmail.com", status: "Part-time", joiningDate: "6/19/14", job: "abc" },
-    { id: "AOBTNC098", name: "Courtney H", phone: "123456789", department: "Customer Success", email: "abc@gmail.com", status: "Full-time", joiningDate: "7/11/19", job: "abc" },
-    { id: "AOBTNC090", name: "Jane Coop", phone: "123456789", department: "Product", email: "abc@gmail.com", status: "Full-time", joiningDate: "8/2/19", job: "abc" },
+    { id: "AOBTNC028", name: "Jeremy Neibour Bella", phone: "123456789", department: "Support", email: "abc@gmail.com", status: "Working", joiningDate: "9/23/16", job: "abc" },
+    { id: "AOBTNC088", name: "Annette Bi", phone: "123456789", department: "QA", email: "abc@gmail.com", status: "Working", joiningDate: "7/27/13", job: "abc" },
+    { id: "AOBTNC025", name: "Theresa Wu", phone: "123456789", department: "People Ops", email: "abc@gmail.com", status: "Working", joiningDate: "11/7/16", job: "abc" },
+    { id: "AOBTNC044", name: "Kathryn Mt", phone: "123456789", department: "IT", email: "abc@gmail.com", status: "Working", joiningDate: "6/19/14", job: "abc" },
+    { id: "AOBTNC099", name: "Courtney H", phone: "123456789", department: "Customer Success", email: "abc@gmail.com", status: "Working", joiningDate: "7/11/19", job: "abc" },
+    { id: "AOBTNC095", name: "Jane Coop", phone: "123456789", department: "Product", email: "abc@gmail.com", status: "Working", joiningDate: "8/2/19", job: "abc" },
+    { id: "AOBTNC027", name: "Theresa Wu", phone: "123456789", department: "People Ops", email: "abc@gmail.com", status: "Working", joiningDate: "11/7/16", job: "abc" },
+    { id: "AOBTNC040", name: "Kathryn Mt", phone: "123456789", department: "IT", email: "abc@gmail.com", status: "Working", joiningDate: "6/19/14", job: "abc" },
+    { id: "AOBTNC098", name: "Courtney H", phone: "123456789", department: "Customer Success", email: "abc@gmail.com", status: "Working", joiningDate: "7/11/19", job: "abc" },
+    { id: "AOBTNC090", name: "Jane Coop", phone: "123456789", department: "Product", email: "abc@gmail.com", status: "Working", joiningDate: "8/2/19", job: "abc" },
   ];
 
   const [employees, setEmployees] = useState(initialEmployees);
@@ -32,6 +32,10 @@ const EmployeeManagement = () => {
   // Delete
   const [showDelete, setShowDelete] = useState(false); // State for showing the modal
   const [selectedEmployeeDelete, setSelectedEmployeeDelete] = useState(null); // To store the employee being edited
+
+  // Add
+  const [showAdd, setShowAdd] = useState(false); // State for showing the modal
+  const [selectedEmployeeAdd, setSelectedEmployeeAdd] = useState(null); // To store the employee being edited
   const itemsPerPage = 6;
 
   const indexOfLastItem = (currentPage + 1) * itemsPerPage;
@@ -77,14 +81,12 @@ const EmployeeManagement = () => {
   // Function to get status badge color
   const getStatusClass = (status) => {
     switch (status) {
-      case "Part-time":
-        return "bg-warning text-dark";
-      case "On-Contract":
-        return "bg-primary text-white";
-      case "Seasonal":
-        return "bg-danger text-white";
-      case "Full-time":
+      case "Working":
         return "bg-success text-white";
+      case "Quit":
+        return "bg-warning text-dark";
+      case "Temporary":
+        return "bg-danger text-white";
       default:
         return "bg-secondary text-white";
     }
@@ -137,6 +139,7 @@ const EmployeeManagement = () => {
     setShowDelete(true); // Show the delete confirmation modal
   }
 
+  // DELETE
   // Handle delete confirmation
   const handleDeleteConfirm = () => {
     if (selectedEmployeeDelete) {
@@ -164,6 +167,12 @@ const EmployeeManagement = () => {
     selectedEmployeeDelete(null);
   };
 
+  // ADD EMPLOYEE
+  const handleAddClose = () => {
+    setShowAdd(false);
+    selectedEmployeeAdd(null);
+  }
+
   return (
     <div className='employee-management-container'>
       <div className="employee-management-header">
@@ -172,7 +181,7 @@ const EmployeeManagement = () => {
           <div className="emh-fc">Employee Management</div>
         </div>
         <div className="emh-button">
-          <button className="emh-button-addemp">
+          <button className="emh-button-addemp" onClick={() => setShowAdd(true)}>
             <img src={plus} alt="" className="emh-button-addemp-icon"/>
             Add Employee
             </button>
@@ -329,10 +338,9 @@ const EmployeeManagement = () => {
                     <Form.Group className="mb-3">
                       <Form.Label>Status</Form.Label>
                       <Form.Select name="status" defaultValue={selectedEmployee.status} style={{color:"rgb(90, 88, 88)"}}>
-                        <option value="Full-time">Full-time</option>
-                        <option value="Part-time">Part-time</option>
-                        <option value="On-Contract">On-Contract</option>
-                        <option value="Seasonal">Seasonal</option>
+                        <option value="Working">Working</option>
+                        <option value="Quit">Quit</option>
+                        <option value="Temporary">Temporary</option>
                       </Form.Select>
                     </Form.Group>
                   </Col>
