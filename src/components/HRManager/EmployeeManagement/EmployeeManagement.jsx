@@ -84,9 +84,9 @@ const EmployeeManagement = () => {
       case "Working":
         return "bg-success text-white";
       case "Quit":
-        return "bg-warning text-dark";
+        return "bg-danger text-dark";
       case "Temporary":
-        return "bg-danger text-white";
+        return "bg-dwarning text-white";
       default:
         return "bg-secondary text-white";
     }
@@ -374,11 +374,11 @@ const EmployeeManagement = () => {
                 </Row>
 
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={handleClose}>
-                    Cancel
-                  </Button>
                   <Button variant="primary" type="submit">
                     Save
+                  </Button>
+                  <Button variant="secondary" onClick={handleClose}>
+                    Cancel
                   </Button>
                 </Modal.Footer>
               </Form>
@@ -409,9 +409,130 @@ const EmployeeManagement = () => {
               Delete
             </Button>
             <Button variant="secondary" onClick={handleDeleteClose}>
-              Close
+              Cancel
             </Button>
           </Modal.Footer>
+        </Modal>
+      </div>
+
+      {/* Modal Add Employee */}
+      <div className="modal-add">
+        <Modal show={showAdd} onHide={handleAddClose} centered size="lg">
+          <Modal.Header closeButton>
+            <Modal.Title>Add Employee</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const form = e.target;
+                const newEmployee = {
+                  id: `AOBTNC${Math.floor(Math.random() * 900 + 100)}`, // Tạo ID ngẫu nhiên
+                  name: form.name.value,
+                  phone: form.phone.value,
+                  department: form.department.value,
+                  email: form.email.value,
+                  status: form.status.value,
+                  joiningDate: form.joiningDate.value,
+                  job: form.job.value,
+                };
+
+                setEmployees([...employees, newEmployee]);
+                setShowAdd(false);
+              }}
+            >
+              <Row>
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="name"
+                      placeholder="Enter name"
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Phone</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="phone"
+                      placeholder="Enter phone"
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Department</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="department"
+                      placeholder="Enter department"
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                      type="email"
+                      name="email"
+                      placeholder="Enter email"
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Status</Form.Label>
+                    <Form.Select name="status" required>
+                      <option value="">Select status</option>
+                      <option value="Working">Working</option>
+                      <option value="Quit">Quit</option>
+                      <option value="Temporary">Temporary</option>
+                    </Form.Select>
+                  </Form.Group>
+                </Col>
+
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Joining Date</Form.Label>
+                    <Form.Control
+                      type="date"
+                      name="joiningDate"
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+
+                <Col md={12}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Job</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="job"
+                      placeholder="Enter job"
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Button variant="primary" type="submit">
+                Add Employee
+              </Button>
+              <Button variant="secondary" onClick={() => setShowAdd(false)} style={{ marginLeft: "10px" }}>
+                Cancel
+              </Button>
+            </Form>
+          </Modal.Body>
         </Modal>
       </div>
 

@@ -8,6 +8,7 @@ import DashBoardPayroll from "./components/PayrollManagement/DashBoardPayroll/Da
 import HRDashboard from "./components/HRManager/HRDashboard/HRDashboard";
 import EmployeeManagement from "./components/HRManager/EmployeeManagement/EmployeeManagement";
 import HistoryPayroll from "./components/PayrollManagement/HistoryPayroll/HistoryPayroll";
+import HRReport from "./components/HRManager/HRReport/HRReport";
 
 const App = () => {
   return (
@@ -19,7 +20,8 @@ const App = () => {
       </Route>
       <Route path="/HRManagement" element={<HRManagement />} >
         <Route index element={<HRDashboard />} />
-        <Route path="/HRManagement/EmployeeManagement" element={<EmployeeManagement />} />
+        <Route path="EmployeeManagement" element={<EmployeeManagement />} />
+        <Route path="HRReport" element={<HRReport />} />
       </Route>
     </Routes>
   );

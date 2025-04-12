@@ -1,0 +1,47 @@
+.hrreport-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 1050px;
+
+    .hrreport-header {
+        padding: 0 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .hrh-title {
+            padding-top: 10px;
+            display: flex;
+            gap: 8px;
+        } 
+    }
+
+    .hrreport-content {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        text-align: start;
+
+        .hrreport-detail {
+            background-color: #ffff;
+            border-radius: 10px;
+            padding: 20px;
+            width: 1000px;
+            .hrreport-top {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+    
+                .total-employees {
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+                    font-size: 20px;
+                    font-weight: 600;
+                    background-color: #bfbbbb;
+                }
+            }
+        }
+    }
+}
