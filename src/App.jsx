@@ -6,6 +6,8 @@ import SalaryManagement from "./components/PayrollManagement/SalaryManagement/Sa
 import HRManagement from "./components/HRManager/HRManagement";
 import DashBoardPayroll from "./components/PayrollManagement/DashBoardPayroll/DashBoardPayroll";
 import HistoryPayroll from "./components/PayrollManagement/HistoryPayroll/HistoryPayroll";
+import NewEmpPayroll from "./components/PayrollManagement/NewEmp/NewEmpPayroll";
+import AlertPayroll from "./components/PayrollManagement/Alert/AlertPayroll";
 
 const App = () => {
   return (
@@ -14,6 +16,8 @@ const App = () => {
         <Route index element={<DashBoardPayroll />} />
         <Route path="/salary-management" element={<SalaryManagement />} />
         <Route path="/salary-history" element={<HistoryPayroll />} />
+        <Route path="/pr-new-employee" element={<NewEmpPayroll />} />
+        <Route path="/pr-alert-salary" element={<AlertPayroll />} />
       </Route>
       <Route path="/HRManagement" element={<HRManagement />} />
     </Routes>

@@ -4,9 +4,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { FaAngleRight } from "react-icons/fa6";
 import { IoIosSearch } from "react-icons/io";
 import anh from "../../../assets/hue.jpg";
-import "./HistoryPayroll.scss";
+// import "./HistoryPayroll.scss";
 
-const HistoryPayroll = () => {
+const NewEmpPayroll = () => {
   const employees = [
     {
       id: "A0B1C028",
@@ -178,27 +178,16 @@ const HistoryPayroll = () => {
     },
   ];
 
-  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 5;
 
   // Hàm xử lý tìm kiếm
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-    setCurrentPage(0); // Reset về trang đầu tiên khi tìm kiếm
-  };
 
   // Lọc dữ liệu dựa trên searchTerm
-  const filteredEmployees = employees.filter((emp) => {
-    return emp.paymentDate.includes(searchTerm);
-  });
 
   const indexOfLastItem = (currentPage + 1) * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredEmployees.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
+  const currentItems = employees.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePreviousPage = () => {
     if (currentPage > 0) {
@@ -207,7 +196,7 @@ const HistoryPayroll = () => {
   };
 
   const handleNextPage = () => {
-    if (currentPage < Math.ceil(filteredEmployees.length / itemsPerPage) - 1) {
+    if (currentPage < Math.ceil(employees.length / itemsPerPage) - 1) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -225,14 +214,14 @@ const HistoryPayroll = () => {
   const nextLabel = (
     <span
       className={`page-link ${
-        currentPage >= Math.ceil(filteredEmployees.length / itemsPerPage) - 1
+        currentPage >= Math.ceil(employees.length / itemsPerPage) - 1
           ? "disabled"
           : ""
       }`}
       onClick={handleNextPage}
       style={{
         cursor:
-          currentPage >= Math.ceil(filteredEmployees.length / itemsPerPage) - 1
+          currentPage >= Math.ceil(employees.length / itemsPerPage) - 1
             ? "not-allowed"
             : "pointer",
       }}
@@ -253,36 +242,17 @@ const HistoryPayroll = () => {
       </div>
       <div className="salary-management-content">
         <div className="smt-detail" style={{ width: "100%" }}>
-          <div className="smt-search">
-            <div className="smt-search-container">
-              <input
-                type="search"
-                placeholder="Search by Date, eg: 03/20/2024"
-                className="smt-search-input"
-                value={searchTerm}
-                onChange={handleSearch}
-              />
-              <IoIosSearch className="smt-search-icon" />
-            </div>
-          </div>
-          <div className="history-profile">
-            <div className="hp-img">
-              <img src={anh} alt="?" />
-            </div>
-            <div className="hp-name">Hue</div>
-          </div>
-
           <div className="smt-table">
             <div className="container mt-4">
               <Table bordered hover className="smt-table-content">
                 <thead style={{ backgroundColor: "#f5f5f5" }}>
                   <tr>
-                    <th>Department</th>
-                    <th>Basic Salary</th>
-                    <th>Bonus</th>
-                    <th>Deductions</th>
-                    <th>Total Salary</th>
-                    <th>Payment Date</th>
+                    <th style={{ padding: "15px 0" }}>Department</th>
+                    <th style={{ padding: "15px 0" }}>Basic Salary</th>
+                    <th style={{ padding: "15px 0" }}>Bonus</th>
+                    <th style={{ padding: "15px 0" }}>Deductions</th>
+                    <th style={{ padding: "15px 0" }}>Total Salary</th>
+                    <th style={{ padding: "15px 0" }}>Payment Date</th>
                   </tr>
                 </thead>
 
@@ -316,7 +286,7 @@ const HistoryPayroll = () => {
               Page <input type="text" value={currentPage + 1} readOnly />{" "}
               <span>
                 {" "}
-                of {Math.ceil(filteredEmployees.length / itemsPerPage)} pages
+                of {Math.ceil(employees.length / itemsPerPage)} pages
               </span>
             </label>
           </div>
@@ -326,4 +296,4 @@ const HistoryPayroll = () => {
   );
 };
 
-export default HistoryPayroll;
+export default NewEmpPayroll;
