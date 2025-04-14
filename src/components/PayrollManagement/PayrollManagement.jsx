@@ -37,6 +37,20 @@ const PayrollManagement = () => {
             <img src={icon_hrreport} alt="" />
             Salary History
           </div>
+          <div
+            className="payroll-tool-box"
+            onClick={() => navigate("/pr-new-employee")}
+          >
+            <img src={icon_hrreport} alt="" />
+            New Employee
+          </div>
+          <div
+            className="payroll-tool-box"
+            onClick={() => navigate("/pr-alert-salary")}
+          >
+            <img src={icon_hrreport} alt="" />
+            Alert
+          </div>
           {/* <div className="payroll-tool-box">Setting</div> */}
         </div>
         <div className="payroll-detail">

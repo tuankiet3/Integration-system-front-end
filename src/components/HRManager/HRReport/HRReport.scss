@@ -32,14 +32,30 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+                margin: 0 40px;
     
                 .total-employees {
+                    display: flex;
+                    flex-direction: column;
                     align-items: center;
                     justify-content: center;
-                    gap: 10px;
+                    // gap: 10px;
                     font-size: 20px;
                     font-weight: 600;
                     background-color: #bfbbbb;
+                    height: 150px;
+                    border-radius: 8px;
+                    width: 300px;
+
+                    .te-number {
+                        font-size: 32px;
+                        font-weight: bold;
+                    }
+                }
+
+                .doughnut-chart {
+                    width: 300px;
+                    
                 }
             }
         }

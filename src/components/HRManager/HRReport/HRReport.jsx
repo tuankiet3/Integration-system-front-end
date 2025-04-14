@@ -91,12 +91,12 @@ const HRReport = () => {
         <div className="hrreport-content">
             <div className="hrreport-detail">
                 <div className="hrreport-top">
-                    <div className="total-employees" /*style={{ background: '#fff', padding: '20px', borderRadius: '8px' }}*/>
-                        <div style={{ fontSize: '32px', fontWeight: 'bold', justifyContent: 'center' }}>{totalEmployees}</div>
-                        <div style={{ fontSize: '18px' }}>Total number of employee</div>
+                    <div className="total-employees">
+                        <div className="te-number">{totalEmployees}</div>
+                        <div className="te-name">Total number of employee</div>
                     </div>
 
-                    <div className="doughnut-chart" style={{ width: '300px' }}>
+                    <div className="doughnut-chart">
                         <Doughnut data={doughnutData} />
                         <div style={{ marginTop: '10px' }}>
                         {Object.entries(statusCounts).map(([status, count], idx) => (
