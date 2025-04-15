@@ -86,7 +86,7 @@ const EmployeeManagement = () => {
       case "Quit":
         return "bg-danger text-dark";
       case "Temporary":
-        return "bg-dwarning text-white";
+        return "bg-warning text-dark";
       default:
         return "bg-secondary text-white";
     }

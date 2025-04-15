@@ -20,10 +20,10 @@ const initialEmployees = [
   { id: "AOBTNC025", name: "Theresa", department: "People Ops", status: "Quit" },
   { id: "AOBTNC044", name: "Kathryn", department: "IT", status: "Temporary" },
   { id: "AOBTNC099", name: "Courtney", department: "Customer Success", status: "Working" },
-  { id: "AOBTNC095", name: "Jane", department: "Product", status: "Quit" },
+  { id: "AOBTNC095", name: "Jane", department: "IT", status: "Quit" },
   { id: "AOBTNC027", name: "Theresa", department: "People Ops", status: "Working" },
   { id: "AOBTNC040", name: "Kathryn", department: "IT", status: "Temporary" },
-  { id: "AOBTNC098", name: "Courtney", department: "Customer Success", status: "Working" },
+  { id: "AOBTNC098", name: "Courtney", department: "IT", status: "Working" },
   { id: "AOBTNC090", name: "Jane", department: "Product", status: "Working" },
 ];
 
@@ -51,6 +51,8 @@ const HRReport = () => {
   };
 
   const barOptions = {
+    responsive: true,
+    maintainAspectRatio: false, // Quan trọng để chiều cao không bị ép theo tỉ lệ mặc định
     plugins: {
       legend: { display: false },
     },
@@ -97,17 +99,21 @@ const HRReport = () => {
                     </div>
 
                     <div className="doughnut-chart">
-                        <Doughnut data={doughnutData} />
-                        <div style={{ marginTop: '10px' }}>
+                      <Doughnut data={doughnutData} options={{
+                        plugins: {
+                          legend: {
+                            position: 'bottom', // <-- thêm dòng này
+                            labels: {
+                              usePointStyle: true, // hiển thị dạng hình tròn thay vì ô vuông nếu muốn
+                              pointStyle: 'circle'
+                            }
+                          }
+                        }
+                      }} />
+                        <div className="doughnut-status-container">
                         {Object.entries(statusCounts).map(([status, count], idx) => (
-                            <div key={status} /*style={{ display: 'flex', alignItems: 'center', marginBottom: '4px' }}*/>
-                            <div /*style={{
-                                width: '12px',
-                                height: '12px',
-                                borderRadius: '50%',
-                                backgroundColor: doughnutData.datasets[0].backgroundColor[idx],
-                                marginRight: '8px'
-                            }}*/></div>
+                            <div key={status} className="doughnut-status" >
+                            {/* <div></div> */}
                             <span>{status} - {count}</span>
                             </div>
                         ))}
