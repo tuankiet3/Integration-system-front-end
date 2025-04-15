@@ -1,208 +1,130 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./SalaryManagement.scss";
-import { Table, Dropdown, Modal, Form, Button } from "react-bootstrap";
+import { Table, Dropdown, Modal } from "react-bootstrap";
 import { FaEllipsisV } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaAngleRight } from "react-icons/fa6";
 import { IoIosSearch } from "react-icons/io";
 import anh from "../../../assets/hue.jpg";
-// import ModalUpdatePayroll from "../ModalUpdate/ModalUpdatePayroll";
-const SalaryManagement = () => {
-  const employees = [
-    {
-      id: "A0B1C028",
-      avatar: anh,
-      name: "Muối Chanh",
-      phone: "123456789",
-      department: "Support",
-      email: "abc@gmail.com",
-      basicSalary: 10000,
-      bonus: 500,
-      deductions: 200,
-      totalSalary: 10300,
-      paymentDate: "11/7/16",
-    },
-    {
-      id: "A0B1C086",
-      avatar: anh,
-      name: "Muối Chanh",
-      phone: "123456789",
-      department: "QA",
-      email: "abcxyzsds@gmail.com",
-      basicSalary: 12000,
-      bonus: 800,
-      deductions: 300,
-      totalSalary: 12500,
-      paymentDate: "7/21/19",
-    },
-    {
-      id: "A0B1C025",
-      avatar: anh,
-      name: "Muối Chanh",
-      phone: "123456789",
-      department: "People Ops",
-      email: "abc@gmail.com",
-      basicSalary: 11500,
-      bonus: 700,
-      deductions: 250,
-      totalSalary: 11950,
-      paymentDate: "11/7/16",
-    },
-    {
-      id: "A0B1C044",
-      avatar: anh,
-      name: "Muối Chanh",
-      phone: "123456788",
-      department: "IT",
-      email: "abc@gmail.com",
-      basicSalary: 13000,
-      bonus: 1000,
-      deductions: 400,
-      totalSalary: 13800,
-      paymentDate: "6/19/14",
-    },
-    {
-      id: "A0B1C099",
-      avatar: anh,
-      name: "Muối Chanh",
-      phone: "123456789",
-      department: "Customer",
-      email: "abc@gmail.com",
-      basicSalary: 10000,
-      bonus: 500,
-      deductions: 200,
-      totalSalary: 10300,
-      paymentDate: "7/11/19",
-    },
-    {
-      id: "A0B1C095",
-      avatar: anh,
-      name: "Muối Chanh",
-      phone: "123456789",
-      department: "Product",
-      email: "abc@gmail.com",
-      basicSalary: 11500,
-      bonus: 800,
-      deductions: 300,
-      totalSalary: 12500,
-      paymentDate: "8/2/19",
-    },
-    {
-      id: "A0B1C0950",
-      avatar: anh,
-      name: "Muối Chanh",
-      phone: "123456789",
-      department: "Product",
-      email: "abc@gmail.com",
-      basicSalary: 11500,
-      bonus: 800,
-      deductions: 300,
-      totalSalary: 12500,
-      paymentDate: "8/2/19",
-    },
-    {
-      id: "A0B1C0980",
-      avatar: anh,
-      name: "Muối Chanh",
-      phone: "123456789",
-      department: "Product",
-      email: "abc@gmail.com",
-      basicSalary: 11500,
-      bonus: 800,
-      deductions: 300,
-      totalSalary: 12500,
-      paymentDate: "8/2/19",
-    },
-    {
-      id: "A0B1C0580",
-      avatar: anh,
-      name: "Muối Chanh",
-      phone: "123456789",
-      department: "Product",
-      email: "abc@gmail.com",
-      basicSalary: 11500,
-      bonus: 800,
-      deductions: 300,
-      totalSalary: 12500,
-      paymentDate: "8/2/19",
-    },
-    {
-      id: "A0B1C0580",
-      avatar: anh,
-      name: "Muối Chanh",
-      phone: "123456789",
-      department: "Product",
-      email: "abc@gmail.com",
-      basicSalary: 11500,
-      bonus: 800,
-      deductions: 300,
-      totalSalary: 12500,
-      paymentDate: "8/2/19",
-    },
-    {
-      id: "A0B1C0580",
-      avatar: anh,
-      name: "Muối Chanh",
-      phone: "123456789",
-      department: "Product",
-      email: "abc@gmail.com",
-      basicSalary: 11500,
-      bonus: 800,
-      deductions: 300,
-      totalSalary: 12500,
-      paymentDate: "8/2/19",
-    },
-    {
-      id: "A0B1C0580",
-      avatar: anh,
-      name: "Muối Chanh",
-      phone: "123456789",
-      department: "Product",
-      email: "abc@gmail.com",
-      basicSalary: 11500,
-      bonus: 800,
-      deductions: 300,
-      totalSalary: 12500,
-      paymentDate: "8/2/19",
-    },
-    {
-      id: "A0B1C0580",
-      avatar: anh,
-      name: "Muối Chanh",
-      phone: "123456789",
-      department: "Product",
-      email: "abc@gmail.com",
-      basicSalary: 11500,
-      bonus: 800,
-      deductions: 300,
-      totalSalary: 12500,
-      paymentDate: "8/2/19",
-    },
-  ];
+import { getSalary, postSalary } from "../../../Services/SalaryController";
+import { getEmployee } from "../../../Services/EmployeeController";
 
+const SalaryManagement = () => {
+  const [salaryData, setSalaryData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [showUpdate, setShowUpdate] = useState(false);
+  const [selectedSalary, setSelectedSalary] = useState(null);
+  const [showNewMonth, setShowNewMonth] = useState(false);
+  const [newSalaryData, setNewSalaryData] = useState({
+    employeeId: "",
+    salaryMonth: "",
+    baseSalary: "",
+    bonus: "",
+    deductions: "",
+  });
 
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 5;
 
-  // Hàm xử lý tìm kiếm
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-    setCurrentPage(0); // Reset về trang đầu tiên khi tìm kiếm
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getSalary();
+        const employeeResponse = await getEmployee();
+
+        const employeeMap = {};
+        employeeResponse.data.forEach((emp) => {
+          employeeMap[emp.employeeId] = emp.fullName;
+        });
+
+        const enrichedSalaryData = response.data.map((salary) => ({
+          ...salary,
+          fullName: employeeMap[salary.employeeId] || "Unknown",
+        }));
+
+        setSalaryData(enrichedSalaryData);
+      } catch (error) {
+        console.error("Error fetching salaries:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleNewMonthClick = (salary) => {
+    setSelectedSalary(salary);
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().split("T")[0];
+    setNewSalaryData({
+      employeeId: salary.employeeId,
+      salaryMonth: formattedDate,
+      baseSalary: "",
+      bonus: "",
+      deductions: "",
+    });
+    setShowNewMonth(true);
   };
 
-  // Lọc dữ liệu dựa trên searchTerm
-  const filteredEmployees = employees.filter((emp) => {
-    const searchLower = searchTerm.toLowerCase();
-    return (
-      emp.id.toLowerCase().includes(searchLower) ||
-      emp.name.toLowerCase().includes(searchLower) ||
-      emp.department.toLowerCase().includes(searchLower) ||
-      emp.email.toLowerCase().includes(searchLower) ||
-      emp.phone.includes(searchTerm)
-    );
-  });
+  const handleNewSalaryInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewSalaryData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSaveNewSalary = async () => {
+    try {
+      const newData = {
+        employeeId: newSalaryData.employeeId,
+        salaryMonth: newSalaryData.salaryMonth,
+        baseSalary: parseFloat(newSalaryData.baseSalary || 0),
+        bonus: parseFloat(newSalaryData.bonus || 0),
+        deductions: parseFloat(newSalaryData.deductions || 0),
+      };
+
+      console.log("Data to be sent:", newData);
+
+      const response = await postSalary(newData);
+      console.log("API Response:", response);
+
+      const updatedResponse = await getSalary();
+      const employeeResponse = await getEmployee();
+
+      const employeeMap = {};
+      employeeResponse.data.forEach((emp) => {
+        employeeMap[emp.employeeId] = emp.fullName;
+      });
+
+      const enrichedSalaryData = updatedResponse.data.map((salary) => ({
+        ...salary,
+        fullName: employeeMap[salary.employeeId] || "Unknown",
+      }));
+
+      setSalaryData(enrichedSalaryData);
+      setShowNewMonth(false);
+      setNewSalaryData({
+        employeeId: "",
+        salaryMonth: "",
+        baseSalary: "",
+        bonus: "",
+        deductions: "",
+      });
+    } catch (error) {
+      console.error("Error creating new salary record:", error);
+      if (error.response) {
+        console.error("Error details:", error.response.data);
+      }
+    }
+  };
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(0);
+  };
+
+  const filteredEmployees = salaryData.filter((emp) =>
+    emp.fullName?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const indexOfLastItem = (currentPage + 1) * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -282,51 +204,47 @@ const SalaryManagement = () => {
                 <thead style={{ backgroundColor: "#f5f5f5" }}>
                   <tr>
                     <th>Profile</th>
-                    <th>Phone</th>
-                    <th>Department</th>
-                    <th>Email</th>
                     <th>Basic Salary</th>
                     <th>Bonus</th>
                     <th>Deductions</th>
                     <th>Total Salary</th>
-                    <th>Payment Date</th>
+                    <th>Payment Day</th>
                     <th>Action</th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  {currentItems.map((emp, index) => (
-                    <tr key={index}>
-                      <td>{emp.name}</td>
-                      <td>{emp.phone}</td>
-                      <td>{emp.department}</td>
-                      <td>{emp.email}</td>
-                      <td>{emp.basicSalary.toLocaleString()}</td>
-                      <td>{emp.bonus.toLocaleString()}</td>
-                      <td>{emp.deductions.toLocaleString()}</td>
-                      <td>{emp.totalSalary.toLocaleString()}</td>
-                      <td>{emp.paymentDate}</td>
+                  {currentItems.map((emp) => (
+                    <tr key={emp.salaryID}>
+                      <td>{emp.fullName}</td>
+                      <td>{emp.baseSalary?.toLocaleString()}</td>
+                      <td>{emp.bonus?.toLocaleString()}</td>
+                      <td>{emp.deductions?.toLocaleString()}</td>
+                      <td>{emp.netSalary?.toLocaleString()}</td>
+                      <td>
+                        {emp.salaryMonth
+                          ? new Date(emp.salaryMonth).toLocaleDateString(
+                              "vi-VN",
+                              {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric",
+                              }
+                            )
+                          : ""}
+                      </td>
                       <td className="smt-action">
                         <Dropdown>
-                          <Dropdown.Toggle
-                            variant="none"
-                            id={`dropdown-${index}`}
-                          >
+                          <Dropdown.Toggle variant="none" id="dropdown-basic">
                             <FaEllipsisV />
                           </Dropdown.Toggle>
                           <Dropdown.Menu>
                             <Dropdown.Item
-                              href="#"
                               className="delete"
                               style={{ color: "red" }}
+                              onClick={() => handleNewMonthClick(emp)}
                             >
-                              Delete
-                            </Dropdown.Item>
-                            <Dropdown.Item onClick={() => setShowUpdate(true)}>
-                              Update
-                            </Dropdown.Item>
-                            <Dropdown.Item href="#">
-                              History Salary
+                              New Month
                             </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
@@ -350,34 +268,58 @@ const SalaryManagement = () => {
           </div>
         </div>
       </div>
-      {/* <ModalUpdatePayroll show={showUpdate} setShow={setShowUpdate} /> */}
-      <Modal show={showUpdate} className="modal-update" centered>
+
+      <Modal show={showNewMonth} className="modal-update" centered>
         <div className="update-pr-header">
-          <div className="update-pr-header-title">Update</div>
+          <div className="update-pr-header-title">New Month</div>
           <div className="update-pr-header-user">
-            <img src={anh} alt="" />
-            Hue
+            <img src={anh} alt="User" />
+            {selectedSalary?.fullName}
           </div>
         </div>
         <div className="update-pr-main">
           <div className="update-pr-box">
-            <div className="up-box-title">salary</div>
-            <input type="text" />
+            <div className="up-box-title">Salary Month</div>
+            <input
+              type="date"
+              name="salaryMonth"
+              value={newSalaryData.salaryMonth}
+              onChange={handleNewSalaryInputChange}
+            />
           </div>
           <div className="update-pr-box">
-            <div className="up-box-title">salary</div>
-            <input type="text" />
+            <div className="up-box-title">Basic Salary</div>
+            <input
+              type="number"
+              name="baseSalary"
+              value={newSalaryData.baseSalary}
+              onChange={handleNewSalaryInputChange}
+            />
           </div>
           <div className="update-pr-box">
-            <div className="up-box-title">salary</div>
-            <input type="text" />
+            <div className="up-box-title">Bonus</div>
+            <input
+              type="number"
+              name="bonus"
+              value={newSalaryData.bonus}
+              onChange={handleNewSalaryInputChange}
+            />
+          </div>
+          <div className="update-pr-box">
+            <div className="up-box-title">Deductions</div>
+            <input
+              type="number"
+              name="deductions"
+              value={newSalaryData.deductions}
+              onChange={handleNewSalaryInputChange}
+            />
           </div>
         </div>
         <div className="update-pr-footer">
-          <div className="save" onClick={() => setShowUpdate(false)}>
+          <div className="save" onClick={handleSaveNewSalary}>
             Save
           </div>
-          <div className="cancel" onClick={() => setShowUpdate(false)}>
+          <div className="cancel" onClick={() => setShowNewMonth(false)}>
             Cancel
           </div>
         </div>

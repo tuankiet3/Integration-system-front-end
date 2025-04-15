@@ -1,0 +1,85 @@
+.hrreport-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 1050px;
+
+    .hrreport-header {
+        padding: 0 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        // position: fixed;
+        // top: 60px; // chiều cao header của bạn
+
+        .hrh-title {
+            padding-top: 10px;
+            display: flex;
+            gap: 8px;
+        } 
+    }
+
+    .hrreport-content {
+        width: 1010px;
+        padding: 0 20px;
+        
+        .hrreport-detail {
+            background-color: #ffff;
+            border-radius: 10px;
+            padding: 20px;
+            .hrreport-top {
+                display: flex;
+                align-items: center;
+                margin: 0 20px;
+                gap: 245px;
+    
+                .total-employees {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    // gap: 10px;
+                    font-size: 20px;
+                    font-weight: 600;
+                    background-color: #bfbbbb;
+                    height: 150px;
+                    border-radius: 8px;
+                    width: 300px;
+
+                    .te-number {
+                        font-size: 32px;
+                        font-weight: bold;
+                    }
+                }
+
+                .doughnut-chart {
+                    width: 300px;
+                    display: flex;
+                    flex-direction: row;
+                    gap: 20px;
+                    align-items: center;
+                    justify-content: center;
+
+                    .doughnut-status-container {
+                        display: flex;
+                        flex-direction: column;
+                        .doughnut-status {
+                            align-items: center;
+                            margin-bottom: 5px;
+                            width: 150px;
+                            font-size: 14px;
+                            font-weight: 500;
+                            text-align: left;
+                        }
+                    }
+                }
+            }
+
+            .hrreport-bottom {
+                max-height: 300px; // hoặc height: 300px nếu muốn luôn cố định
+                overflow-y: auto;
+                // padding-right: 10px; // tránh đè scroll bar nếu cần
+            }
+        }
+    }
+}
