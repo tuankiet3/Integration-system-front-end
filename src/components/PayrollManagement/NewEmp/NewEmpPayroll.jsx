@@ -3,7 +3,7 @@ import { Table, Dropdown, Modal, Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaAngleRight } from "react-icons/fa6";
 import { getEmployee } from "../../../Services/EmployeeController";
-import { getSalary } from "../../../Services/SalaryController";
+import { getSalary, postSalary } from "../../../Services/SalaryController";
 import { FaEllipsisV } from "react-icons/fa";
 const NewEmpPayroll = () => {
   // const employeeData = [
@@ -178,7 +178,38 @@ const NewEmpPayroll = () => {
   // ];
 
   const [employeeData, setEmployeeData] = useState([]);
+  const [showNewMonth, setShowNewMonth] = useState(false);
+  const [selectedSalary, setSelectedSalary] = useState(null);
+  const [newSalaryData, setNewSalaryData] = useState({
+    employeeId: "",
+    salaryMonth: "",
+    baseSalary: "",
+    bonus: "",
+    deductions: "",
+  });
+  const handleNewSalaryInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewSalaryData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    console.log("newSalaryData", newSalaryData);
+  };
+  const handleAddSalary = (emp) => {
+    setShowNewMonth(true);
+    setSelectedSalary(emp);
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().split("T")[0]; // Định dạng ngày tháng
+    setNewSalaryData({
+      employeeId: emp.employeeId,
+      salaryMonth: formattedDate,
+      baseSalary: "",
+      bonus: "",
+      deductions: "",
+    });
+  };
 
+  // Cập nhật lại danh sách nhân viên
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -200,8 +231,32 @@ const NewEmpPayroll = () => {
     };
     fetchData();
   }, []);
+  const handleSaveNewSalary = async () => {
+    const { employeeId, salaryMonth, baseSalary, bonus, deductions } =
+      newSalaryData;
+    if (!salaryMonth || !baseSalary || !bonus || !deductions) {
+      alert("Vui lòng điền đầy đủ thông tin!");
+      return;
+    }
+    const newSalary = {
+      employeeId,
+      salaryMonth,
+      baseSalary: parseFloat(baseSalary),
+      bonus: parseFloat(bonus),
+      deductions: parseFloat(deductions),
+    };
 
-  console.log("employeeData", employeeData);
+    const response = await postSalary(newSalary);
+    console.log("response", response);
+    setShowNewMonth(false);
+    setNewSalaryData({
+      employeeId: "",
+      salaryMonth: "",
+      baseSalary: "",
+      bonus: "",
+      deductions: "",
+    });
+  };
 
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 5;
@@ -292,7 +347,7 @@ const NewEmpPayroll = () => {
                             <Dropdown.Item
                               className="delete"
                               style={{ color: "red" }}
-                              // onClick={() => handleNewMonthClick(emp)}
+                              onClick={() => handleAddSalary(emp)}
                             >
                               Add Salary
                             </Dropdown.Item>
@@ -316,6 +371,60 @@ const NewEmpPayroll = () => {
               </span>
             </label>
           </div>
+          <Modal show={showNewMonth} className="modal-update" centered>
+            <div className="update-pr-header">
+              <div className="update-pr-header-title">Add Salary</div>
+              <div className="update-pr-header-user">
+                {selectedSalary?.fullName}
+              </div>
+            </div>
+            <div className="update-pr-main">
+              <div className="update-pr-box">
+                <div className="up-box-title">Salary Month</div>
+                <input
+                  type="date"
+                  name="salaryMonth"
+                  value={newSalaryData.salaryMonth}
+                  onChange={handleNewSalaryInputChange}
+                />
+              </div>
+              <div className="update-pr-box">
+                <div className="up-box-title">Basic Salary</div>
+                <input
+                  type="number"
+                  name="baseSalary"
+                  value={newSalaryData.baseSalary}
+                  onChange={handleNewSalaryInputChange}
+                />
+              </div>
+              <div className="update-pr-box">
+                <div className="up-box-title">Bonus</div>
+                <input
+                  type="number"
+                  name="bonus"
+                  value={newSalaryData.bonus}
+                  onChange={handleNewSalaryInputChange}
+                />
+              </div>
+              <div className="update-pr-box">
+                <div className="up-box-title">Deductions</div>
+                <input
+                  type="number"
+                  name="deductions"
+                  value={newSalaryData.deductions}
+                  onChange={handleNewSalaryInputChange}
+                />
+              </div>
+            </div>
+            <div className="update-pr-footer">
+              <div className="save" onClick={handleSaveNewSalary}>
+                Save
+              </div>
+              <div className="cancel" onClick={() => setShowNewMonth(false)}>
+                Cancel
+              </div>
+            </div>
+          </Modal>
         </div>
       </div>
     </div>

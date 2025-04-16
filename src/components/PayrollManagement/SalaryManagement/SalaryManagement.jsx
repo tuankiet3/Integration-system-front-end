@@ -73,13 +73,20 @@ const SalaryManagement = () => {
   };
 
   const handleSaveNewSalary = async () => {
+    const { employeeId, salaryMonth, baseSalary, bonus, deductions } =
+      newSalaryData;
+    if (!employeeId || !salaryMonth || !baseSalary || !bonus || !deductions) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
     try {
       const newData = {
         employeeId: newSalaryData.employeeId,
         salaryMonth: newSalaryData.salaryMonth,
-        baseSalary: parseFloat(newSalaryData.baseSalary || 0),
-        bonus: parseFloat(newSalaryData.bonus || 0),
-        deductions: parseFloat(newSalaryData.deductions || 0),
+        baseSalary: parseFloat(newSalaryData.baseSalary),
+        bonus: parseFloat(newSalaryData.bonus),
+        deductions: parseFloat(newSalaryData.deductions),
       };
 
       console.log("Data to be sent:", newData);
