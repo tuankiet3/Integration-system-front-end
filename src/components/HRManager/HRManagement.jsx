@@ -25,7 +25,7 @@ const HRManagement = () => {
           <div className="hr-tool-box" onClick={() => navigate("/HRManagement/HRReport")}>
             <img src={flag} alt="" />
             HR Reports</div>
-          <div className="hr-tool-box">
+          <div className="hr-tool-box" onClick={() => navigate("/HRManagement/SalaryHistory")}>
             <img src={icon_hrreport} alt="" />
             Salary History</div>
         </div>

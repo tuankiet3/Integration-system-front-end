@@ -2,12 +2,12 @@
 import "./EmployeeManagement.scss";
 import React, { useState } from "react";
 import { Table, Dropdown, Button, Modal, Form, Row, Col } from "react-bootstrap";
-import ReactPaginate from "react-paginate";
 import { FaEllipsisV } from "react-icons/fa";
 import { FaAngleRight } from "react-icons/fa6";
 import { IoIosSearch } from "react-icons/io";
 import "bootstrap/dist/css/bootstrap.min.css";
 import plus from "../../../assets/plus.png";
+import Pagination from "../Pagination/Pagination";
 
 const EmployeeManagement = () => {
   // Sample employee data
@@ -36,48 +36,12 @@ const EmployeeManagement = () => {
   // Add
   const [showAdd, setShowAdd] = useState(false); // State for showing the modal
   const [selectedEmployeeAdd, setSelectedEmployeeAdd] = useState(null); // To store the employee being edited
-  const itemsPerPage = 6;
+  const itemsPerPage = 5;
 
   const indexOfLastItem = (currentPage + 1) * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = employees.slice(indexOfFirstItem, indexOfLastItem);
-
-  const handlePreviousPage = () => {
-    if (currentPage > 0){
-      setCurrentPage(currentPage - 1);
-    }
-  }
-    
-  const handleNextPage = () => {
-    if (currentPage < Math.ceil(employees.length / itemsPerPage) - 1){
-      setCurrentPage(currentPage + 1);
-    }
-  }
-
-  const previousLable = (
-    <span
-      className={`page-link ${currentPage === 0 ? "disabled" : ""}`}
-      onClick={handlePreviousPage}
-      style={{ cursor: currentPage === 0 ? "not-allowed" : "pointer" }}
-    >
-      Prev
-    </span>
-  );
-
-  const nextLable = (
-    <span
-      className={`page-link ${
-        currentPage === Math.ceil(employees.length / itemsPerPage) -1
-          ? "disabled"
-          : ""
-      }`}
-      onClick={handleNextPage}
-      style={{ cursor: currentPage === Math.ceil(employees.length / itemsPerPage) -1 ? "not-allowed" : "pointer" }}
-    >
-      Next
-    </span>
-  );
-
+  
   // Function to get status badge color
   const getStatusClass = (status) => {
     switch (status) {
@@ -245,15 +209,12 @@ const EmployeeManagement = () => {
             </div>
           </div>
           <div className="emc-pagination">
-            {previousLable}
-            {nextLable}
-            <label className="current-page-lable">
-              Page: <input type="text" value={currentPage + 1} readOnly/>{" "}
-              <span>
-                {"  "}
-                of {Math.ceil(employees.length / itemsPerPage)} Pages
-              </span>
-            </label>
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            employees={employees}
+            itemsPerPage={itemsPerPage}
+          />
           </div>
         </div>
       </div>

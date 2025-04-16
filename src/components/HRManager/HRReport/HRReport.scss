@@ -20,7 +20,7 @@
     }
 
     .hrreport-content {
-        width: 1010px;
+        width: 1050px;
         padding: 0 20px;
         
         .hrreport-detail {
@@ -53,7 +53,7 @@
                 }
 
                 .doughnut-chart {
-                    width: 300px;
+                    width: 250px;
                     display: flex;
                     flex-direction: row;
                     gap: 20px;
@@ -76,9 +76,10 @@
             }
 
             .hrreport-bottom {
-                max-height: 300px; // hoặc height: 300px nếu muốn luôn cố định
-                overflow-y: auto;
-                // padding-right: 10px; // tránh đè scroll bar nếu cần
+                max-height: 400px; /* Tăng chiều cao để phần bottom to hơn */
+                overflow-y: auto; /* Giữ thanh cuộn nếu nội dung vượt quá */
+                padding-right: 10px; /* Tránh đè thanh cuộn */
+                height: 250px;
             }
         }
     }

@@ -1,14 +1,14 @@
 .employee-management-container{
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 20px;
     width: 1050px;
 
     .employee-management-header{
         padding: 0 30px;
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        // gap: 20px;
 
         .emh-title {
             padding-top: 10px;
@@ -19,6 +19,9 @@
         .emh-button {
             position: relative;
             display: flex;
+            align-items: center; // Căn giữa nút theo chiều dọc
+            justify-content: flex-end; // Đẩy nút về bên phải
+            min-height: 50px; // Đảm bảo đủ không gian cho nút
 
             .emh-button-addemp {
                 position: absolute;
@@ -49,8 +52,8 @@
 
         .emc-detail {
             background-color: #ffff;
-            border-radius: 10px;
             padding: 20px;
+            border-radius: 10px;
 
             .emcd-search {
                 position: relative;
@@ -82,10 +85,8 @@
 
         .emc-table {
             font-size: 14px;
-            // vertical-align: middle;
             text-align: center;
-            // height: 350px;
-            min-height: 350px;
+            height: fit-content;
             display: block;
         }
 
@@ -156,45 +157,45 @@
             justify-content: center;
         }
 
-        .emc-pagination {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            border-top: 1px solid #E0E0E0;
+        // .emc-pagination {
+        //     display: flex;
+        //     justify-content: flex-end;
+        //     gap: 10px;
+        //     border-top: 1px solid #E0E0E0;
 
-            .page-link {
-                margin-top: 10px;
-                padding: 8px 12px;
-                border: 1px solid #ccc;
-                border-radius: 10px;
-                cursor: pointer; // co the nhap vao hoac co hanh dong khi tuong tac
-                background-color: #f8f9fa;
+        //     .page-link {
+        //         margin-top: 10px;
+        //         padding: 8px 12px;
+        //         border: 1px solid #ccc;
+        //         border-radius: 10px;
+        //         cursor: pointer; // co the nhap vao hoac co hanh dong khi tuong tac
+        //         background-color: #f8f9fa;
 
-                &:hover {
-                    background-color: #146ADC;
-                    color: #ffff;
-                }
-            }
+        //         &:hover {
+        //             background-color: #146ADC;
+        //             color: #ffff;
+        //         }
+        //     }
 
-            .current-page-lable {
-                margin-top: 10px;
-                display: flex;
-                align-items: center; // Đặt các phần tử con theo hàng ngang
-                justify-content: center; // Căn giữa các phần tử con theo chiều ngang
-                gap: 6px;
+        //     .current-page-lable {
+        //         margin-top: 10px;
+        //         display: flex;
+        //         align-items: center; // Đặt các phần tử con theo hàng ngang
+        //         justify-content: center; // Căn giữa các phần tử con theo chiều ngang
+        //         gap: 6px;
 
-                input {
-                    width: 70px;
-                    border: 1px solid #ccc;
-                    border-radius: 10px;
-                    padding: 8px 12px;
-                    background-color: #fff;
-                }
+        //         input {
+        //             width: 70px;
+        //             border: 1px solid #ccc;
+        //             border-radius: 10px;
+        //             padding: 8px 12px;
+        //             background-color: #fff;
+        //         }
 
-                span {
-                    color: #146adc;
-                }
-            }
-        }
+        //         span {
+        //             color: #146adc;
+        //         }
+        //     }
+        // }
     } 
 }

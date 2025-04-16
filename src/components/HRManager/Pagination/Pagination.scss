@@ -1,0 +1,40 @@
+.Pagination {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border-top: 1px solid #E0E0E0;
+
+    .page-link {
+        margin-top: 10px;
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        cursor: pointer; // co the nhap vao hoac co hanh dong khi tuong tac
+        background-color: #f8f9fa;
+
+        &:hover {
+            background-color: #146ADC;
+            color: #ffff;
+        }
+    }
+
+    .current-page-lable {
+        margin-top: 10px;
+        display: flex;
+        align-items: center; // Đặt các phần tử con theo hàng ngang
+        justify-content: center; // Căn giữa các phần tử con theo chiều ngang
+        gap: 6px;
+
+        input {
+            width: 70px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 8px 12px;
+            background-color: #fff;
+        }
+
+        span {
+            color: #146adc;
+        }
+    }
+}
