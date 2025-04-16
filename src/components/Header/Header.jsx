@@ -4,6 +4,7 @@ import user from "../../assets/hue.jpg";
 import bell from "../../assets/bell.png";
 import logo from "../../assets/logo.png";
 
+
 const Header = () => {
   return (
     <div className="header-container">
@@ -15,7 +16,8 @@ const Header = () => {
         <div className="header-tool">
           <div className="header-notification">
             <div className="header-notification-img">
-              <img src={bell} alt="???" />
+             
+               <img src={bell} alt="???"  /> 
             </div>
           </div>
           <div className="header-user">

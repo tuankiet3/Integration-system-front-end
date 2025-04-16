@@ -8,6 +8,9 @@ import DashBoardPayroll from "./components/PayrollManagement/DashBoardPayroll/Da
 import HRDashboard from "./components/HRManager/HRDashboard/HRDashboard";
 import EmployeeManagement from "./components/HRManager/EmployeeManagement/EmployeeManagement";
 import HistoryPayroll from "./components/PayrollManagement/HistoryPayroll/HistoryPayroll";
+import HomePage from "./components/Employee/HomePage/HomePage";
+import Salaryhistory from "./components/Employee/Salaryhistory/Salaryhistory";
+import Employee from "./components/Employee/Employee";
 
 const App = () => {
   return (
@@ -24,6 +27,14 @@ const App = () => {
           element={<EmployeeManagement />}
         />
       </Route>
+      <Route path="/Employee" element={<Employee />}>
+        <Route index element={<HomePage/>} />
+        <Route
+          path="/Employee/SalaryHistory"
+          element={<Salaryhistory />}
+        />
+      </Route>
+       
     </Routes>
   );
 };
