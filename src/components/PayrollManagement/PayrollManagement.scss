@@ -4,7 +4,28 @@
   display: flex;
   flex-direction: column;
 }
+.container-dropdown {
+  .dropdown-modal {
+    position: absolute;
+    top: 50px; // tùy vị trí logo
+    right: 0; // căn chỉnh theo logo
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 999;
+    padding: 16px;
+    width: 300px;
+  }
 
+  .dropdown-content h5 {
+    margin-bottom: 8px;
+  }
+
+  .dropdown-content p {
+    margin: 0;
+  }
+}
 .payroll-content {
   margin: 0 auto;
   max-width: 1300px;

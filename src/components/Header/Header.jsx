@@ -4,7 +4,7 @@ import user from "../../assets/hue.jpg";
 import bell from "../../assets/bell.png";
 import logo from "../../assets/logo.png";
 
-const Header = () => {
+const Header = ({ onIconClick }) => {
   return (
     <div className="header-container">
       <div className="header-content">
@@ -15,7 +15,7 @@ const Header = () => {
         <div className="header-tool">
           <div className="header-notification">
             <div className="header-notification-img">
-              <img src={bell} alt="???" />
+              <img src={bell} alt="???" onClick={onIconClick} />
             </div>
           </div>
           <div className="header-user">
