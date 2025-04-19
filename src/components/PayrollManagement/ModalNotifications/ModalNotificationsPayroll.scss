@@ -1,0 +1,40 @@
+.noti-payroll {
+  .noti-content {
+    max-height: 300px; // hoặc chiều cao bạn mong muốn
+    overflow-y: auto; // tránh bị che nội dung bởi thanh cuộn
+
+    .noti-item {
+      border-bottom: 2px solid #f0f0f0;
+
+      &:hover {
+        background-color: red;
+        .noti-employee {
+          color: black;
+        }
+        .noti-message {
+          color: white;
+        }
+      }
+
+      .noti-employee {
+        text-align: left;
+        // background-color: black;
+        color: rgb(255, 0, 0);
+        max-width: fit-content;
+        padding: 0 5px;
+      }
+    }
+  }
+  .noti-content::-webkit-scrollbar {
+    width: 1px;
+  }
+
+  .noti-content::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+  }
+
+  .noti-content::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+}

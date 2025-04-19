@@ -5,6 +5,7 @@ import { FaEllipsisV } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaAngleRight } from "react-icons/fa6";
 import { IoIosSearch } from "react-icons/io";
+<<<<<<< HEAD
 import anh from "../../../assets/hue.jpg";
 import { getSalary, postSalary } from "../../../Services/SalaryController";
 import { getEmployee } from "../../../Services/EmployeeController";
@@ -12,6 +13,24 @@ import { getEmployee } from "../../../Services/EmployeeController";
 const SalaryManagement = () => {
   const [salaryData, setSalaryData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+=======
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchSalaries,
+  createSalary,
+  setCurrentPage,
+  setSearchTerm,
+  selectCurrentPageSalaries,
+  selectTotalPages,
+} from "../../../features/salary/salarySlice";
+
+const SalaryManagement = () => {
+  const dispatch = useDispatch();
+  const currentSalaries = useSelector(selectCurrentPageSalaries);
+  const totalPages = useSelector(selectTotalPages);
+  const { loading, error, currentPage } = useSelector((state) => state.salary);
+
+>>>>>>> 504e25a29de091e5a9d6cdfb5ed19f4ece79415c
   const [selectedSalary, setSelectedSalary] = useState(null);
   const [showNewMonth, setShowNewMonth] = useState(false);
   const [newSalaryData, setNewSalaryData] = useState({
@@ -22,6 +41,7 @@ const SalaryManagement = () => {
     deductions: "",
   });
 
+<<<<<<< HEAD
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 5;
 
@@ -49,6 +69,11 @@ const SalaryManagement = () => {
 
     fetchData();
   }, []);
+=======
+  useEffect(() => {
+    dispatch(fetchSalaries());
+  }, [dispatch]);
+>>>>>>> 504e25a29de091e5a9d6cdfb5ed19f4ece79415c
 
   const handleNewMonthClick = (salary) => {
     setSelectedSalary(salary);
@@ -73,6 +98,7 @@ const SalaryManagement = () => {
   };
 
   const handleSaveNewSalary = async () => {
+<<<<<<< HEAD
     try {
       const newData = {
         employeeId: newSalaryData.employeeId,
@@ -101,6 +127,25 @@ const SalaryManagement = () => {
       }));
 
       setSalaryData(enrichedSalaryData);
+=======
+    const { employeeId, salaryMonth, baseSalary, bonus, deductions } =
+      newSalaryData;
+    if (!employeeId || !salaryMonth || !baseSalary || !bonus || !deductions) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    try {
+      const newData = {
+        employeeId,
+        salaryMonth,
+        baseSalary: parseFloat(baseSalary),
+        bonus: parseFloat(bonus),
+        deductions: parseFloat(deductions),
+      };
+
+      await dispatch(createSalary(newData));
+>>>>>>> 504e25a29de091e5a9d6cdfb5ed19f4ece79415c
       setShowNewMonth(false);
       setNewSalaryData({
         employeeId: "",
@@ -111,13 +156,17 @@ const SalaryManagement = () => {
       });
     } catch (error) {
       console.error("Error creating new salary record:", error);
+<<<<<<< HEAD
       if (error.response) {
         console.error("Error details:", error.response.data);
       }
+=======
+>>>>>>> 504e25a29de091e5a9d6cdfb5ed19f4ece79415c
     }
   };
 
   const handleSearch = (e) => {
+<<<<<<< HEAD
     setSearchTerm(e.target.value);
     setCurrentPage(0);
   };
@@ -174,6 +223,21 @@ const SalaryManagement = () => {
     </span>
   );
 
+=======
+    dispatch(setSearchTerm(e.target.value));
+  };
+
+  const handlePreviousPage = () => {
+    dispatch(setCurrentPage(Math.max(0, currentPage - 1)));
+  };
+
+  const handleNextPage = () => {
+    dispatch(setCurrentPage(Math.min(totalPages - 1, currentPage + 1)));
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+>>>>>>> 504e25a29de091e5a9d6cdfb5ed19f4ece79415c
   return (
     <div className="salary-management-container">
       <div className="salary-management-header">
@@ -192,7 +256,10 @@ const SalaryManagement = () => {
                 type="search"
                 placeholder="Search"
                 className="smt-search-input"
+<<<<<<< HEAD
                 value={searchTerm}
+=======
+>>>>>>> 504e25a29de091e5a9d6cdfb5ed19f4ece79415c
                 onChange={handleSearch}
               />
               <IoIosSearch className="smt-search-icon" />
@@ -214,7 +281,11 @@ const SalaryManagement = () => {
                 </thead>
 
                 <tbody>
+<<<<<<< HEAD
                   {currentItems.map((emp) => (
+=======
+                  {currentSalaries.map((emp) => (
+>>>>>>> 504e25a29de091e5a9d6cdfb5ed19f4ece79415c
                     <tr key={emp.salaryID}>
                       <td>{emp.fullName}</td>
                       <td>{emp.baseSalary?.toLocaleString()}</td>
@@ -256,6 +327,7 @@ const SalaryManagement = () => {
             </div>
           </div>
           <div className="smt-pagination">
+<<<<<<< HEAD
             {previousLabel}
             {nextLabel}
             <label className="current-page-label">
@@ -264,6 +336,25 @@ const SalaryManagement = () => {
                 {" "}
                 of {Math.ceil(filteredEmployees.length / itemsPerPage)} pages
               </span>
+=======
+            <button
+              className="page-link"
+              onClick={handlePreviousPage}
+              disabled={currentPage === 0}
+            >
+              Prev
+            </button>
+            <button
+              className="page-link"
+              onClick={handleNextPage}
+              disabled={currentPage >= totalPages - 1}
+            >
+              Next
+            </button>
+            <label className="current-page-label">
+              Page <input type="text" value={currentPage + 1} readOnly />{" "}
+              <span>of {totalPages} pages</span>
+>>>>>>> 504e25a29de091e5a9d6cdfb5ed19f4ece79415c
             </label>
           </div>
         </div>
@@ -273,7 +364,10 @@ const SalaryManagement = () => {
         <div className="update-pr-header">
           <div className="update-pr-header-title">New Month</div>
           <div className="update-pr-header-user">
+<<<<<<< HEAD
             <img src={anh} alt="User" />
+=======
+>>>>>>> 504e25a29de091e5a9d6cdfb5ed19f4ece79415c
             {selectedSalary?.fullName}
           </div>
         </div>
