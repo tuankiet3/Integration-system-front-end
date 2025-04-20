@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import Header from "../Header/Header";
-import "./PayrollManagement.scss";
 import { Outlet, useNavigate } from "react-router-dom";
 import home from "../../assets/home.png";
 import user from "../../assets/user.png";
 import flag from "../../assets/flag.png";
 import icon_hrreport from "../../assets/icon_hrreport.png";
-import ModalNotificationsPayroll from "./ModalNotifications/ModalNotificationsPayroll";
-const PayrollManagement = () => {
+import Header from "../Header/Header";
+import ModalNotificationsPayroll from "../PayrollManagement/ModalNotifications/ModalNotificationsPayroll";
+const Admin = () => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef();
@@ -37,30 +36,27 @@ const PayrollManagement = () => {
       )}
       <div className="payroll-content">
         <div className="payroll-tool">
-          <div
-            className="payroll-tool-box"
-            onClick={() => navigate("/payroll")}
-          >
+          <div className="payroll-tool-box" onClick={() => navigate("/")}>
             <img src={home} alt="" />
             DashBoard
           </div>
           <div
             className="payroll-tool-box"
-            onClick={() => navigate("/payroll/salary-management")}
+            onClick={() => navigate("/salary-management")}
           >
             <img src={user} alt="" />
             Salary Management
           </div>
           <div
             className="payroll-tool-box"
-            onClick={() => navigate("/payroll/pr-new-employee")}
+            onClick={() => navigate("/pr-new-employee")}
           >
             <img src={icon_hrreport} alt="" />
             New Employee
           </div>
           <div
             className="payroll-tool-box"
-            onClick={() => navigate("/payroll/salary-history")}
+            onClick={() => navigate("/salary-history")}
           >
             <img src={icon_hrreport} alt="" />
             Salary History
@@ -78,4 +74,4 @@ const PayrollManagement = () => {
   );
 };
 
-export default PayrollManagement;
+export default Admin;
