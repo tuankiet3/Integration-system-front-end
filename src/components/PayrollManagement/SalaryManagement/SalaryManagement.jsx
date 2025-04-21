@@ -5,15 +5,6 @@ import { FaEllipsisV } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaAngleRight } from "react-icons/fa6";
 import { IoIosSearch } from "react-icons/io";
-<<<<<<< HEAD
-import anh from "../../../assets/hue.jpg";
-import { getSalary, postSalary } from "../../../Services/SalaryController";
-import { getEmployee } from "../../../Services/EmployeeController";
-
-const SalaryManagement = () => {
-  const [salaryData, setSalaryData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-=======
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchSalaries,
@@ -30,7 +21,6 @@ const SalaryManagement = () => {
   const totalPages = useSelector(selectTotalPages);
   const { loading, error, currentPage } = useSelector((state) => state.salary);
 
->>>>>>> 504e25a29de091e5a9d6cdfb5ed19f4ece79415c
   const [selectedSalary, setSelectedSalary] = useState(null);
   const [showNewMonth, setShowNewMonth] = useState(false);
   const [newSalaryData, setNewSalaryData] = useState({
@@ -41,39 +31,9 @@ const SalaryManagement = () => {
     deductions: "",
   });
 
-<<<<<<< HEAD
-  const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 5;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getSalary();
-        const employeeResponse = await getEmployee();
-
-        const employeeMap = {};
-        employeeResponse.data.forEach((emp) => {
-          employeeMap[emp.employeeId] = emp.fullName;
-        });
-
-        const enrichedSalaryData = response.data.map((salary) => ({
-          ...salary,
-          fullName: employeeMap[salary.employeeId] || "Unknown",
-        }));
-
-        setSalaryData(enrichedSalaryData);
-      } catch (error) {
-        console.error("Error fetching salaries:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-=======
   useEffect(() => {
     dispatch(fetchSalaries());
   }, [dispatch]);
->>>>>>> 504e25a29de091e5a9d6cdfb5ed19f4ece79415c
 
   const handleNewMonthClick = (salary) => {
     setSelectedSalary(salary);
@@ -98,36 +58,6 @@ const SalaryManagement = () => {
   };
 
   const handleSaveNewSalary = async () => {
-<<<<<<< HEAD
-    try {
-      const newData = {
-        employeeId: newSalaryData.employeeId,
-        salaryMonth: newSalaryData.salaryMonth,
-        baseSalary: parseFloat(newSalaryData.baseSalary || 0),
-        bonus: parseFloat(newSalaryData.bonus || 0),
-        deductions: parseFloat(newSalaryData.deductions || 0),
-      };
-
-      console.log("Data to be sent:", newData);
-
-      const response = await postSalary(newData);
-      console.log("API Response:", response);
-
-      const updatedResponse = await getSalary();
-      const employeeResponse = await getEmployee();
-
-      const employeeMap = {};
-      employeeResponse.data.forEach((emp) => {
-        employeeMap[emp.employeeId] = emp.fullName;
-      });
-
-      const enrichedSalaryData = updatedResponse.data.map((salary) => ({
-        ...salary,
-        fullName: employeeMap[salary.employeeId] || "Unknown",
-      }));
-
-      setSalaryData(enrichedSalaryData);
-=======
     const { employeeId, salaryMonth, baseSalary, bonus, deductions } =
       newSalaryData;
     if (!employeeId || !salaryMonth || !baseSalary || !bonus || !deductions) {
@@ -145,7 +75,6 @@ const SalaryManagement = () => {
       };
 
       await dispatch(createSalary(newData));
->>>>>>> 504e25a29de091e5a9d6cdfb5ed19f4ece79415c
       setShowNewMonth(false);
       setNewSalaryData({
         employeeId: "",
@@ -156,74 +85,10 @@ const SalaryManagement = () => {
       });
     } catch (error) {
       console.error("Error creating new salary record:", error);
-<<<<<<< HEAD
-      if (error.response) {
-        console.error("Error details:", error.response.data);
-      }
-=======
->>>>>>> 504e25a29de091e5a9d6cdfb5ed19f4ece79415c
     }
   };
 
   const handleSearch = (e) => {
-<<<<<<< HEAD
-    setSearchTerm(e.target.value);
-    setCurrentPage(0);
-  };
-
-  const filteredEmployees = salaryData.filter((emp) =>
-    emp.fullName?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const indexOfLastItem = (currentPage + 1) * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredEmployees.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
-
-  const handlePreviousPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < Math.ceil(filteredEmployees.length / itemsPerPage) - 1) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const previousLabel = (
-    <span
-      className={`page-link ${currentPage === 0 ? "disabled" : ""}`}
-      onClick={handlePreviousPage}
-      style={{ cursor: currentPage === 0 ? "not-allowed" : "pointer" }}
-    >
-      Prev
-    </span>
-  );
-
-  const nextLabel = (
-    <span
-      className={`page-link ${
-        currentPage >= Math.ceil(filteredEmployees.length / itemsPerPage) - 1
-          ? "disabled"
-          : ""
-      }`}
-      onClick={handleNextPage}
-      style={{
-        cursor:
-          currentPage >= Math.ceil(filteredEmployees.length / itemsPerPage) - 1
-            ? "not-allowed"
-            : "pointer",
-      }}
-    >
-      Next
-    </span>
-  );
-
-=======
     dispatch(setSearchTerm(e.target.value));
   };
 
@@ -237,7 +102,6 @@ const SalaryManagement = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
->>>>>>> 504e25a29de091e5a9d6cdfb5ed19f4ece79415c
   return (
     <div className="salary-management-container">
       <div className="salary-management-header">
@@ -256,10 +120,6 @@ const SalaryManagement = () => {
                 type="search"
                 placeholder="Search"
                 className="smt-search-input"
-<<<<<<< HEAD
-                value={searchTerm}
-=======
->>>>>>> 504e25a29de091e5a9d6cdfb5ed19f4ece79415c
                 onChange={handleSearch}
               />
               <IoIosSearch className="smt-search-icon" />
@@ -281,11 +141,7 @@ const SalaryManagement = () => {
                 </thead>
 
                 <tbody>
-<<<<<<< HEAD
-                  {currentItems.map((emp) => (
-=======
                   {currentSalaries.map((emp) => (
->>>>>>> 504e25a29de091e5a9d6cdfb5ed19f4ece79415c
                     <tr key={emp.salaryID}>
                       <td>{emp.fullName}</td>
                       <td>{emp.baseSalary?.toLocaleString()}</td>
@@ -327,16 +183,6 @@ const SalaryManagement = () => {
             </div>
           </div>
           <div className="smt-pagination">
-<<<<<<< HEAD
-            {previousLabel}
-            {nextLabel}
-            <label className="current-page-label">
-              Page <input type="text" value={currentPage + 1} readOnly />{" "}
-              <span>
-                {" "}
-                of {Math.ceil(filteredEmployees.length / itemsPerPage)} pages
-              </span>
-=======
             <button
               className="page-link"
               onClick={handlePreviousPage}
@@ -354,7 +200,6 @@ const SalaryManagement = () => {
             <label className="current-page-label">
               Page <input type="text" value={currentPage + 1} readOnly />{" "}
               <span>of {totalPages} pages</span>
->>>>>>> 504e25a29de091e5a9d6cdfb5ed19f4ece79415c
             </label>
           </div>
         </div>
@@ -364,10 +209,6 @@ const SalaryManagement = () => {
         <div className="update-pr-header">
           <div className="update-pr-header-title">New Month</div>
           <div className="update-pr-header-user">
-<<<<<<< HEAD
-            <img src={anh} alt="User" />
-=======
->>>>>>> 504e25a29de091e5a9d6cdfb5ed19f4ece79415c
             {selectedSalary?.fullName}
           </div>
         </div>

@@ -265,15 +265,6 @@ const HistoryPayroll = () => {
               <IoIosSearch className="smt-search-icon" />
             </div>
           </div>
-<<<<<<< HEAD
-          <div className="history-profile">
-            <div className="hp-img">
-              <img src={anh} alt="?" />
-            </div>
-            <div className="hp-name">Hue</div>
-          </div>
-=======
->>>>>>> 504e25a29de091e5a9d6cdfb5ed19f4ece79415c
 
           <div className="smt-table">
             <div className="container mt-4">
