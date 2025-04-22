@@ -8,34 +8,44 @@ import { IoIosSearch } from "react-icons/io";
 import "bootstrap/dist/css/bootstrap.min.css";
 import plus from "../../../assets/plus.png";
 import Pagination from "../Pagination/Pagination";
+import { getEmployee } from "../../../Services/EmployeeController";
+import { useEffect } from "react";
 
 const EmployeeManagement = () => {
   // Sample employee data
-  const initialEmployees = [
-    { id: "AOBTNC028", name: "Jeremy Neibour Bella", phone: "123456789", department: "Support", email: "abc@gmail.com", status: "Working", joiningDate: "9/23/16", job: "abc" },
-    { id: "AOBTNC088", name: "Annette Bi", phone: "123456789", department: "QA", email: "abc@gmail.com", status: "Working", joiningDate: "7/27/13", job: "abc" },
-    { id: "AOBTNC025", name: "Theresa Wu", phone: "123456789", department: "People Ops", email: "abc@gmail.com", status: "Working", joiningDate: "11/7/16", job: "abc" },
-    { id: "AOBTNC044", name: "Kathryn Mt", phone: "123456789", department: "IT", email: "abc@gmail.com", status: "Working", joiningDate: "6/19/14", job: "abc" },
-    { id: "AOBTNC099", name: "Courtney H", phone: "123456789", department: "Customer Success", email: "abc@gmail.com", status: "Working", joiningDate: "7/11/19", job: "abc" },
-    { id: "AOBTNC095", name: "Jane Coop", phone: "123456789", department: "Product", email: "abc@gmail.com", status: "Working", joiningDate: "8/2/19", job: "abc" },
-    { id: "AOBTNC027", name: "Theresa Wu", phone: "123456789", department: "People Ops", email: "abc@gmail.com", status: "Working", joiningDate: "11/7/16", job: "abc" },
-    { id: "AOBTNC040", name: "Kathryn Mt", phone: "123456789", department: "IT", email: "abc@gmail.com", status: "Working", joiningDate: "6/19/14", job: "abc" },
-    { id: "AOBTNC098", name: "Courtney H", phone: "123456789", department: "Customer Success", email: "abc@gmail.com", status: "Working", joiningDate: "7/11/19", job: "abc" },
-    { id: "AOBTNC090", name: "Jane Coop", phone: "123456789", department: "Product", email: "abc@gmail.com", status: "Working", joiningDate: "8/2/19", job: "abc" },
-  ];
+  // const initialEmployees = [
+  //   { id: "AOBTNC028", name: "Jeremy Neibour Bella", phone: "123456789", department: "Support", email: "abc@gmail.com", status: "Working", joiningDate: "9/23/16", job: "abc" },
+  //   { id: "AOBTNC088", name: "Annette Bi", phone: "123456789", department: "QA", email: "abc@gmail.com", status: "Working", joiningDate: "7/27/13", job: "abc" },
+  //   { id: "AOBTNC025", name: "Theresa Wu", phone: "123456789", department: "People Ops", email: "abc@gmail.com", status: "Working", joiningDate: "11/7/16", job: "abc" },
+  //   { id: "AOBTNC044", name: "Kathryn Mt", phone: "123456789", department: "IT", email: "abc@gmail.com", status: "Working", joiningDate: "6/19/14", job: "abc" },
+  //   { id: "AOBTNC099", name: "Courtney H", phone: "123456789", department: "Customer Success", email: "abc@gmail.com", status: "Working", joiningDate: "7/11/19", job: "abc" },
+  //   { id: "AOBTNC095", name: "Jane Coop", phone: "123456789", department: "Product", email: "abc@gmail.com", status: "Working", joiningDate: "8/2/19", job: "abc" },
+  //   { id: "AOBTNC027", name: "Theresa Wu", phone: "123456789", department: "People Ops", email: "abc@gmail.com", status: "Working", joiningDate: "11/7/16", job: "abc" },
+  //   { id: "AOBTNC040", name: "Kathryn Mt", phone: "123456789", department: "IT", email: "abc@gmail.com", status: "Working", joiningDate: "6/19/14", job: "abc" },
+  //   { id: "AOBTNC098", name: "Courtney H", phone: "123456789", department: "Customer Success", email: "abc@gmail.com", status: "Working", joiningDate: "7/11/19", job: "abc" },
+  //   { id: "AOBTNC090", name: "Jane Coop", phone: "123456789", department: "Product", email: "abc@gmail.com", status: "Working", joiningDate: "8/2/19", job: "abc" },
+  // ];
 
-  const [employees, setEmployees] = useState(initialEmployees);
+  const [employees, setEmployees] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getEmployee();
+      setEmployees(data);
+    };
+
+    fetchData();
+  }, []);
   const [currentPage, setCurrentPage] = useState(0);
-  const [showUpdate, setShowUpdate] = useState(false); // State for showing the modal
-  const [selectedEmployee, setSelectedEmployee] = useState(null); // To store the employee being edited
+  // const [showUpdate, setShowUpdate] = useState(false); // State for showing the modal
+  // const [selectedEmployee, setSelectedEmployee] = useState(null); // To store the employee being edited
 
   // Delete
-  const [showDelete, setShowDelete] = useState(false); // State for showing the modal
-  const [selectedEmployeeDelete, setSelectedEmployeeDelete] = useState(null); // To store the employee being edited
+  // const [showDelete, setShowDelete] = useState(false); // State for showing the modal
+  // const [selectedEmployeeDelete, setSelectedEmployeeDelete] = useState(null); // To store the employee being edited
 
-  // Add
-  const [showAdd, setShowAdd] = useState(false); // State for showing the modal
-  const [selectedEmployeeAdd, setSelectedEmployeeAdd] = useState(null); // To store the employee being edited
+  // // Add
+  // const [showAdd, setShowAdd] = useState(false); // State for showing the modal
+  // const [selectedEmployeeAdd, setSelectedEmployeeAdd] = useState(null); // To store the employee being edited
   const itemsPerPage = 5;
 
   const indexOfLastItem = (currentPage + 1) * itemsPerPage;
@@ -45,11 +55,11 @@ const EmployeeManagement = () => {
   // Function to get status badge color
   const getStatusClass = (status) => {
     switch (status) {
-      case "Working":
+      case "working":
         return "bg-success text-white";
-      case "Quit":
+      case "quit":
         return "bg-danger text-dark";
-      case "Temporary":
+      case "temporary":
         return "bg-warning text-dark";
       default:
         return "bg-secondary text-white";
@@ -145,7 +155,7 @@ const EmployeeManagement = () => {
           <div className="emh-fc">Employee Management</div>
         </div>
         <div className="emh-button">
-          <button className="emh-button-addemp" onClick={() => setShowAdd(true)}>
+          <button className="emh-button-addemp" /*onClick={() => setShowAdd(true)}*/>
             <img src={plus} alt="" className="emh-button-addemp-icon"/>
             Add Employee
             </button>
@@ -164,28 +174,41 @@ const EmployeeManagement = () => {
               <Table bordered hover responsive className="emc-table">
                 <thead style={{ backgroundColor: "#f5f5f5" }}>
                   <tr>
-                    <th style={{ width: "110px" }}>Profile</th>
+                    <th style={{ width: "150px" }}>Profile</th>
                     <th style={{ width: "50px" }}>ID</th>
                     <th style={{ width: "100px" }}>Phone</th>
-                    <th style={{ width: "100px" }}>Department</th>
+                    <th style={{ width: "150px" }}>Department</th>
                     <th style={{ width: "170px" }}>Email</th>
-                    <th style={{ width: "100px" }}>Joining date</th>
-                    <th style={{ width: "100px" }}>Job</th>
-                    <th style={{ width: "100px" }}>Status</th>
+                    <th style={{ width: "130px" }}>Joining date</th>
+                    {/* <th style={{ width: "100px" }}>Job</th> */}
+                    <th style={{ width: "120px" }}>Status</th>
                     <th style={{ width: "50px" }}>Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {currentItems.map((employee, index) => (
                     <tr key={index}>
-                      {["name", "id", "phone", "department", "email", "joiningDate", "job"].map((field) => {
-                        const isLongText = employee[field].length > 15; // Kiểm tra nếu nội dung dài hơn 15 ký tự
+                      {["name", "id", "phone", "department", "email"].map((field) => {
+                        const value = String(employee[field] || "");
+                        const isLongText = value.length > 20; // Kiểm tra nếu nội dung dài hơn 15 ký tự
                         return (
                           <td key={field} className="td-hover" data-long={isLongText}>
                             <span>{employee[field]}</span>
                           </td>
                         );
                       })}
+                      <td>
+                        {employee.joiningDate
+                          ? new Date(employee.joiningDate).toLocaleDateString(
+                              "vi-VN",
+                              {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric",
+                              }
+                            )
+                          : ""}
+                      </td>
                       <td>
                         <span className={`badge ${getStatusClass(employee.status)}`}>
                           {employee.status}
@@ -197,8 +220,8 @@ const EmployeeManagement = () => {
                             <FaEllipsisV />
                           </Dropdown.Toggle>
                           <Dropdown.Menu /*flip="true"*/>
-                            <Dropdown.Item onClick={() => handleDeleteClick(employee)} href="#" className="delete" style={{color: "red"}}>Delete</Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleUpdateClick(employee)} href="#" className="update">Update</Dropdown.Item>
+                            <Dropdown.Item /*onClick={() => handleDeleteClick(employee)} href="#" className="delete" style={{color: "red"}}*/>Delete</Dropdown.Item>
+                            <Dropdown.Item /*onClick={() => handleUpdateClick(employee)} href="#" className="update"*/>Update</Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
                       </td>
@@ -219,7 +242,7 @@ const EmployeeManagement = () => {
         </div>
       </div>
 
-      <div className="modal-update">
+      {/* <div className="modal-update">
         <Modal show={showUpdate} onHide={handleClose} centered size="lg">
           <Modal.Header closeButton>
             <Modal.Title>Update Employee</Modal.Title>
@@ -349,7 +372,7 @@ const EmployeeManagement = () => {
       </div>
 
       {/* Delete Confirmation Modal */}
-      <div className="modal-delete">
+      {/* <div className="modal-delete">
         <Modal show={showDelete} onHide={handleDeleteClose} centered>
           <Modal.Header closeButton>
             <Modal.Title>Manage Users</Modal.Title>
@@ -377,7 +400,7 @@ const EmployeeManagement = () => {
       </div>
 
       {/* Modal Add Employee */}
-      <div className="modal-add">
+      {/* <div className="modal-add">
         <Modal show={showAdd} onHide={handleAddClose} centered size="lg">
           <Modal.Header closeButton>
             <Modal.Title>Add Employee</Modal.Title>
@@ -495,7 +518,7 @@ const EmployeeManagement = () => {
             </Form>
           </Modal.Body>
         </Modal>
-      </div>
+      </div> */}
 
     </div>
   )

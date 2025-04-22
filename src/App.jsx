@@ -25,7 +25,12 @@ const App = () => {
         <Route path="/pr-new-employee" element={<NewEmpPayroll />} />
         <Route path="/pr-alert-salary" element={<AlertPayroll />} />
       </Route>
-      <Route path="/HRManagement" element={<HRManagement />} />
+      <Route path="/HRManagement" element={<HRManagement />} >
+        <Route index element={<HRDashboard />} />
+        <Route path="EmployeeManagement" element={<EmployeeManagement />} />
+        <Route path="HRReport" element={<HRReport />} />
+        <Route path="SalaryHistory" element={<SalaryHistory />} />
+      </Route>
     </Routes>
   );
 };

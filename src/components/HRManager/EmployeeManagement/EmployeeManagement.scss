@@ -86,7 +86,7 @@
         .emc-table {
             font-size: 14px;
             text-align: center;
-            height: fit-content;
+            height: 330px;
             display: block;
         }
 
@@ -109,6 +109,7 @@
             white-space: nowrap; /* Ngăn không cho nội dung xuống dòng */
             max-height: 75px;
             position: relative;
+            text-align: left;
         }
         
         .emc-table td.td-hover {
