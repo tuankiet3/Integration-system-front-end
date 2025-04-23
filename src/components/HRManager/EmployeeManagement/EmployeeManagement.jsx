@@ -8,24 +8,10 @@ import { IoIosSearch } from "react-icons/io";
 import "bootstrap/dist/css/bootstrap.min.css";
 import plus from "../../../assets/plus.png";
 import Pagination from "../Pagination/Pagination";
-import { getEmployee } from "../../../Services/EmployeeController";
+import { getEmployee, addEmployee } from "../../../Services/EmployeeController";
 import { useEffect } from "react";
 
 const EmployeeManagement = () => {
-  // Sample employee data
-  // const initialEmployees = [
-  //   { id: "AOBTNC028", name: "Jeremy Neibour Bella", phone: "123456789", department: "Support", email: "abc@gmail.com", status: "Working", joiningDate: "9/23/16", job: "abc" },
-  //   { id: "AOBTNC088", name: "Annette Bi", phone: "123456789", department: "QA", email: "abc@gmail.com", status: "Working", joiningDate: "7/27/13", job: "abc" },
-  //   { id: "AOBTNC025", name: "Theresa Wu", phone: "123456789", department: "People Ops", email: "abc@gmail.com", status: "Working", joiningDate: "11/7/16", job: "abc" },
-  //   { id: "AOBTNC044", name: "Kathryn Mt", phone: "123456789", department: "IT", email: "abc@gmail.com", status: "Working", joiningDate: "6/19/14", job: "abc" },
-  //   { id: "AOBTNC099", name: "Courtney H", phone: "123456789", department: "Customer Success", email: "abc@gmail.com", status: "Working", joiningDate: "7/11/19", job: "abc" },
-  //   { id: "AOBTNC095", name: "Jane Coop", phone: "123456789", department: "Product", email: "abc@gmail.com", status: "Working", joiningDate: "8/2/19", job: "abc" },
-  //   { id: "AOBTNC027", name: "Theresa Wu", phone: "123456789", department: "People Ops", email: "abc@gmail.com", status: "Working", joiningDate: "11/7/16", job: "abc" },
-  //   { id: "AOBTNC040", name: "Kathryn Mt", phone: "123456789", department: "IT", email: "abc@gmail.com", status: "Working", joiningDate: "6/19/14", job: "abc" },
-  //   { id: "AOBTNC098", name: "Courtney H", phone: "123456789", department: "Customer Success", email: "abc@gmail.com", status: "Working", joiningDate: "7/11/19", job: "abc" },
-  //   { id: "AOBTNC090", name: "Jane Coop", phone: "123456789", department: "Product", email: "abc@gmail.com", status: "Working", joiningDate: "8/2/19", job: "abc" },
-  // ];
-
   const [employees, setEmployees] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +30,7 @@ const EmployeeManagement = () => {
   // const [selectedEmployeeDelete, setSelectedEmployeeDelete] = useState(null); // To store the employee being edited
 
   // // Add
-  // const [showAdd, setShowAdd] = useState(false); // State for showing the modal
+  const [showAdd, setShowAdd] = useState(false); // State for showing the modal
   // const [selectedEmployeeAdd, setSelectedEmployeeAdd] = useState(null); // To store the employee being edited
   const itemsPerPage = 5;
 
@@ -155,7 +141,7 @@ const EmployeeManagement = () => {
           <div className="emh-fc">Employee Management</div>
         </div>
         <div className="emh-button">
-          <button className="emh-button-addemp" /*onClick={() => setShowAdd(true)}*/>
+          <button className="emh-button-addemp" onClick={() => setShowAdd(true)}>
             <img src={plus} alt="" className="emh-button-addemp-icon"/>
             Add Employee
             </button>
@@ -400,29 +386,43 @@ const EmployeeManagement = () => {
       </div>
 
       {/* Modal Add Employee */}
-      {/* <div className="modal-add">
+      <div className="modal-add">
         <Modal show={showAdd} onHide={handleAddClose} centered size="lg">
           <Modal.Header closeButton>
             <Modal.Title>Add Employee</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
                 const form = e.target;
-                const newEmployee = {
-                  id: `AOBTNC${Math.floor(Math.random() * 900 + 100)}`, // Tạo ID ngẫu nhiên
+
+                const newEmployeeData = {
                   name: form.name.value,
+                  dateOfBirth: form.dateofBirth.value,
+                  gender: form.gender.value,
                   phone: form.phone.value,
-                  department: form.department.value,
                   email: form.email.value,
-                  status: form.status.value,
                   joiningDate: form.joiningDate.value,
-                  job: form.job.value,
+                  departmentId: form.department.value, // Lấy trực tiếp departmentId
+                  positionId: form.position.value, // Lấy trực tiếp positionId
+                  status: form.status.value
                 };
 
-                setEmployees([...employees, newEmployee]);
-                setShowAdd(false);
+                try {
+                  const createdEmployee = await addEmployee(newEmployeeData);
+                  
+                  if (createdEmployee) {
+                    const updatedList = await getEmployee();
+                    setEmployees(updatedList);
+                    setShowAdd(false);
+                  } else {
+                    alert("Thêm nhân viên thất bại!");
+                  }
+                } catch (error) {
+                  console.error("Lỗi khi thêm nhân viên:", error);
+                  alert("Đã xảy ra lỗi khi thêm nhân viên!");
+                }
               }}
             >
               <Row>
@@ -453,12 +453,28 @@ const EmployeeManagement = () => {
                 <Col md={6}>
                   <Form.Group className="mb-3">
                     <Form.Label>Department</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="department"
-                      placeholder="Enter department"
-                      required
-                    />
+                    <Form.Select name="department" required>
+                      <option value="">Select department</option>
+                      <option value="1">Human Resources</option>
+                      <option value="2">Finance</option>
+                      <option value="3">Marketing</option>
+                      <option value="4">IT</option>
+                      <option value="5">Operations</option>
+                    </Form.Select>
+                  </Form.Group>
+                </Col>
+
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Position</Form.Label>
+                    <Form.Select name="position" required>
+                      <option value="">Select position</option>
+                      <option value="1">Human Resources</option>
+                      <option value="2">Finance</option>
+                      <option value="3">Marketing</option>
+                      <option value="4">IT</option>
+                      <option value="5">Operations</option>
+                    </Form.Select>
                   </Form.Group>
                 </Col>
 
@@ -479,9 +495,9 @@ const EmployeeManagement = () => {
                     <Form.Label>Status</Form.Label>
                     <Form.Select name="status" required>
                       <option value="">Select status</option>
-                      <option value="Working">Working</option>
-                      <option value="Quit">Quit</option>
-                      <option value="Temporary">Temporary</option>
+                      <option value="working">Working</option>
+                      <option value="quit">Quit</option>
+                      <option value="temporary">Temporary</option>
                     </Form.Select>
                   </Form.Group>
                 </Col>
@@ -497,15 +513,25 @@ const EmployeeManagement = () => {
                   </Form.Group>
                 </Col>
 
-                <Col md={12}>
+                <Col md={6}>
                   <Form.Group className="mb-3">
-                    <Form.Label>Job</Form.Label>
+                    <Form.Label>Date of birth</Form.Label>
                     <Form.Control
-                      type="text"
-                      name="job"
-                      placeholder="Enter job"
+                      type="date"
+                      name="dateofBirth"
                       required
                     />
+                  </Form.Group>
+                </Col>
+
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Gender</Form.Label>
+                    <Form.Select name="gender" required>
+                      <option value="">Select gender</option>
+                      <option value="Nam">Nam</option>
+                      <option value="Nữ">Nữ</option>
+                    </Form.Select>
                   </Form.Group>
                 </Col>
               </Row>
@@ -518,7 +544,7 @@ const EmployeeManagement = () => {
             </Form>
           </Modal.Body>
         </Modal>
-      </div> */}
+      </div>
 
     </div>
   )

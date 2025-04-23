@@ -4,6 +4,17 @@ const instance = axios.create({
   baseURL: "https://localhost:7280/api/",
 });
 
+// Lấy danh sách tất cả phòng ban
+const getDepartments = async () => {
+  try {
+    const response = await instance.get("departments");
+    return response.data;
+  } catch (error) {
+    console.error("Lỗi khi lấy danh sách phòng ban:", error);
+    return [];
+  }
+};
+
 const getDepartmentID = async (id) => {
   try {
     const response = await instance.get(`departments/${id}`);
@@ -40,4 +51,26 @@ const getEmployee = async () => {
   }
 };
 
-export { getEmployee };
+const addEmployee = async (employeeData) => {
+  try {
+    const response = await instance.post("employees", {
+      fullName: employeeData.name,
+      dateofBirth: employeeData.dateOfBirth,
+      gender: employeeData.gender,
+      phoneNumber: employeeData.phone,
+      email: employeeData.email,
+      hireDate: employeeData.joiningDate,
+      departmentId: employeeData.departmentId,
+      positionId: employeeData.positionId,
+      status: employeeData.status
+    });
+
+    console.log("Thêm nhân viên thành công:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Lỗi khi thêm nhân viên:", error);
+    return null;
+  }
+};
+
+export { getEmployee, addEmployee, getDepartments, getDepartmentID };
