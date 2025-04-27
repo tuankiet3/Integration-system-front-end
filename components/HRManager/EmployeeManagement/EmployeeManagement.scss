@@ -1,0 +1,202 @@
+.employee-management-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 1050px;
+
+    .employee-management-header{
+        padding: 0 30px;
+        display: flex;
+        flex-direction: column;
+        // gap: 20px;
+
+        .emh-title {
+            padding-top: 10px;
+            display: flex;
+            gap: 8px;
+        } 
+        
+        .emh-button {
+            position: relative;
+            display: flex;
+            align-items: center; // Căn giữa nút theo chiều dọc
+            justify-content: flex-end; // Đẩy nút về bên phải
+            min-height: 50px; // Đảm bảo đủ không gian cho nút
+
+            .emh-button-addemp {
+                position: absolute;
+                right: 10px; /* Khoảng cách từ phải */
+                top: 50%; 
+                transform: translateY(-50%); 
+                background-color: #212143;
+                color: #ffff;
+                border: none;
+                border-radius: 10px;
+                width: 200px;
+                margin-right: -17px;
+            }
+            .emh-button-addemp-icon {
+                width: 17px;
+                height: 17px;
+                margin-right: 10px;
+                margin-bottom: 5px;
+            }
+        }
+    }
+
+    .employee-management-content {
+        padding: 0 20px;
+        display: flex;
+        text-align: start;
+
+
+        .emc-detail {
+            background-color: #ffff;
+            padding: 20px;
+            border-radius: 10px;
+
+            .emcd-search {
+                position: relative;
+                display: flex;
+                align-items: center;
+                margin-left: 10px;
+                
+                .emcd-search-input {
+                    padding-left: 35px;
+                    width: 500px;
+                    height: 40px;
+                    border-radius: 10px;
+                    outline: none;
+                }
+
+                .smt-search-icon {
+                    position: absolute;
+                    left: 10px;
+                    color: gray;
+                }
+            }
+        }
+
+        .emcd-title {
+            padding-top: 20px;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+
+        .emc-table {
+            font-size: 14px;
+            text-align: center;
+            height: 330px;
+            display: block;
+        }
+
+        .emc-table th {
+            background-color: #f5f5f5 !important;
+            border-right: 1px solid #E0E0E0 !important;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .emc-table tr {
+            border: none;
+        }
+
+        .emc-table td {
+            border: none;
+            max-width: 100px; /* Giới hạn chiều rộng của ô */
+            overflow: hidden; /* Ẩn nội dung vượt quá */
+            text-overflow: ellipsis; /* Thêm dấu '...' khi nội dung quá dài */
+            white-space: nowrap; /* Ngăn không cho nội dung xuống dòng */
+            max-height: 75px;
+            position: relative;
+            text-align: left;
+        }
+        
+        .emc-table td.td-hover {
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        /* Chỉ thêm hiệu ứng trượt khi nội dung dài hơn kích thước ô */
+        .emc-table td.td-hover:hover {
+            overflow: visible;
+            white-space: nowrap;
+        }
+        
+        .emc-table td.td-hover:hover[data-long="true"] span {
+            display: inline-block;
+            position: absolute;
+            min-width: 100%; /* Đảm bảo nội dung có độ dài đủ để trượt */
+            white-space: nowrap;
+            animation: marquee 5s linear infinite;
+        }
+        
+        /* Chỉ áp dụng hiệu ứng trượt nếu nội dung dài hơn ô */
+        @keyframes marquee {
+            from {
+                transform: translateX(0%);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }   
+        
+        .emc-table td.smt-action {
+            overflow: visible; /* Đảm bảo dropdown không bị ẩn */
+            max-width: none; /* Không giới hạn chiều rộng cho Action */
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            // font-weight: 500;
+            height: 26px;
+            display: flex;
+            justify-content: center;
+        }
+
+        // .emc-pagination {
+        //     display: flex;
+        //     justify-content: flex-end;
+        //     gap: 10px;
+        //     border-top: 1px solid #E0E0E0;
+
+        //     .page-link {
+        //         margin-top: 10px;
+        //         padding: 8px 12px;
+        //         border: 1px solid #ccc;
+        //         border-radius: 10px;
+        //         cursor: pointer; // co the nhap vao hoac co hanh dong khi tuong tac
+        //         background-color: #f8f9fa;
+
+        //         &:hover {
+        //             background-color: #146ADC;
+        //             color: #ffff;
+        //         }
+        //     }
+
+        //     .current-page-lable {
+        //         margin-top: 10px;
+        //         display: flex;
+        //         align-items: center; // Đặt các phần tử con theo hàng ngang
+        //         justify-content: center; // Căn giữa các phần tử con theo chiều ngang
+        //         gap: 6px;
+
+        //         input {
+        //             width: 70px;
+        //             border: 1px solid #ccc;
+        //             border-radius: 10px;
+        //             padding: 8px 12px;
+        //             background-color: #fff;
+        //         }
+
+        //         span {
+        //             color: #146adc;
+        //         }
+        //     }
+        // }
+    } 
+}

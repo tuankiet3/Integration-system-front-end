@@ -1,0 +1,88 @@
+.container-login {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  //   background: linear-gradient(135deg, #6e48aa, #9d50bb);
+  //   background: url("https://i.pinimg.com/736x/82/7e/de/827edeb7a2e52a690390ce96eddc2052.jpg")
+  //     no-repeat center center fixed;
+  //   background-attachment: fixed;
+  //   background-size: cover;
+  .videoBg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+  }
+}
+
+.loginBox {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  text-align: center;
+  width: 400px;
+
+  h2 {
+    color: white;
+    margin-bottom: 20px;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+
+  .options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-size: 14px;
+    margin: 10px 0;
+
+    a {
+      color: white;
+      text-decoration: none;
+    }
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: white;
+    color: #6e48aa;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  p {
+    color: white;
+    margin-top: 20px;
+    font-size: 14px;
+
+    a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  }
+}
