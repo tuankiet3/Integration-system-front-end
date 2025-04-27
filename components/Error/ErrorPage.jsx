@@ -54,8 +54,7 @@ const ErrorPage = () => {
     <div className={`error-page-wrapper ${fadeIn ? "fade-in" : "fade-out"}`}>
       <div className="error-card">
         <img src={giaiphong} alt="Funny Error Cat" className="error-image" />
-        <h1 className="error-code">{getErrorMessage()}</h1>
-        <h2>!!!</h2>
+        <div className="error-code">{getErrorMessage()}</div>
         {error.includes("401") ? (
           <>
             <button

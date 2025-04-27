@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Login.scss";
-import video from "../../assets/video.mp4";
 import { Login } from "../../features/Login/LoginAPI";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -10,7 +9,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
-  const [remember, setRemember] = useState(false);
   const [error, setError] = useState("");
 
   const dispatch = useDispatch();
@@ -40,27 +38,15 @@ const LoginPage = () => {
         else if (response.roles.includes("HR")) navigate("/hr");
         else navigate("/employee");
       }
-    } catch (err) {
-      setError(err.message || "Đăng nhập thất bại");
+    } catch (error) {
+      setError("Đăng nhập thất bại");
     }
   };
 
   return (
     <div className="container-login">
-      <video
-        className="videoBg"
-        autoPlay
-        loop
-        muted
-        playsInline
-        disablePictureInPicture
-        controlsList="nodownload nofullscreen noremoteplayback"
-      >
-        <source src={video} />
-      </video>
       <div className="loginBox">
         <h2>Login</h2>
-        {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -76,22 +62,11 @@ const LoginPage = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <div className="options">
-            <label>
-              <input
-                type="checkbox"
-                checked={remember}
-                onChange={(e) => setRemember(e.target.checked)}
-              />{" "}
-              Remember me
-            </label>
-            <a href="#">Forgot password?</a>
-          </div>
-          <button type="submit">Login</button>
-          <p>
-            Don't have an account? <a href="#">Register</a>
-          </p>
+          <button type="submit" className="btn-login">
+            Login
+          </button>
         </form>
+        {error && <div className="error-message">{error}</div>}
       </div>
     </div>
   );
