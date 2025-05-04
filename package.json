@@ -13,6 +13,7 @@
     "@reduxjs/toolkit": "^2.6.1",
     "axios": "^1.8.4",
     "bootstrap": "^5.3.5",
+    "jwt-decode": "^4.0.0",
     "navigate": "^0.3.6",
     "paginate": "^0.2.0",
     "react": "^19.0.0",
@@ -23,7 +24,8 @@
     "react-paginate": "^8.3.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.4.1",
-    "sass": "^1.86.0"
+    "sass": "^1.86.0",
+    "sweetalert2": "^11.19.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

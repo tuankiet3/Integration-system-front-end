@@ -1,94 +1,94 @@
 .salary-history-container {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  width: 1050px;
-
-  .salary-history-header {
-    padding: 0 30px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 40px;
+    width: 1050px;
 
-    .shh-title {
-      padding-top: 10px;
-      display: flex;
-      gap: 8px;
-    }
-  }
-
-  .salary-history-content {
-    padding: 0 20px;
-    display: flex;
-    text-align: start;
-
-    .shc-detail {
-      background-color: #ffff;
-      padding: 20px;
-      border-radius: 10px;
-
-      .shcd-search {
-        position: relative;
+    .salary-history-header {
+        padding: 0 30px;
         display: flex;
-        align-items: center;
-        margin-left: 10px;
+        flex-direction: column;
+        gap: 20px;
 
-        .shcd-search-icon {
-          position: absolute;
-          left: 10px;
-          color: gray;
-        }
-
-        .shcd-search-input {
-          padding-left: 35px;
-          width: 500px;
-          height: 40px;
-          border-radius: 10px;
-          outline: none;
-        }
-      }
-
-      .shcd-title {
-        padding-top: 20px;
-        font-weight: 700;
-        margin-left: 10px;
-      }
-
-      .shc-table {
-        font-size: 14px;
-        text-align: center;
-        height: fit-content;
-        display: block;
-      }
-
-      .shc-table th {
-        background-color: #f5f5f5 !important;
-        border-right: 1px solid #e0e0e0 !important;
-        vertical-align: middle;
-        text-align: center;
-      }
-
-      .shc-table tr {
-        border: none;
-        height: 50px;
-      }
-
-      .shc-table td {
-        border: none;
-        max-width: 100px; /* Giới hạn chiều rộng của ô */
-        overflow: hidden; /* Ẩn nội dung vượt quá */
-        text-overflow: ellipsis; /* Thêm dấu '...' khi nội dung quá dài */
-        white-space: nowrap; /* Ngăn không cho nội dung xuống dòng */
-        max-height: 75px;
-        position: relative;
-      }
-
-      .shc-table td.td-hover {
-        max-width: 100px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
+        .shh-title {
+            padding-top: 10px;
+            display: flex;
+            gap: 8px;
+        } 
     }
-  }
+
+    .salary-history-content {
+        padding: 0 20px;
+        display: flex;
+        text-align: start;
+
+        .shc-detail {
+            background-color: #ffff;
+            padding: 20px;
+            border-radius: 10px;
+
+            .shcd-search {
+                position: relative;
+                display: flex;
+                align-items: center;
+                margin-left: 10px;
+
+                .shcd-search-icon {
+                    position: absolute;
+                    left: 10px;
+                    color: gray;
+                }
+
+                .shcd-search-input {
+                    padding-left: 35px;
+                    width: 500px;
+                    height: 40px;
+                    border-radius: 10px;
+                    outline: none;
+                }
+            }
+
+            .shcd-title {
+                padding-top: 20px;
+                font-weight: 700;
+                margin-left: 10px;
+            }
+
+            .shc-table {
+                font-size: 14px;
+                text-align: center;
+                height: fit-content;
+                display: block;
+            }
+
+            .shc-table th {
+                background-color: #f5f5f5 !important;
+                border-right: 1px solid #E0E0E0 !important;
+                vertical-align: middle;
+                text-align: center;
+            }
+
+            .shc-table tr {
+                border: none;
+                height: 50px;
+            }
+
+            .shc-table td {
+                border: none;
+                max-width: 100px; /* Giới hạn chiều rộng của ô */
+                overflow: hidden; /* Ẩn nội dung vượt quá */
+                text-overflow: ellipsis; /* Thêm dấu '...' khi nội dung quá dài */
+                white-space: nowrap; /* Ngăn không cho nội dung xuống dòng */
+                max-height: 75px;
+                position: relative;
+            }
+
+            .shc-table td.td-hover {
+                max-width: 100px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+    }
 }
