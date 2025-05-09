@@ -1,0 +1,67 @@
+.payroll-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.container-dropdown {
+  .dropdown-modal {
+    position: absolute;
+    top: 50px; // tùy vị trí logo
+    right: 0; // căn chỉnh theo logo
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 999;
+    padding: 16px;
+    width: 300px;
+  }
+
+  .dropdown-content h5 {
+    margin-bottom: 8px;
+  }
+
+  .dropdown-content p {
+    margin: 0;
+  }
+}
+.payroll-content {
+  margin: 0 auto;
+  max-width: 1300px;
+  padding-top: 60px;
+  display: flex;
+  .payroll-tool {
+    width: 220px;
+    background-color: #f5f5f5;
+    border-right: 1px solid #000000;
+
+    .payroll-tool-box {
+      max-width: 100%;
+      margin: 0 10px;
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      padding: 10px;
+      cursor: pointer;
+      img {
+        width: 25px;
+        height: 25px;
+        margin-right: 10px;
+      }
+      &:hover {
+        background-color: #000000;
+        color: #f5f5f5;
+        img {
+          filter: invert(1);
+        }
+      }
+    }
+  }
+
+  .payroll-detail {
+    flex: 1;
+    width: 1050px;
+    // border: 1px solid #be0d0d;
+  }
+}
