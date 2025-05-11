@@ -7,7 +7,7 @@ import icon_hrreport from "../../assets/icon_hrreport.png";
 import Header from "../Header/Header";
 import ModalNotificationsPayroll from "../PayrollManagement/ModalNotifications/ModalNotificationsPayroll";
 import useAuthCheck from "../../features/Login/useAuthCheck";
-
+import manage from "../../assets/icon_manage.jpg";
 const Admin = () => {
   const navigate = useNavigate();
   useAuthCheck();
@@ -58,14 +58,21 @@ const Admin = () => {
             className="payroll-tool-box"
             onClick={() => navigate("/salary-management")}
           >
-            <img src={user} alt="" />
+            <img src={manage} alt="" />
             Salary Management
+          </div>
+          <div
+            className="payroll-tool-box"
+            onClick={() => navigate("/EmployeeManagement")}
+          >
+            <img src={manage} alt="" />
+            Employee Management
           </div>
           <div
             className="payroll-tool-box"
             onClick={() => navigate("/pr-new-employee")}
           >
-            <img src={icon_hrreport} alt="" />
+            <img src={user} alt="" />
             New Employee
           </div>
           <div
@@ -75,13 +82,7 @@ const Admin = () => {
             <img src={icon_hrreport} alt="" />
             Salary History
           </div>
-          <div
-            className="payroll-tool-box"
-            onClick={() => navigate("/EmployeeManagement")}
-          >
-            <img src={flag} alt="" />
-            Employee Management
-          </div>
+
           <div
             className="payroll-tool-box"
             onClick={() => navigate("/HRReport")}

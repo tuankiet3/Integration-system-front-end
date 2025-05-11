@@ -15,6 +15,8 @@ import {
   selectTotalPages,
 } from "../../../features/salary/salarySlice";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SalaryManagement = () => {
   const dispatch = useDispatch();
@@ -62,20 +64,86 @@ const SalaryManagement = () => {
     const { employeeId, salaryMonth, baseSalary, bonus, deductions } =
       newSalaryData;
     if (!employeeId || !salaryMonth || !baseSalary || !bonus || !deductions) {
-      alert("Please fill in all required fields.");
+      toast.error("Vui lòng điền đầy đủ thông tin!");
       return;
     }
+
+    const confirmToast = toast.info(
+      <div>
+        <p>Bạn có chắc chắn muốn lưu thông tin lương mới?</p>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "10px",
+            marginTop: "20px",
+          }}
+        >
+          <button
+            onClick={() => {
+              toast.dismiss(confirmToast);
+              saveSalaryData();
+            }}
+            style={{
+              padding: "5px 10px",
+              backgroundColor: "#4CAF50",
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+          >
+            Xác nhận
+          </button>
+          <button
+            onClick={() => toast.dismiss(confirmToast)}
+            style={{
+              padding: "5px 10px",
+              backgroundColor: "#f44336",
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+          >
+            Hủy
+          </button>
+        </div>
+      </div>,
+      {
+        position: "top-center",
+        autoClose: false,
+        closeOnClick: false,
+        draggable: false,
+      }
+    );
+  };
+
+  const saveSalaryData = async () => {
     setIsLoading(true);
     try {
       const newData = {
-        employeeId,
-        salaryMonth,
-        baseSalary: parseFloat(baseSalary),
-        bonus: parseFloat(bonus),
-        deductions: parseFloat(deductions),
+        employeeId: newSalaryData.employeeId,
+        salaryMonth: newSalaryData.salaryMonth,
+        baseSalary: parseFloat(newSalaryData.baseSalary),
+        bonus: parseFloat(newSalaryData.bonus),
+        deductions: parseFloat(newSalaryData.deductions),
       };
 
-      await dispatch(createSalary(newData));
+      const response = await dispatch(createSalary(newData));
+
+      // Chỉ phát ra sự kiện nếu thêm lương thành công và có dữ liệu mới
+      if (response.payload) {
+        const event = new CustomEvent("newSalaryNotification", {
+          detail: {
+            type: "salary_update",
+            message: `Đã thêm lương mới cho nhân viên ${response.payload.fullName}`,
+            data: response.payload,
+          },
+        });
+        window.dispatchEvent(event);
+      }
+
       setShowNewMonth(false);
       setNewSalaryData({
         employeeId: "",
@@ -84,8 +152,11 @@ const SalaryManagement = () => {
         bonus: "",
         deductions: "",
       });
+
+      toast.success("Lưu thông tin lương thành công!");
     } catch (error) {
       console.error("Error creating new salary record:", error);
+      toast.error("Có lỗi xảy ra khi lưu thông tin lương!");
     } finally {
       setIsLoading(false);
     }
@@ -107,6 +178,7 @@ const SalaryManagement = () => {
   if (error) return <div>Error: {error}</div>;
   return (
     <div className="salary-management-container">
+      <ToastContainer />
       <LoadingSpinner isLoading={isLoading} />
       <div className="salary-management-header">
         <div className="smh-top">
