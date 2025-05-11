@@ -71,10 +71,41 @@
 .header-notification {
   .header-notification-img {
     max-width: 100%;
+    position: relative;
     img {
       background-color: #ffff;
       height: 30px;
       width: 30px;
     }
+    .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-color: #ff4444;
+      color: white;
+      border-radius: 50%;
+      min-width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 0 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      animation: badge-pop 0.3s ease-out;
+    }
+  }
+}
+
+@keyframes badge-pop {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
   }
 }

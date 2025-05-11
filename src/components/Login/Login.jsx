@@ -41,7 +41,7 @@ const LoginPage = () => {
         if (response.roles.includes("Admin")) navigate("/");
         else if (response.roles.includes("PayrollManagement"))
           navigate("/payroll");
-        else if (response.roles.includes("HR")) navigate("/hr");
+        else if (response.roles.includes("Hr")) navigate("/hr");
         else navigate("/employee");
       }
     } catch (error) {
