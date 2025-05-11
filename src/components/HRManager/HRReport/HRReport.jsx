@@ -1,7 +1,7 @@
-import React from "react";
-import { FaAngleRight } from "react-icons/fa";
-import { Bar, Doughnut } from "react-chartjs-2";
-import "./HRReport.scss";
+import React, { useState, useEffect } from 'react';
+import { FaAngleRight } from 'react-icons/fa';
+import { Bar, Doughnut } from 'react-chartjs-2';
+import './HRReport.scss';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,53 +10,43 @@ import {
   ArcElement,
   Tooltip,
   Legend,
-} from "chart.js";
+} from 'chart.js';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  ArcElement,
-  Tooltip,
-  Legend
-);
+import { getEmployeeSummary } from '../../../Services/ReportController';
 
-const initialEmployees = [
-  { id: "AOBTNC028", name: "Jeremy", department: "Support", status: "Working" },
-  { id: "AOBTNC088", name: "Annette", department: "QA", status: "Working" },
-  {
-    id: "AOBTNC025",
-    name: "Theresa",
-    department: "People Ops",
-    status: "Quit",
-  },
-  { id: "AOBTNC044", name: "Kathryn", department: "IT", status: "Temporary" },
-  {
-    id: "AOBTNC099",
-    name: "Courtney",
-    department: "Customer Success",
-    status: "Working",
-  },
-  { id: "AOBTNC095", name: "Jane", department: "IT", status: "Quit" },
-  {
-    id: "AOBTNC027",
-    name: "Theresa",
-    department: "People Ops",
-    status: "Working",
-  },
-  { id: "AOBTNC040", name: "Kathryn", department: "IT", status: "Temporary" },
-  { id: "AOBTNC098", name: "Courtney", department: "IT", status: "Working" },
-  { id: "AOBTNC090", name: "Jane", department: "Product", status: "Working" },
-];
+ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 
 const HRReport = () => {
-  const totalEmployees = initialEmployees.length;
+  const [totalEmployees, setTotalEmployees] = useState(0);
+  const [statusCounts, setStatusCounts] = useState({});
+  const [departmentCounts, setDepartmentCounts] = useState({});
 
-  // Group by department
-  const departmentCounts = initialEmployees.reduce((acc, emp) => {
-    acc[emp.department] = (acc[emp.department] || 0) + 1;
-    return acc;
-  }, {});
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { totalEmployees, statusCounts, departmentCounts } = await getEmployeeSummary();
+        setTotalEmployees(totalEmployees || 0);
+        setStatusCounts(statusCounts || {});
+        setDepartmentCounts(departmentCounts || {});
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu báo cáo:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const doughnutData = {
+    labels: Object.keys(statusCounts),
+    datasets: [
+      {
+        label: "Employee Status",
+        data: Object.values(statusCounts),
+        backgroundColor: ["#198754", "#ffc107", "#dc3545"],
+        borderWidth: 1,
+      },
+    ],
+  };
 
   const barData = {
     labels: Object.keys(departmentCounts),
@@ -74,7 +64,7 @@ const HRReport = () => {
 
   const barOptions = {
     responsive: true,
-    maintainAspectRatio: false, // Quan trọng để chiều cao không bị ép theo tỉ lệ mặc định
+    maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
     },
@@ -86,34 +76,15 @@ const HRReport = () => {
     },
   };
 
-  // Group by status for Doughnut
-  const statusCounts = initialEmployees.reduce((acc, emp) => {
-    acc[emp.status] = (acc[emp.status] || 0) + 1;
-    return acc;
-  }, {});
-
-  const doughnutData = {
-    labels: Object.keys(statusCounts),
-    datasets: [
-      {
-        label: "Employee Status",
-        data: Object.values(statusCounts),
-        backgroundColor: ["#0066FF", "#FFC107", "#FF6384"],
-        borderWidth: 1,
-      },
-    ],
-  };
-
   return (
     <div className="hrreport-container">
       <div className="hrreport-header">
         <div className="hrh-title">
-          <div className="hrh-user">
-            Hue <FaAngleRight />{" "}
-          </div>
+          <div className="hrh-user">Hue <FaAngleRight /></div>
           <div className="hrh-fc">HR Report</div>
         </div>
       </div>
+
       <div className="hrreport-content">
         <div className="hrreport-detail">
           <div className="hrreport-top">
@@ -128,10 +99,10 @@ const HRReport = () => {
                 options={{
                   plugins: {
                     legend: {
-                      position: "bottom", // <-- thêm dòng này
+                      position: 'bottom',
                       labels: {
-                        usePointStyle: true, // hiển thị dạng hình tròn thay vì ô vuông nếu muốn
-                        pointStyle: "circle",
+                        usePointStyle: true,
+                        pointStyle: 'circle',
                       },
                     },
                   },
@@ -140,16 +111,14 @@ const HRReport = () => {
               <div className="doughnut-status-container">
                 {Object.entries(statusCounts).map(([status, count]) => (
                   <div key={status} className="doughnut-status">
-                    <span>
-                      {status} - {count}
-                    </span>
+                    <span>{status} - {count}</span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          <div className="hrreport-bottom" style={{ marginTop: "40px" }}>
+          <div className="hrreport-bottom" style={{ marginTop: '40px' }}>
             <Bar data={barData} options={barOptions} />
           </div>
         </div>
