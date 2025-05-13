@@ -49,6 +49,7 @@ const Header = ({ onIconClick }) => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("Id");
     dispatch(logout());
     navigate("/login");
   };

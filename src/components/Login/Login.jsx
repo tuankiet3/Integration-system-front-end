@@ -24,20 +24,24 @@ const LoginPage = () => {
       const response = await Login(email, password);
       if (response.token) {
         localStorage.setItem("token", response.token);
+        localStorage.setItem("Id", response.id);
         localStorage.setItem(
           "user",
           JSON.stringify({
             username: response.username,
             roles: response.roles,
+            id: response.id,
           })
         );
         dispatch(
           loginSuccess({
             token: response.token,
             roles: response.roles,
+            id: response.id,
           })
         );
 
+        console.log("response", response);
         if (response.roles.includes("Admin")) navigate("/");
         else if (response.roles.includes("PayrollManagement"))
           navigate("/payroll");
@@ -45,7 +49,7 @@ const LoginPage = () => {
         else navigate("/employee");
       }
     } catch (error) {
-      setError("Đăng nhập thất bại");
+      setError("Đăng nhập thất bại", error.message);
     } finally {
       setIsLoading(false);
     }
