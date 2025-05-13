@@ -16,7 +16,8 @@ const HRManagement = () => {
       </div>
       <div className="hr-content">
         <div className="hr-tool">
-          <div className="hr-tool-box">
+          <div className="hr-tool-box"
+            onClick={() => navigate("/HRManagement")}>
             <img src={home} alt="" />
             DashBoard</div>
           <div className="hr-tool-box" onClick={() => navigate("/HRManagement/EmployeeManagement")}>

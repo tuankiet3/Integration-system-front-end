@@ -189,12 +189,12 @@ const EmployeeManagement = () => {
               <Table bordered hover responsive className="emc-table">
                 <thead style={{ backgroundColor: "#f5f5f5" }}>
                   <tr>
-                    <th style={{ width: "130px" }}>Full name</th>
+                    <th style={{ width: "160px" }}>Full name</th>
                     <th style={{ width: "10px" }}>ID</th>
                     <th style={{ width: "100px" }}>Phone</th>
-                    <th style={{ width: "100px" }}>Department</th>
                     <th style={{ width: "140px" }}>Email</th>
                     <th style={{ width: "20px" }}>Gender</th>
+                    <th style={{ width: "70px" }}>Department</th>
                     <th style={{ width: "100px" }}>Position</th>
                     <th style={{ width: "100px" }}>Joining date</th>
                     <th style={{ width: "100px" }}>Date of birth</th>
@@ -205,7 +205,7 @@ const EmployeeManagement = () => {
                 <tbody>
                   {currentItems.map((employee, index) => (
                     <tr key={index}>
-                      {["name", "id", "phone", "department", "email", "gender", "position"].map((field) => {
+                      {["name", "id", "phone", "email", "gender","department", "position"].map((field) => {
                         const value = String(employee[field] || "");
                         const isLongText = value.length > 8; // Kiểm tra nếu nội dung dài hơn 15 ký tự
                         return (
@@ -568,7 +568,7 @@ const EmployeeManagement = () => {
                 </Col>
 
                 <Col md={6}>
-                  <Form.Group className="mb-3">
+                  <Form.Group className="gap-3 mb-3">
                     <Form.Label>Gender</Form.Label>
                     <Form.Select name="gender" required>
                       <option value="">Select gender</option>
@@ -578,7 +578,7 @@ const EmployeeManagement = () => {
                   </Form.Group>
                 </Col>
               </Row>
-              <div className="d-flex justify-content-center gap-5 mt-3">
+              <div className="d-flex justify-content-end gap-3 mt-3">
                 <Button variant="primary" type="submit">
                   Add Employee
                 </Button>

@@ -8,12 +8,12 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [email, setemail] = useState("");
+  const dispatch = useDispatch();
+
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,8 +22,11 @@ const LoginPage = () => {
 
     try {
       const response = await Login(email, password);
+
       if (response.token) {
+        // Lưu token và thông tin người dùng vào localStorage
         localStorage.setItem("token", response.token);
+        localStorage.setItem("employeeID", response.id); 
         localStorage.setItem(
           "user",
           JSON.stringify({
@@ -31,6 +34,8 @@ const LoginPage = () => {
             roles: response.roles,
           })
         );
+
+        // Dispatch thông tin vào Redux
         dispatch(
           loginSuccess({
             token: response.token,
@@ -38,14 +43,16 @@ const LoginPage = () => {
           })
         );
 
+        // Điều hướng theo vai trò
         if (response.roles.includes("Admin")) navigate("/");
-        else if (response.roles.includes("PayrollManagement"))
-          navigate("/payroll");
+        else if (response.roles.includes("PayrollManagement")) navigate("/payroll");
         else if (response.roles.includes("Hr")) navigate("/HRManagement");
         else navigate("/employee");
+      } else {
+        setError("Đăng nhập thất bại: Không nhận được token.");
       }
-    } catch (error) {
-      setError("Đăng nhập thất bại");
+    } catch (err) {
+      setError("Đăng nhập thất bại: Sai email hoặc mật khẩu.");
     } finally {
       setIsLoading(false);
     }
@@ -54,14 +61,15 @@ const LoginPage = () => {
   return (
     <div className="container-login">
       <LoadingSpinner isLoading={isLoading} />
+
       <div className="loginBox">
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
-            placeholder="email"
+            placeholder="Email"
             value={email}
-            onChange={(e) => setemail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
             disabled={isLoading}
           />

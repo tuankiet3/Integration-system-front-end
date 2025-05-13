@@ -1,79 +1,119 @@
 // import React from 'react'
 import { FaAngleRight } from 'react-icons/fa';
 import { IoIosSearch } from "react-icons/io";
-import { Table, Dropdown, Button, Modal, Form, Row, Col}  from "react-bootstrap";
+import { Table}  from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './SalaryHistory.scss';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Pagination from "../Pagination/Pagination";
+import { getSalaryHistoryByEmployeeID } from '../../../Services/ViewSalaryController';
 
 const SalaryHistory = () => {
-    const salaryData = [
-        { department: "IT", basicSalary: 10000, bonus: 500, deductions: 200, totalSalary: 10300, paymentDate: "11/12/025" },
-        { department: "IT", basicSalary: 10000, bonus: 500, deductions: 200, totalSalary: 10300, paymentDate: "11/12/025" },
-        { department: "Support", basicSalary: 10000, bonus: 500, deductions: 200, totalSalary: 10300, paymentDate: "11/12/025" },
-        { department: "People Ops", basicSalary: 10000, bonus: 500, deductions: 200, totalSalary: 10300, paymentDate: "11/12/025" },
-        { department: "IT", basicSalary: 10000, bonus: 500, deductions: 200, totalSalary: 10300, paymentDate: "11/12/025" },
-    ];
+  const [salaryData, setSalaryData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 5;
 
-    const itemsPerPage = 5;
-    const [currentPage, setCurrentPage] = useState(0);
+  useEffect(() => {
+    const fetchSalaryData = async () => {
+        const employeeID = localStorage.getItem("employeeID");
+        console.log("employeeID:", employeeID);
+        if (!employeeID) return;
+
+        console.log("Token đang dùng:", localStorage.getItem("token"));
+
+        try {
+        const data = await getSalaryHistoryByEmployeeID(employeeID);
+        console.log("Fetched salary data:", data);
+        setSalaryData(Array.isArray(data) ? data : [data]);
+        } catch (err) {
+        console.error("Error fetching salary:", err);
+        }
+    };
+
+    fetchSalaryData();
+    }, []);
+
+
+  // Lọc theo ngày tháng (chứa)
+  const filteredData = salaryData.filter((salary) =>
+    salary.salaryMonth?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const paginatedData = filteredData.slice(
+    currentPage * itemsPerPage,
+    (currentPage + 1) * itemsPerPage
+  );
 
   return (
     <div className="salary-history-container">
-        <div className="salary-history-header">
-            <div className="shh-title">
-                <div className="shh-user">Hue <FaAngleRight /> </div>
-                <div className="shh-fc">Salary History</div>
-            </div>
+      <div className="salary-history-header">
+        <div className="shh-title">
+          <div className="shh-user">Hue <FaAngleRight /></div>
+          <div className="shh-fc">Salary History</div>
         </div>
-        <div className="salary-history-content">
-            <div className="shc-detail">
-                <div className="shcd-search">
-                    <IoIosSearch className="shcd-search-icon" />
-                    <input type="text" placeholder='Search By Date, eg: 20/03/2024' className='shcd-search-input' />
-                </div>
-                <div className="shcd-title">Your Salary History</div>
-                <div className="shc-table">
-                    <div className="container mt-4">
-                        <Table bordered hover responsive>
-                            <thead style={{ backgroundColor: "#f5f5f5" }}>
-                                <tr>
-                                    <th style={{ width: "150px" }}>Department</th>
-                                    <th style={{ width: "150px" }}>Basic Salary</th>
-                                    <th style={{ width: "150px" }}>Bonus</th>
-                                    <th style={{ width: "140px" }}>Deductions</th>
-                                    <th style={{ width: "140px" }}>Total Salary</th>
-                                    <th style={{ width: "150px" }}>Payment Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {salaryData.map((salary, index) => (
-                                    <tr key={index}>
-                                        <td>{salary.department}</td>
-                                        <td>{salary.basicSalary}</td>
-                                        <td>{salary.bonus}</td>
-                                        <td>{salary.deductions}</td>
-                                        <td>{salary.totalSalary}</td>
-                                        <td>{salary.paymentDate}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
-                    </div>
-                </div>
-                <div className="shc-pagination">
-                    <Pagination
-                        currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
-                        employees={salaryData}
-                        itemsPerPage={itemsPerPage}
-                    />
-                </div>
-            </div>
-        </div>
-    </div>
-  )
-}
+      </div>
 
-export default SalaryHistory
+      <div className="salary-history-content">
+        <div className="shc-detail">
+          <div className="shcd-search">
+            <IoIosSearch className="shcd-search-icon" />
+            <input
+              type="text"
+              placeholder="Search by month, eg: 2025-04"
+              className="shcd-search-input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+
+          <div className="shcd-title">Your Salary History</div>
+
+          <div className="shc-table">
+            <div className="container mt-4">
+              <Table bordered hover responsive>
+                <thead style={{ backgroundColor: "#f5f5f5" }}>
+                  <tr>
+                    <th style={{ width: "200px" }}>Payment Date</th>
+                    <th style={{ width: "170px" }}>Basic Salary</th>
+                    <th style={{ width: "170px" }}>Bonus</th>
+                    <th style={{ width: "170px" }}>Deductions</th>
+                    <th style={{ width: "170px" }}>Total Salary</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {paginatedData.length > 0 ? (
+                    paginatedData.map((salary, index) => (
+                      <tr key={index}>
+                        <td>{salary.salaryMonth?.slice(0, 10)}</td>
+                        <td>{salary.baseSalary?.toLocaleString()}</td>
+                        <td>{salary.bonus?.toLocaleString()}</td>
+                        <td>{salary.deductions?.toLocaleString()}</td>
+                        <td>{salary.netSalary?.toLocaleString()}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5" className="text-center">No salary data available</td>
+                    </tr>
+                  )}
+                </tbody>
+              </Table>
+            </div>
+          </div>
+
+          <div className="shc-pagination">
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              employees={filteredData}
+              itemsPerPage={itemsPerPage}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SalaryHistory;

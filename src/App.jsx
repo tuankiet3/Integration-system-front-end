@@ -55,7 +55,7 @@ const App = () => {
         <Route index element={<HomePage />} />
         <Route
           path="/Employee/SalaryHistory"
-          element={<SalaryHistoryEmployee />}
+          element={<SalaryHistory />}
         />
       </Route>
     </Routes>
