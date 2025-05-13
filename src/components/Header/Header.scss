@@ -109,3 +109,20 @@
     transform: scale(1);
   }
 }
+
+.header-logout {
+  cursor: pointer;
+  font-size: 24px; /* điều chỉnh kích thước icon */
+  color: #333; /* màu mặc định */
+  transition: color 0.3s ease;
+  width: 30px;
+}
+
+.header-logout:hover {
+  color: #d9534f; /* màu đỏ khi hover (hoặc màu tùy ý) */
+}
+
+.header-logout svg {
+  transform: scale(1); /* phóng to nhẹ */
+  stroke-width: 1;        /* không phải icon nào cũng dùng được */
+}

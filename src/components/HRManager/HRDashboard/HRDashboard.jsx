@@ -1,12 +1,9 @@
-import React from "react";
+import React from 'react'
 
 const HRDashboard = () => {
   return (
-    <div>
-      HRDashboardksagnkfjdb,mnsbvjmnx zbjkanbsfdhvvvvmdsskjbgfdahjv nchj sacn a
-      najsncouuiiikkZnhzx CNMZkJHZFSGZBBBBBIYAUVFSHHBbiuyhbhiziufovbhcxxfuhyzbcx
-    </div>
-  );
-};
+    <div>ĐĂNG NHẬP VỚI TƯ CÁCH HR MANAGER</div>
+  )
+}
 
-export default HRDashboard;
+export default HRDashboard

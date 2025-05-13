@@ -75,7 +75,7 @@ const Header = ({ onIconClick }) => {
               <img src={user} alt="" />
             </div>
           </div>
-          <div className="header-notification" onClick={handleLogout}>
+          <div className="header-logout" onClick={handleLogout}>
             <CiLogout />
           </div>
         </div>
