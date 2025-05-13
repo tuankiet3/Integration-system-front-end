@@ -1,9 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getSalary, getSalaryNotification, postSalary } from "./salaryAPI";
-// import { getEmployee } from "../employee/employeeAPI";
+import {
+  getSalary,
+  getSalaryID,
+  getSalaryNotification,
+  postSalary,
+} from "./salaryAPI";
 import { getDepartmentID } from "../department/departmentAPI";
 import { getEmployee } from "../employee/employeeAPI";
-// import { getEmployee } from "../../../Services/EmployeeController";
 
 // Async thunks
 export const fetchSalaries = createAsyncThunk(
@@ -96,12 +99,22 @@ export const createSalary = createAsyncThunk(
   }
 );
 
+export const fetchUserSalary = createAsyncThunk(
+  "salary/fetchUserSalary",
+  async (userId) => {
+    const response = await getSalaryID(userId);
+    console.log("IDDDDDD", userId);
+    return response;
+  }
+);
+
 const salarySlice = createSlice({
   name: "salary",
   initialState: {
     salaries: [],
     listEmp: [],
     notificationSalary: [],
+    userSalary: null,
     loading: false,
     error: null,
     currentPage: 0,
@@ -179,6 +192,19 @@ const salarySlice = createSlice({
       .addCase(fetchNotificationSalary.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+      // Thêm cases cho fetchUserSalary
+      .addCase(fetchUserSalary.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchUserSalary.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userSalary = action.payload;
+      })
+      .addCase(fetchUserSalary.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       });
   },
 });
@@ -219,5 +245,7 @@ export const selectCurrentPageSalariesEmp = (state) => {
   const endIndex = startIndex + itemsPerPage;
   return listEmp.slice(startIndex, endIndex);
 };
+
+export const selectUserSalary = (state) => state.salary.userSalary;
 
 export default salarySlice.reducer;

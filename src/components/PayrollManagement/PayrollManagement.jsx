@@ -30,7 +30,7 @@ const PayrollManagement = () => {
     }
   }, [error, navigate]);
   const userData = localStorage.getItem("user");
-  console.log(userData);
+  // console.log(userData);
   useEffect(() => {
     if (!userData || !userData.includes("PayrollManagement")) {
       navigate("/error", { state: { error: "401" } });
@@ -86,6 +86,13 @@ const PayrollManagement = () => {
           >
             <img src={flag} alt="" />
             Salary reports
+          </div>
+          <div
+            className="payroll-tool-box"
+            onClick={() => navigate("/payroll/my-salary")}
+          >
+            <img src={flag} alt="" />
+            My Salary
           </div>
         </div>
         <div className="payroll-detail">

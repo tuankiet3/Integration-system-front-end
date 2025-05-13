@@ -48,10 +48,21 @@ const getAvgSalaryByDept = async (type, month) => {
   }
 };
 
+const getSalaryID = async (salaryID) => {
+  try {
+    const response = await instance.get(`salaries/employee/${salaryID}`);
+    return response.data; // Trả về dữ liệu từ API
+  } catch (error) {
+    console.error("Error fetching salary by ID:", error);
+    return null; // Trả về null nếu có lỗi
+  }
+};
+
 export {
   getSalary,
   postSalary,
   getSalaryNotification,
   getTotalBudget,
   getAvgSalaryByDept,
+  getSalaryID,
 };

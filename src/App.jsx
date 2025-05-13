@@ -19,6 +19,7 @@ import SalaryHistory from "./components/HRManager/SalaryHistory/SalaryHistory";
 import Employee from "./components/Employee/Employee";
 import HomePage from "./components/Employee/HomePage/HomePage";
 import SalaryHistoryEmployee from "./components/Employee/Salaryhistory/Salaryhistory";
+import SalaryOfPayroll from "./components/PayrollManagement/SalaryOfPayroll/SalaryOfPayroll";
 
 const App = () => {
   return (
@@ -44,6 +45,7 @@ const App = () => {
         <Route path="/payroll/salary-history" element={<HistoryPayroll />} />
         <Route path="/payroll/pr-new-employee" element={<NewEmpPayroll />} />
         <Route path="/payroll/pr-report" element={<ReportPayroll />} />
+        <Route path="/payroll/my-salary" element={<SalaryOfPayroll />} />
       </Route>
       <Route path="/HRManagement" element={<HRManagement />}>
         <Route index element={<HRDashboard />} />
@@ -53,10 +55,7 @@ const App = () => {
       </Route>
       <Route path="/Employee" element={<Employee />}>
         <Route index element={<HomePage />} />
-        <Route
-          path="/Employee/SalaryHistory"
-          element={<SalaryHistory />}
-        />
+        <Route path="/Employee/SalaryHistory" element={<SalaryHistory />} />
       </Route>
     </Routes>
   );
