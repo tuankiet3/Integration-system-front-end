@@ -5,8 +5,6 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import { FaUserTie, FaFileAlt, FaHistory } from "react-icons/fa";
 import ModalNotificationsPayroll from "../PayrollManagement/ModalNotifications/ModalNotificationsPayroll";
-
-import ModalNotificationsPayroll from "../PayrollManagement/ModalNotifications/ModalNotificationsPayroll";
 const HRManagement = () => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = React.useState(false);
