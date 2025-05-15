@@ -5,23 +5,14 @@
 
     .noti-item {
       border-bottom: 2px solid #f0f0f0;
-
-      &:hover {
-        background-color: red;
-        .noti-employee {
-          color: black;
-        }
-        .noti-message {
-          color: white;
-        }
+      .noti-date {
+        text-align: right;
+        font-size: 12px;
       }
-
-      .noti-employee {
-        text-align: left;
-        // background-color: black;
-        color: rgb(255, 0, 0);
-        max-width: fit-content;
-        padding: 0 5px;
+      &:hover {
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        background-color: #f0f0f0;
+        cursor: pointer;
       }
     }
   }

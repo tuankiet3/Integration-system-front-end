@@ -1,80 +1,86 @@
 import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchNotificationSalary,
-  fetchAnniversaryNotification,
-  fetchAbsentNotification,
-} from "../../../../src/features/salary/salarySlice";
+import { fetchNotificationSalary } from "../../../../src/features/salary/salarySlice";
 import "./ModalNotificationsPayroll.scss";
+import {
+  postAbsentNotification,
+  postAnniversaryNotification,
+} from "../../../features/salary/salaryAPI";
+import { getEmployee } from "../../../features/employee/employeeAPI";
+import { format } from "date-fns";
 
 const ModalNotificationsPayroll = () => {
   const dispatch = useDispatch();
   const notifications = useSelector((state) => state.salary.notificationSalary);
-  const listEmp = useSelector((state) => state.salary.listEmp); // Lấy danh sách nhân viên
   const { loading, error } = useSelector((state) => state.salary.loading);
 
-  // Lấy thông tin từ localStorage với key "user"
-  const userData = JSON.parse(localStorage.getItem("user") || "{}");
-  const userRole = userData.roles ? userData.roles[0] : null; // Lấy role đầu tiên từ mảng roles
-  const userEmployeeId = userData.id || null; // Lấy id từ user
-
-  // Gọi API GET khi component mount lần đầu và định kỳ
   useEffect(() => {
-    const interval = setInterval(() => {
-      dispatch(fetchNotificationSalary()); // Gọi lại GET /api/Notifications/list để cập nhật danh sách
-    }, 30000); // Gọi mỗi 30 giây
+    const interval = setInterval(async () => {
+      const res = await postAnniversaryNotification();
+      console.log("Anniversary notification sent", res);
+    }, 3000);
 
-    // Gọi lần đầu khi mount
+    return () => clearInterval(interval);
+  }, []);
+
+  const userData = localStorage.getItem("user");
+  const user = userData ? JSON.parse(userData) : null;
+  const userId = user ? Number(user.id) : null; // Ép kiểu number cho userId
+  const userRole = user ? user.roles : []; // Mặc định mảng rỗng tránh lỗi
+
+  useEffect(() => {
+    let interval;
+
+    const fetchAbsent = async () => {
+      if (
+        !userRole.includes("Admin") &&
+        !userRole.includes("Hr") &&
+        !userRole.includes("PayrollManagement")
+      ) {
+        interval = setInterval(async () => {
+          try {
+            const res = await postAbsentNotification({
+              employeeId: userId,
+              month: new Date().getMonth() + 1,
+            });
+            console.log("Absent notification sent for current user", res);
+          } catch (err) {
+            console.error("Error sending absent notification", err);
+          }
+        }, 3000);
+      } else {
+        try {
+          const list = await getEmployee();
+
+          for (const emp of list) {
+            const res = await postAbsentNotification({
+              employeeId: emp.employeeId,
+              month: new Date().getMonth() + 1,
+            });
+            console.log(`Absent notification sent for ${emp.employeeId}`, res);
+          }
+        } catch (err) {
+          console.error(
+            "Error fetching employees or sending notifications",
+            err
+          );
+        }
+      }
+    };
+
+    fetchAbsent();
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [userRole, userId]);
+
+  useEffect(() => {
     if (!notifications.length) {
       dispatch(fetchNotificationSalary());
     }
-
-    // Clear interval khi component unmount
-    return () => clearInterval(interval);
   }, [dispatch, notifications.length]);
 
-  // Gọi API POST định kỳ để tạo thông báo mới
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // Gọi API POST anniversary để tạo thông báo mới
-      dispatch(fetchAnniversaryNotification());
-
-      console.log("Role: ", userRole);
-      console.log("Employee ID: ", userEmployeeId);
-      // Gọi API POST absent chỉ nếu không phải Admin hoặc PayrollManagement
-      if (userRole !== "Admin" || userRole !== "PayrollManagement") {
-        // Lọc danh sách nhân viên dựa trên employeeId của người dùng hiện tại
-        const currentEmployee = listEmp.find(
-          (emp) => emp.employeeId === userEmployeeId
-        );
-        if (currentEmployee) {
-          const currentMonth = new Date().getMonth() + 1; // Tháng hiện tại (1-12)
-          dispatch(
-            fetchAbsentNotification({
-              employeeId: currentEmployee.employeeId,
-              month: currentMonth,
-            })
-          );
-        }
-      } else {
-        // Nếu là Admin hoặc PayrollManagement, gọi cho tất cả nhân viên
-        const currentMonth = new Date().getMonth() + 1;
-        listEmp.forEach((employee) => {
-          dispatch(
-            fetchAbsentNotification({
-              employeeId: employee.employeeId,
-              month: currentMonth,
-            })
-          );
-        });
-      }
-    }, 30000); // Gọi mỗi 30 giây
-
-    // Clear interval khi component unmount
-    return () => clearInterval(interval);
-  }, [dispatch, listEmp, userRole, userEmployeeId]);
-
-  // Sử dụng useMemo để đảo ngược danh sách thông báo
   const reversedNotifications = useMemo(() => {
     return [...notifications].reverse();
   }, [notifications]);
@@ -88,11 +94,32 @@ const ModalNotificationsPayroll = () => {
         {notifications.length === 0 ? (
           <div>No notifications available</div>
         ) : (
-          reversedNotifications.map((noti) => (
-            <div key={noti.employeeId} className="noti-item">
-              <div className="noti-message">{noti.message}</div>
-            </div>
-          ))
+          reversedNotifications
+            .filter((noti) => {
+              if (
+                userRole.includes("Admin") ||
+                userRole.includes("Hr") ||
+                userRole.includes("PayrollManagement")
+              ) {
+                return true;
+              }
+              return noti.employeeId === userId; // So sánh đúng kiểu number
+            })
+            .map((noti) => {
+              const formattedDate = format(
+                new Date(noti.createdAt),
+                "dd/MM/yyyy HH:mm"
+              );
+              return (
+                <div
+                  className="noti-item"
+                  key={`${noti.employeeId}-${noti.createdAt}`}
+                >
+                  <div className="noti-message">{noti.message}</div>
+                  <div className="noti-date">{formattedDate}</div>
+                </div>
+              );
+            })
         )}
       </div>
     </div>
