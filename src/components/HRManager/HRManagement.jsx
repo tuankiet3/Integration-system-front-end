@@ -6,19 +6,19 @@ import { MdDashboard } from "react-icons/md";
 import { FaUserTie, FaFileAlt, FaHistory } from "react-icons/fa";
 import ModalNotificationsPayroll from "../PayrollManagement/ModalNotifications/ModalNotificationsPayroll";
 
+import ModalNotificationsPayroll from "../PayrollManagement/ModalNotifications/ModalNotificationsPayroll";
 const HRManagement = () => {
   const navigate = useNavigate();
-  const [showDropdown, setShowDropdown] = useState(false);
-  const dropdownRef = useRef();
+  const [showDropdown, setShowDropdown] = React.useState(false);
+  const dropdownRef = React.useRef();
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setShowDropdown(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside); // Lấy và hiển thị role từ localStorage
-
+    document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
