@@ -16,7 +16,7 @@ const SalaryHistory = () => {
 
   useEffect(() => {
     const fetchSalaryData = async () => {
-        const employeeID = localStorage.getItem("employeeID");
+        const employeeID = localStorage.getItem("Id");
         console.log("employeeID:", employeeID);
         if (!employeeID) return;
 
@@ -74,22 +74,33 @@ const SalaryHistory = () => {
               <Table bordered hover responsive>
                 <thead style={{ backgroundColor: "#f5f5f5" }}>
                   <tr>
-                    <th style={{ width: "200px" }}>Payment Date</th>
                     <th style={{ width: "170px" }}>Basic Salary</th>
                     <th style={{ width: "170px" }}>Bonus</th>
                     <th style={{ width: "170px" }}>Deductions</th>
                     <th style={{ width: "170px" }}>Total Salary</th>
+                    <th style={{ width: "200px" }}>Payment Date</th>
                   </tr>
                 </thead>
                 <tbody>
                   {paginatedData.length > 0 ? (
                     paginatedData.map((salary, index) => (
                       <tr key={index}>
-                        <td>{salary.salaryMonth?.slice(0, 10)}</td>
                         <td>{salary.baseSalary?.toLocaleString()}</td>
                         <td>{salary.bonus?.toLocaleString()}</td>
                         <td>{salary.deductions?.toLocaleString()}</td>
                         <td>{salary.netSalary?.toLocaleString()}</td>
+                        <td>
+                          {salary.salaryMonth
+                            ? new Date(salary.salaryMonth).toLocaleDateString(
+                                "vi-VN",
+                                {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                  year: "numeric",
+                                }
+                              )
+                            : ""}
+                        </td>
                       </tr>
                     ))
                   ) : (

@@ -8,10 +8,17 @@ import Header from "../Header/Header";
 import ModalNotificationsPayroll from "../PayrollManagement/ModalNotifications/ModalNotificationsPayroll";
 import useAuthCheck from "../../features/Login/useAuthCheck";
 import manage from "../../assets/icon_manage.jpg";
+import "./Admin.scss";
+
 const Admin = () => {
   const navigate = useNavigate();
   useAuthCheck();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [openSections, setOpenSections] = useState({
+    dashboard: true,
+    hrManagement: false,
+    payrollManagement: false
+  });
   const dropdownRef = useRef();
 
   useEffect(() => {
@@ -20,7 +27,7 @@ const Admin = () => {
         setShowDropdown(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside); // Lấy và hiển thị role từ localStorage
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -34,71 +41,85 @@ const Admin = () => {
     }
   }, [navigate]);
 
+  const toggleSection = (section) => {
+    setOpenSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
   return (
-    <div className="payroll-container">
-      <div className="payroll-header">
-        <Header onIconClick={() => setShowDropdown(!showDropdown)} />
+    <div className="admin-container">
+      <div className="admin-header">
+        <Header />
       </div>
-      {showDropdown && (
-        <div className="container-dropdown">
-          <div className="dropdown-modal" ref={dropdownRef}>
-            <div className="dropdown-content">
-              <ModalNotificationsPayroll />
+      <div className="admin-content">
+        <div className="admin-tool">
+          {/* Dashboard Section */}
+          <div className="tool-section">
+            <div className="tool-section-content">
+              <div className="tool-section-item" onClick={() => navigate("/")}>
+                <img src={home} alt="" />
+                Dashboard
+              </div>
             </div>
           </div>
-        </div>
-      )}
-      <div className="payroll-content">
-        <div className="payroll-tool">
-          <div className="payroll-tool-box" onClick={() => navigate("/")}>
-            <img src={home} alt="" />
-            DashBoard
-          </div>
-          <div
-            className="payroll-tool-box"
-            onClick={() => navigate("/salary-management")}
-          >
-            <img src={manage} alt="" />
-            Salary Management
-          </div>
-          <div
-            className="payroll-tool-box"
-            onClick={() => navigate("/EmployeeManagement")}
-          >
-            <img src={manage} alt="" />
-            Employee Management
-          </div>
-          <div
-            className="payroll-tool-box"
-            onClick={() => navigate("/pr-new-employee")}
-          >
-            <img src={user} alt="" />
-            New Employee
-          </div>
-          <div
-            className="payroll-tool-box"
-            onClick={() => navigate("/salary-history")}
-          >
-            <img src={icon_hrreport} alt="" />
-            Salary History
+
+          {/* HR Management Section */}
+          <div className="tool-section">
+            <div className="tool-section-header" onClick={() => toggleSection('hrManagement')}>
+              <h3 className="tool-section-title">HR Management</h3>
+              <span className={`arrow ${openSections.hrManagement ? 'open' : ''}`}>▼</span>
+            </div>
+            {openSections.hrManagement && (
+              <div className="tool-section-content">
+                <div className="tool-section-item" onClick={() => navigate("/EmployeeManagement")}>
+                  <img src={user} alt="" />
+                  Employee Management
+                </div>
+                <div className="tool-section-item" onClick={() => navigate("/HRReport")}>
+                  <img src={flag} alt="" />
+                  HR Reports
+                </div>
+              </div>
+            )}
           </div>
 
-          <div
-            className="payroll-tool-box"
-            onClick={() => navigate("/HRReport")}
-          >
-            <img src={flag} alt="" />
-            HR reports
+          {/* Payroll Management Section */}
+          <div className="tool-section">
+            <div className="tool-section-header" onClick={() => toggleSection('payrollManagement')}>
+              <h3 className="tool-section-title">Payroll Management</h3>
+              <span className={`arrow ${openSections.payrollManagement ? 'open' : ''}`}>▼</span>
+            </div>
+            {openSections.payrollManagement && (
+              <div className="tool-section-content">
+                <div className="tool-section-item" onClick={() => navigate("/salary-management")}>
+                  <img src={manage} alt="" />
+                  Salary Management
+                </div>
+                <div className="tool-section-item" onClick={() => navigate("/pr-new-employee")}>
+                  <img src={user} alt="" />
+                  New Employee
+                </div>
+                <div className="tool-section-item" onClick={() => navigate("/pr-report")}>
+                  <img src={flag} alt="" />
+                  Salary Reports
+                </div>
+              </div>
+            )}
           </div>
-          <div
-            className="payroll-tool-box"
-            onClick={() => navigate("/pr-report")}
-          >
-            <img src={flag} alt="" />
-            Salary reports
+
+          <div className="tool-section">
+            <div className="tool-section-content">
+              <div className="tool-section-item" onClick={() => navigate("/salary-history")}>
+                  <img src={icon_hrreport} alt="" />
+                  Salary History
+                </div>
+            </div>
           </div>
+
         </div>
-        <div className="payroll-detail">
+        <div className="admin-main">
           <Outlet />
         </div>
       </div>
