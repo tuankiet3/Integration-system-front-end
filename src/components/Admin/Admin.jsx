@@ -5,6 +5,7 @@ import ModalNotificationsPayroll from "../PayrollManagement/ModalNotifications/M
 import useAuthCheck from "../../features/Login/useAuthCheck";
 import { MdDashboard } from "react-icons/md";
 import { FaUserTie, FaUserPlus, FaFileAlt } from "react-icons/fa";
+import "./Admin.scss";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -33,10 +34,11 @@ const Admin = () => {
   }, [navigate]);
 
   return (
-    <div className="payroll-container">
+    <div className="admin-container">
       <div className="payroll-header">
         <Header onIconClick={() => setShowDropdown(!showDropdown)} />
       </div>
+
       {showDropdown && (
         <div className="container-dropdown">
           <div className="dropdown-modal" ref={dropdownRef}>
@@ -46,53 +48,40 @@ const Admin = () => {
           </div>
         </div>
       )}
-      <div className="payroll-content">
-        <div className="payroll-tool">
-          <div className="payroll-tool-box" onClick={() => navigate("/")}>
-            <MdDashboard size={24} style={{ marginRight: 8 }} />
+
+      <div className="admin-content">
+        <div className="admin-tool">
+          <div className="admin-tool-box" onClick={() => navigate("/")}>
+            <MdDashboard size={24} />
             DashBoard
           </div>
-          <div
-            className="payroll-tool-box"
-            onClick={() => navigate("/salary-management")}
-          >
-            <FaUserTie size={24} style={{ marginRight: 8 }} />
+          <div className="admin-tool-box" onClick={() => navigate("/salary-management")}>
+            <FaUserTie size={24} />
             Salary Management
           </div>
-          <div
-            className="payroll-tool-box"
-            onClick={() => navigate("/EmployeeManagement")}
-          >
-            <FaUserTie size={24} style={{ marginRight: 8 }} />
+          <div className="admin-tool-box" onClick={() => navigate("/EmployeeManagement")}>
+            <FaUserTie size={24} />
             Employee Management
           </div>
-          <div
-            className="payroll-tool-box"
-            onClick={() => navigate("/pr-new-employee")}
-          >
-            <FaUserPlus size={24} style={{ marginRight: 8 }} />
+          <div className="admin-tool-box" onClick={() => navigate("/pr-new-employee")}>
+            <FaUserPlus size={24} />
             New Employee
           </div>
-          <div
-            className="payroll-tool-box"
-            onClick={() => navigate("/HRReport")}
-          >
-            <FaFileAlt size={24} style={{ marginRight: 8 }} />
-            HR reports
+          <div className="admin-tool-box" onClick={() => navigate("/HRReport")}>
+            <FaFileAlt size={24} />
+            HR Reports
           </div>
-          <div
-            className="payroll-tool-box"
-            onClick={() => navigate("/pr-report")}
-          >
-            <FaFileAlt size={24} style={{ marginRight: 8 }} />
-            Salary reports
+          <div className="admin-tool-box" onClick={() => navigate("/pr-report")}>
+            <FaFileAlt size={24} />
+            Salary Reports
           </div>
         </div>
-        <div className="payroll-detail">
+        <div className="admin-detail">
           <Outlet />
         </div>
       </div>
     </div>
+
   );
 };
 
