@@ -568,7 +568,7 @@ const EmployeeManagement = () => {
                 </Col>
 
                 <Col md={6}>
-                  <Form.Group className="gap-3 mb-3">
+                  <Form.Group className="mb-3">
                     <Form.Label>Gender</Form.Label>
                     <Form.Select name="gender" required>
                       <option value="">Select gender</option>

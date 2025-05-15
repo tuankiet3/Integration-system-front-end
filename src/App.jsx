@@ -32,7 +32,7 @@ const App = () => {
         <Route path="/pr-report" element={<ReportPayroll />} />
         <Route path="/EmployeeManagement" element={<EmployeeManagement />} />
         <Route path="/HRReport" element={<HRReport />} />
-        <Route path="/SalaryHistory" element={<SalaryHistory />} />
+        <Route path="/SalaryHistory" element={<SalaryOfPayroll />} />
       </Route>
       <Route path="/payroll" element={<PayrollManagement />}>
         <Route index element={<DashBoardPayroll />} />
