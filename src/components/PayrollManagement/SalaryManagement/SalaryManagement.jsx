@@ -31,7 +31,6 @@ const SalaryManagement = () => {
     salaryMonth: "",
     baseSalary: "",
     bonus: "",
-    deductions: "",
   });
 
   useEffect(() => {
@@ -47,7 +46,6 @@ const SalaryManagement = () => {
       salaryMonth: formattedDate,
       baseSalary: "",
       bonus: "",
-      deductions: "",
     });
     setShowNewMonth(true);
   };
@@ -61,9 +59,8 @@ const SalaryManagement = () => {
   };
 
   const handleSaveNewSalary = async () => {
-    const { employeeId, salaryMonth, baseSalary, bonus, deductions } =
-      newSalaryData;
-    if (!employeeId || !salaryMonth || !baseSalary || !bonus || !deductions) {
+    const { employeeId, salaryMonth, baseSalary, bonus } = newSalaryData;
+    if (!employeeId || !salaryMonth || !baseSalary || !bonus) {
       toast.error("Vui lòng điền đầy đủ thông tin!");
       return;
     }
@@ -127,7 +124,6 @@ const SalaryManagement = () => {
         salaryMonth: newSalaryData.salaryMonth,
         baseSalary: parseFloat(newSalaryData.baseSalary),
         bonus: parseFloat(newSalaryData.bonus),
-        deductions: parseFloat(newSalaryData.deductions),
       };
 
       const response = await dispatch(createSalary(newData));
@@ -150,7 +146,6 @@ const SalaryManagement = () => {
         salaryMonth: "",
         baseSalary: "",
         bonus: "",
-        deductions: "",
       });
 
       toast.success("Lưu thông tin lương thành công!");
@@ -313,15 +308,6 @@ const SalaryManagement = () => {
               type="number"
               name="bonus"
               value={newSalaryData.bonus}
-              onChange={handleNewSalaryInputChange}
-            />
-          </div>
-          <div className="update-pr-box">
-            <div className="up-box-title">Deductions</div>
-            <input
-              type="number"
-              name="deductions"
-              value={newSalaryData.deductions}
               onChange={handleNewSalaryInputChange}
             />
           </div>

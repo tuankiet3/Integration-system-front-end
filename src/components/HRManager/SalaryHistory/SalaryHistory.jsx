@@ -16,15 +16,9 @@ const SalaryHistory = () => {
 
   useEffect(() => {
     const fetchSalaryData = async () => {
-<<<<<<< HEAD
       const employeeID = localStorage.getItem("Id");
       console.log("employeeID:", employeeID);
       if (!employeeID) return;
-=======
-        const employeeID = localStorage.getItem("Id");
-        console.log("employeeID:", employeeID);
-        if (!employeeID) return;
->>>>>>> 71b46df07f67c490f5b5aa06ba446a31155260b3
 
       console.log("Token đang dùng:", localStorage.getItem("token"));
 

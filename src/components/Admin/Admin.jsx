@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import home from "../../assets/home.png";
-import user from "../../assets/user.png";
-import flag from "../../assets/flag.png";
-import icon_hrreport from "../../assets/icon_hrreport.png";
 import Header from "../Header/Header";
 import ModalNotificationsPayroll from "../PayrollManagement/ModalNotifications/ModalNotificationsPayroll";
 import useAuthCheck from "../../features/Login/useAuthCheck";
-import manage from "../../assets/icon_manage.jpg";
+import { MdDashboard } from "react-icons/md";
+import { FaUserTie, FaUserPlus, FaFileAlt } from "react-icons/fa";
+
 const Admin = () => {
   const navigate = useNavigate();
   useAuthCheck();
@@ -51,50 +49,42 @@ const Admin = () => {
       <div className="payroll-content">
         <div className="payroll-tool">
           <div className="payroll-tool-box" onClick={() => navigate("/")}>
-            <img src={home} alt="" />
+            <MdDashboard size={24} style={{ marginRight: 8 }} />
             DashBoard
           </div>
           <div
             className="payroll-tool-box"
             onClick={() => navigate("/salary-management")}
           >
-            <img src={manage} alt="" />
+            <FaUserTie size={24} style={{ marginRight: 8 }} />
             Salary Management
           </div>
           <div
             className="payroll-tool-box"
             onClick={() => navigate("/EmployeeManagement")}
           >
-            <img src={manage} alt="" />
+            <FaUserTie size={24} style={{ marginRight: 8 }} />
             Employee Management
           </div>
           <div
             className="payroll-tool-box"
             onClick={() => navigate("/pr-new-employee")}
           >
-            <img src={user} alt="" />
+            <FaUserPlus size={24} style={{ marginRight: 8 }} />
             New Employee
           </div>
           <div
             className="payroll-tool-box"
-            onClick={() => navigate("/salary-history")}
-          >
-            <img src={icon_hrreport} alt="" />
-            Salary History
-          </div>
-
-          <div
-            className="payroll-tool-box"
             onClick={() => navigate("/HRReport")}
           >
-            <img src={flag} alt="" />
+            <FaFileAlt size={24} style={{ marginRight: 8 }} />
             HR reports
           </div>
           <div
             className="payroll-tool-box"
             onClick={() => navigate("/pr-report")}
           >
-            <img src={flag} alt="" />
+            <FaFileAlt size={24} style={{ marginRight: 8 }} />
             Salary reports
           </div>
         </div>
