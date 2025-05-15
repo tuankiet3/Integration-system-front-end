@@ -131,7 +131,6 @@ const salarySlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    //Mỗi thunk sẽ có 3 state: pending, fulfilled, rejected
     builder
       // Fetch salaries
       .addCase(fetchSalaries.pending, (state) => {
@@ -140,7 +139,7 @@ const salarySlice = createSlice({
       })
       .addCase(fetchSalaries.fulfilled, (state, action) => {
         state.loading = false;
-        state.salaries = action.payload; // salary
+        state.salaries = action.payload;
       })
       .addCase(fetchSalaries.rejected, (state, action) => {
         state.loading = false;
@@ -165,7 +164,7 @@ const salarySlice = createSlice({
       })
       .addCase(fetchEmployeeSalary.fulfilled, (state, action) => {
         state.loading = false;
-        state.listEmp = action.payload; // list new employee
+        state.listEmp = action.payload;
       })
       .addCase(fetchEmployeeSalary.rejected, (state, action) => {
         state.loading = false;
@@ -182,20 +181,20 @@ const salarySlice = createSlice({
       })
       // fetch notification salary
       .addCase(fetchNotificationSalary.pending, (state) => {
-        state.loading = true;
+        state.loading = false;
         state.error = null;
       })
       .addCase(fetchNotificationSalary.fulfilled, (state, action) => {
         state.loading = false;
-        state.notificationSalary = action.payload; // notification salary
+        state.notificationSalary = action.payload;
       })
       .addCase(fetchNotificationSalary.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
-      // Thêm cases cho fetchUserSalary
+      // fetch user salary
       .addCase(fetchUserSalary.pending, (state) => {
-        state.loading = true;
+        state.loading = false;
         state.error = null;
       })
       .addCase(fetchUserSalary.fulfilled, (state, action) => {

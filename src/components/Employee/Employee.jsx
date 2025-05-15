@@ -1,29 +1,55 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Header from "../Header/Header";
 import { Outlet, useNavigate } from "react-router-dom";
-import home from "../../assets/home.png";
-import user from "../../assets/user.png";
-// import flag from "../../assets/flag.png";
-// import icon_hrreport from "../../assets/icon_hrreport.png";
+import ModalNotificationsPayroll from "../PayrollManagement/ModalNotifications/ModalNotificationsPayroll";
+import { MdDashboard } from "react-icons/md";
+import { FaHistory } from "react-icons/fa";
 
 const Employee = () => {
   const navigate = useNavigate();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef();
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const userData = localStorage.getItem("user");
+  useEffect(() => {
+    if (!userData) {
+      navigate("/error", { state: { error: "401" } });
+    }
+  }, [userData, navigate]);
   return (
     <div className="hr-container">
       <div className="hr-header">
-        <Header />
+        <Header onIconClick={() => setShowDropdown(!showDropdown)} />
       </div>
+      {showDropdown && (
+        <div className="container-dropdown">
+          <div className="dropdown-modal" ref={dropdownRef}>
+            <div className="dropdown-content">
+              <ModalNotificationsPayroll />
+            </div>
+          </div>
+        </div>
+      )}
       <div className="hr-content">
         <div className="hr-tool">
           <div className="hr-tool-box" onClick={() => navigate("/Employee")}>
-            <img src={home} alt="" />
+            <MdDashboard size={24} style={{ marginRight: 8 }} />
             DashBoard
           </div>
           <div
             className="hr-tool-box"
             onClick={() => navigate("/Employee/Salaryhistory")}
           >
-            <img src={user} alt="" />
+            <FaHistory size={24} style={{ marginRight: 8 }} />
             Salary history
           </div>
         </div>

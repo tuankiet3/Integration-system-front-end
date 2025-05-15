@@ -2,12 +2,17 @@ import React, { useEffect, useRef, useState } from "react";
 import Header from "../Header/Header";
 import "./PayrollManagement.scss";
 import { Outlet, useNavigate } from "react-router-dom";
-import home from "../../assets/home.png";
-import user from "../../assets/user.png";
-import flag from "../../assets/flag.png";
-import icon_hrreport from "../../assets/icon_hrreport.png";
 import ModalNotificationsPayroll from "./ModalNotifications/ModalNotificationsPayroll";
 import { useSelector } from "react-redux";
+import { MdDashboard } from "react-icons/md";
+import {
+  FaUserTie,
+  FaUserPlus,
+  FaHistory,
+  FaFileAlt,
+  FaMoneyCheckAlt,
+} from "react-icons/fa";
+
 const PayrollManagement = () => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -56,43 +61,36 @@ const PayrollManagement = () => {
             className="payroll-tool-box"
             onClick={() => navigate("/payroll")}
           >
-            <img src={home} alt="" />
+            <MdDashboard size={24} style={{ marginRight: 8 }} />
             DashBoard
           </div>
           <div
             className="payroll-tool-box"
             onClick={() => navigate("/payroll/salary-management")}
           >
-            <img src={user} alt="" />
+            <FaUserTie size={24} style={{ marginRight: 8 }} />
             Salary Management
           </div>
           <div
             className="payroll-tool-box"
             onClick={() => navigate("/payroll/pr-new-employee")}
           >
-            <img src={icon_hrreport} alt="" />
+            <FaUserPlus size={24} style={{ marginRight: 8 }} />
             New Employee
-          </div>
-          <div
-            className="payroll-tool-box"
-            onClick={() => navigate("/payroll/salary-history")}
-          >
-            <img src={icon_hrreport} alt="" />
-            Salary History
           </div>
           <div
             className="payroll-tool-box"
             onClick={() => navigate("/payroll/pr-report")}
           >
-            <img src={flag} alt="" />
+            <FaFileAlt size={24} style={{ marginRight: 8 }} />
             Salary reports
           </div>
           <div
             className="payroll-tool-box"
             onClick={() => navigate("/payroll/my-salary")}
           >
-            <img src={flag} alt="" />
-            My Salary
+            <FaMoneyCheckAlt size={24} style={{ marginRight: 8 }} />
+            Salary History
           </div>
         </div>
         <div className="payroll-detail">

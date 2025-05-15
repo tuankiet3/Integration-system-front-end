@@ -5,7 +5,6 @@ import PayrollManagement from "./components/PayrollManagement/PayrollManagement"
 import SalaryManagement from "./components/PayrollManagement/SalaryManagement/SalaryManagement";
 import HRManagement from "./components/HRManager/HRManagement";
 import DashBoardPayroll from "./components/PayrollManagement/DashBoardPayroll/DashBoardPayroll";
-import HistoryPayroll from "./components/PayrollManagement/HistoryPayroll/HistoryPayroll";
 import NewEmpPayroll from "./components/PayrollManagement/NewEmp/NewEmpPayroll";
 import Admin from "./components/Admin/Admin";
 import ReportPayroll from "./components/PayrollManagement/ReportPayroll/ReportPayroll";
@@ -18,8 +17,8 @@ import HRReport from "./components/HRManager/HRReport/HRReport";
 import SalaryHistory from "./components/HRManager/SalaryHistory/SalaryHistory";
 import Employee from "./components/Employee/Employee";
 import HomePage from "./components/Employee/HomePage/HomePage";
-import SalaryHistoryEmployee from "./components/Employee/Salaryhistory/Salaryhistory";
 import SalaryOfPayroll from "./components/PayrollManagement/SalaryOfPayroll/SalaryOfPayroll";
+import SalaryHistoryEmplyee from "./components/Employee/Salaryhistory/Salaryhistory";
 
 const App = () => {
   return (
@@ -29,7 +28,6 @@ const App = () => {
       <Route path="/" element={<Admin />}>
         <Route index element={<DashBoard />} />
         <Route path="/salary-management" element={<SalaryManagement />} />
-        <Route path="/salary-history" element={<HistoryPayroll />} />
         <Route path="/pr-new-employee" element={<NewEmpPayroll />} />
         <Route path="/pr-report" element={<ReportPayroll />} />
         <Route path="/EmployeeManagement" element={<EmployeeManagement />} />
@@ -42,7 +40,6 @@ const App = () => {
           path="/payroll/salary-management"
           element={<SalaryManagement />}
         />
-        <Route path="/payroll/salary-history" element={<HistoryPayroll />} />
         <Route path="/payroll/pr-new-employee" element={<NewEmpPayroll />} />
         <Route path="/payroll/pr-report" element={<ReportPayroll />} />
         <Route path="/payroll/my-salary" element={<SalaryOfPayroll />} />
@@ -55,7 +52,10 @@ const App = () => {
       </Route>
       <Route path="/Employee" element={<Employee />}>
         <Route index element={<HomePage />} />
-        <Route path="/Employee/SalaryHistory" element={<SalaryHistory />} />
+        <Route
+          path="/Employee/SalaryHistory"
+          element={<SalaryHistoryEmplyee />}
+        />
       </Route>
     </Routes>
   );

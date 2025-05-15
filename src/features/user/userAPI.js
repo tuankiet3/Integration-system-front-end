@@ -1,11 +1,7 @@
-// import axios from "axios";
+import instance from "../../app/instance";
 
-// const instance = axios.create({
-//   baseURL: "https://localhost:7280/api/",
-// });
+const getNoti = async () => {
+  return instance.get("/Notifications/list");
+};
 
-// const getEmployee = async () => {
-//   return instance.get("employees");
-// };
-
-// export { getEmployee };
+export { getNoti };

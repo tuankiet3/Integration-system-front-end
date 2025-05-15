@@ -1,12 +1,12 @@
 // import React from 'react'
-import { FaAngleRight } from 'react-icons/fa';
+import { FaAngleRight } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
-import { Table}  from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import './SalaryHistory.scss';
+import "./SalaryHistory.scss";
 import React, { useEffect, useState } from "react";
 import Pagination from "../Pagination/Pagination";
-import { getSalaryHistoryByEmployeeID } from '../../../Services/ViewSalaryController';
+import { getSalaryHistoryByEmployeeID } from "../../../Services/ViewSalaryController";
 
 const SalaryHistory = () => {
   const [salaryData, setSalaryData] = useState([]);
@@ -16,24 +16,23 @@ const SalaryHistory = () => {
 
   useEffect(() => {
     const fetchSalaryData = async () => {
-        const employeeID = localStorage.getItem("employeeID");
-        console.log("employeeID:", employeeID);
-        if (!employeeID) return;
+      const employeeID = localStorage.getItem("Id");
+      console.log("employeeID:", employeeID);
+      if (!employeeID) return;
 
-        console.log("Token đang dùng:", localStorage.getItem("token"));
+      console.log("Token đang dùng:", localStorage.getItem("token"));
 
-        try {
+      try {
         const data = await getSalaryHistoryByEmployeeID(employeeID);
         console.log("Fetched salary data:", data);
         setSalaryData(Array.isArray(data) ? data : [data]);
-        } catch (err) {
+      } catch (err) {
         console.error("Error fetching salary:", err);
-        }
+      }
     };
 
     fetchSalaryData();
-    }, []);
-
+  }, []);
 
   // Lọc theo ngày tháng (chứa)
   const filteredData = salaryData.filter((salary) =>
@@ -49,7 +48,9 @@ const SalaryHistory = () => {
     <div className="salary-history-container">
       <div className="salary-history-header">
         <div className="shh-title">
-          <div className="shh-user">Hue <FaAngleRight /></div>
+          <div className="shh-user">
+            Hue <FaAngleRight />
+          </div>
           <div className="shh-fc">Salary History</div>
         </div>
       </div>
@@ -94,7 +95,9 @@ const SalaryHistory = () => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="5" className="text-center">No salary data available</td>
+                      <td colSpan="5" className="text-center">
+                        No salary data available
+                      </td>
                     </tr>
                   )}
                 </tbody>
