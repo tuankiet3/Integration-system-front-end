@@ -12,49 +12,57 @@ const getSalaryNotification = async () => {
   return instance.get("Notifications/list");
 };
 
+const postAnniversaryNotification = async () => {
+  return instance.post("Notifications/anniversary");
+};
+
+const postAbsentNotification = async ({ employeeId, month }) => {
+  return instance.post("Notifications/absent", { employeeId, month });
+};
+
 const getTotalBudget = async (type, month) => {
-  const currentMonth = new Date().getMonth() + 1; // getMonth() trả về 0 - 11
+  const currentMonth = new Date().getMonth() + 1;
   const selectedMonth = month || currentMonth;
 
   const data = {
-    type, // "total_budget"
+    type,
     month: selectedMonth,
   };
 
   try {
     const response = await instance.get("Reports/payroll", { params: data });
-    return response.data; // Trả về dữ liệu từ API
+    return response.data;
   } catch (error) {
     console.error("Error fetching total budget:", error);
-    return null; // Trả về null nếu có lỗi
+    return null;
   }
 };
 
 const getAvgSalaryByDept = async (type, month) => {
-  const currentMonth = new Date().getMonth() + 1; // getMonth() trả về 0 - 11
+  const currentMonth = new Date().getMonth() + 1;
   const selectedMonth = month || currentMonth;
 
   const data = {
-    type, // "avg_salary_by_dept"
+    type,
     month: selectedMonth,
   };
 
   try {
     const response = await instance.get("Reports/payroll", { params: data });
-    return response.data; // Trả về dữ liệu từ API
+    return response.data;
   } catch (error) {
     console.error("Error fetching average salary by department:", error);
-    return null; // Trả về null nếu có lỗi
+    return null;
   }
 };
 
 const getSalaryID = async (salaryID) => {
   try {
     const response = await instance.get(`salaries/employee/${salaryID}`);
-    return response.data; // Trả về dữ liệu từ API
+    return response.data;
   } catch (error) {
     console.error("Error fetching salary by ID:", error);
-    return null; // Trả về null nếu có lỗi
+    return null;
   }
 };
 
@@ -62,6 +70,8 @@ export {
   getSalary,
   postSalary,
   getSalaryNotification,
+  postAnniversaryNotification,
+  postAbsentNotification,
   getTotalBudget,
   getAvgSalaryByDept,
   getSalaryID,

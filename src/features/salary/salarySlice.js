@@ -4,6 +4,8 @@ import {
   getSalaryID,
   getSalaryNotification,
   postSalary,
+  postAnniversaryNotification,
+  postAbsentNotification,
 } from "./salaryAPI";
 import { getDepartmentID } from "../department/departmentAPI";
 import { getEmployee } from "../employee/employeeAPI";
@@ -34,21 +36,9 @@ export const fetchSalaries = createAsyncThunk(
 export const fetchNotificationSalary = createAsyncThunk(
   "salary/fetchSalaryNotification",
   async () => {
-    const [notiRes, empRes] = await Promise.all([
-      getSalaryNotification(),
-      getEmployee(),
-    ]);
-
-    const employeeMap = {};
-    empRes.data.forEach((emp) => {
-      employeeMap[emp.employeeId] = emp.fullName;
-    });
-
+    const notiRes = await getSalaryNotification();
     console.log("notiRes", notiRes.data);
-    return notiRes.data.map((s) => ({
-      ...s,
-      fullName: employeeMap[s.employeeId] || "Unknown",
-    }));
+    return notiRes.data; // Trả về trực tiếp dữ liệu từ API Notifications/list
   }
 );
 
@@ -64,7 +54,6 @@ export const fetchEmployeeSalary = createAsyncThunk(
         !salaryRes.data.some((sal) => sal.employeeId === list.employeeId)
     );
 
-    // tra ve ten cua departmentId
     const empWithDept = await Promise.all(
       emp.map(async (employee) => {
         const departmentRes = await getDepartmentID(employee.departmentId);
@@ -93,7 +82,6 @@ export const createSalary = createAsyncThunk(
   "salary/createSalary",
   async (salaryData, { dispatch }) => {
     const response = await postSalary(salaryData);
-    // Sau khi tạo mới thành công, fetch lại danh sách
     await dispatch(fetchSalaries());
     return response.data;
   }
@@ -105,6 +93,24 @@ export const fetchUserSalary = createAsyncThunk(
     const response = await getSalaryID(userId);
     console.log("IDDDDDD", userId);
     return response;
+  }
+);
+
+// Thunk cho POST anniversary notification
+export const fetchAnniversaryNotification = createAsyncThunk(
+  "salary/fetchAnniversaryNotification",
+  async () => {
+    const response = await postAnniversaryNotification();
+    return response.data;
+  }
+);
+
+// Thunk cho POST absent notification
+export const fetchAbsentNotification = createAsyncThunk(
+  "salary/fetchAbsentNotification",
+  async ({ employeeId, month }) => {
+    const response = await postAbsentNotification({ employeeId, month });
+    return response.data;
   }
 );
 
@@ -157,7 +163,7 @@ const salarySlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-      //fetch Employee Salary
+      // Fetch Employee Salary
       .addCase(fetchEmployeeSalary.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -170,7 +176,7 @@ const salarySlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-      //create Employee Salary
+      // Create Employee Salary
       .addCase(createEmployeeSalary.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -179,7 +185,7 @@ const salarySlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-      // fetch notification salary
+      // Fetch notification salary
       .addCase(fetchNotificationSalary.pending, (state) => {
         state.loading = false;
         state.error = null;
@@ -192,7 +198,7 @@ const salarySlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-      // fetch user salary
+      // Fetch user salary
       .addCase(fetchUserSalary.pending, (state) => {
         state.loading = false;
         state.error = null;
@@ -202,6 +208,36 @@ const salarySlice = createSlice({
         state.userSalary = action.payload;
       })
       .addCase(fetchUserSalary.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      // Fetch anniversary notification
+      .addCase(fetchAnniversaryNotification.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAnniversaryNotification.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.notificationSalary.push(action.payload);
+        }
+        state.loading = false;
+      })
+      .addCase(fetchAnniversaryNotification.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      // Fetch absent notification
+      .addCase(fetchAbsentNotification.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAbsentNotification.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.notificationSalary.push(action.payload);
+        }
+        state.loading = false;
+      })
+      .addCase(fetchAbsentNotification.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
