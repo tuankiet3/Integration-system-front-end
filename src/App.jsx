@@ -19,6 +19,8 @@ import Employee from "./components/Employee/Employee";
 import HomePage from "./components/Employee/HomePage/HomePage";
 import SalaryOfPayroll from "./components/PayrollManagement/SalaryOfPayroll/SalaryOfPayroll";
 import SalaryHistoryEmplyee from "./components/Employee/Salaryhistory/Salaryhistory";
+import Attendance from "./components/HRManager/AttendancePage/Attendance";
+import AttendanceEmp from "./components/Employee/AttendanceEmp/AttendanceEmp";
 
 const App = () => {
   return (
@@ -33,6 +35,7 @@ const App = () => {
         <Route path="/EmployeeManagement" element={<EmployeeManagement />} />
         <Route path="/HRReport" element={<HRReport />} />
         <Route path="/SalaryHistory" element={<SalaryOfPayroll />} />
+        <Route path="Attendance" element={<Attendance />} />
       </Route>
       <Route path="/payroll" element={<PayrollManagement />}>
         <Route index element={<DashBoardPayroll />} />
@@ -42,20 +45,23 @@ const App = () => {
         />
         <Route path="/payroll/pr-new-employee" element={<NewEmpPayroll />} />
         <Route path="/payroll/pr-report" element={<ReportPayroll />} />
-        <Route path="/payroll/my-salary" element={<SalaryOfPayroll />} />
+        <Route path="/payroll/my-salary" element={<SalaryHistory />} />
+        <Route path="/payroll/AttendancePR" element={<AttendanceEmp />} />
       </Route>
       <Route path="/HRManagement" element={<HRManagement />}>
         <Route index element={<HRDashboard />} />
         <Route path="EmployeeManagement" element={<EmployeeManagement />} />
         <Route path="HRReport" element={<HRReport />} />
         <Route path="SalaryHistory" element={<SalaryHistory />} />
+        <Route path="Attendance" element={<Attendance />} />
       </Route>
       <Route path="/Employee" element={<Employee />}>
         <Route index element={<HomePage />} />
         <Route
-          path="/Employee/SalaryHistory"
-          element={<SalaryHistoryEmplyee />}
+          path="SalaryHistory"
+          element={<SalaryHistory />}
         />
+        <Route path="AttendanceEmp" element={<AttendanceEmp />} />
       </Route>
     </Routes>
   );

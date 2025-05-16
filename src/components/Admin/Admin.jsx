@@ -4,7 +4,7 @@ import Header from "../Header/Header";
 import ModalNotificationsPayroll from "../PayrollManagement/ModalNotifications/ModalNotificationsPayroll";
 import useAuthCheck from "../../features/Login/useAuthCheck";
 import { MdDashboard } from "react-icons/md";
-import { FaUserTie, FaUserPlus, FaFileAlt } from "react-icons/fa";
+import { FaUserTie, FaUserPlus, FaFileAlt, FaCalendarCheck } from "react-icons/fa";
 import "./Admin.scss";
 
 const Admin = () => {
@@ -74,6 +74,13 @@ const Admin = () => {
           <div className="admin-tool-box" onClick={() => navigate("/pr-report")}>
             <FaFileAlt size={24} />
             Salary Reports
+          </div>
+          <div
+            className="admin-tool-box"
+            onClick={() => navigate("Attendance")}
+          >
+            <FaCalendarCheck size={24} style={{ marginRight: 8 }} />
+            Attendance
           </div>
         </div>
         <div className="admin-detail">

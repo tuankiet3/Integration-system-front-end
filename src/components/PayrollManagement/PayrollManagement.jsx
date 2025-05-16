@@ -11,6 +11,7 @@ import {
   FaHistory,
   FaFileAlt,
   FaMoneyCheckAlt,
+  FaCalendarCheck,
 } from "react-icons/fa";
 
 const PayrollManagement = () => {
@@ -91,6 +92,13 @@ const PayrollManagement = () => {
           >
             <FaMoneyCheckAlt size={24} style={{ marginRight: 8 }} />
             Salary History
+          </div>
+          <div
+            className="payroll-tool-box"
+            onClick={() => navigate("/payroll/AttendancePR")}
+          >
+            <FaCalendarCheck size={24} style={{ marginRight: 8 }} />
+            Attendance
           </div>
         </div>
         <div className="payroll-detail">

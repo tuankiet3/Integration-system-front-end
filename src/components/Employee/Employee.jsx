@@ -3,7 +3,7 @@ import Header from "../Header/Header";
 import { Outlet, useNavigate } from "react-router-dom";
 import ModalNotificationsPayroll from "../PayrollManagement/ModalNotifications/ModalNotificationsPayroll";
 import { MdDashboard } from "react-icons/md";
-import { FaHistory } from "react-icons/fa";
+import { FaHistory, FaCalendarCheck, FaUserCog  } from "react-icons/fa";
 
 const Employee = () => {
   const navigate = useNavigate();
@@ -51,6 +51,13 @@ const Employee = () => {
           >
             <FaHistory size={24} style={{ marginRight: 8 }} />
             Salary history
+          </div>
+          <div
+            className="hr-tool-box"
+            onClick={() => navigate("/Employee/AttendanceEmp")}
+          >
+            <FaCalendarCheck size={24} style={{ marginRight: 8 }} />
+            Attendance
           </div>
         </div>
         <div className="hr-detail">

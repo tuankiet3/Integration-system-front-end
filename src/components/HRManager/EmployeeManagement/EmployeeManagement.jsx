@@ -172,7 +172,7 @@ const EmployeeManagement = () => {
       </div>
 
       <div className="employee-management-content">
-        <div className="emc-detail">
+        <div className="emc-detail" style={{ width: "100%" }}>
           <div className="emcd-search">
             <IoIosSearch className="smt-search-icon" />
             <input
@@ -189,17 +189,17 @@ const EmployeeManagement = () => {
               <Table bordered hover responsive className="emc-table">
                 <thead style={{ backgroundColor: "#f5f5f5" }}>
                   <tr>
-                    <th style={{ width: "160px" }}>Full name</th>
-                    <th style={{ width: "10px" }}>ID</th>
-                    <th style={{ width: "100px" }}>Phone</th>
-                    <th style={{ width: "140px" }}>Email</th>
-                    <th style={{ width: "20px" }}>Gender</th>
-                    <th style={{ width: "70px" }}>Department</th>
-                    <th style={{ width: "100px" }}>Position</th>
-                    <th style={{ width: "100px" }}>Joining date</th>
-                    <th style={{ width: "100px" }}>Date of birth</th>
-                    <th style={{ width: "100px" }}>Status</th>
-                    <th style={{ width: "20px" }}>Action</th>
+                    <th>Full name</th>
+                    <th>ID</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>Department</th>
+                    <th>Position</th>
+                    <th>Joining date</th>
+                    <th>Date of birth</th>
+                    <th>Status</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>

@@ -3,7 +3,7 @@ import Header from "../Header/Header";
 import "./HRManagement.scss";
 import { Outlet, useNavigate } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
-import { FaUserTie, FaFileAlt, FaHistory } from "react-icons/fa";
+import { FaUserTie, FaFileAlt, FaHistory, FaCalendarCheck } from "react-icons/fa";
 import ModalNotificationsPayroll from "../PayrollManagement/ModalNotifications/ModalNotificationsPayroll";
 const HRManagement = () => {
   const navigate = useNavigate();
@@ -63,6 +63,13 @@ const HRManagement = () => {
           >
             <FaHistory size={24} style={{ marginRight: 8 }} />
             Salary History
+          </div>
+          <div
+            className="hr-tool-box"
+            onClick={() => navigate("/HRManagement/Attendance")}
+          >
+            <FaCalendarCheck size={24} style={{ marginRight: 8 }} />
+            Attendance
           </div>
         </div>
         <div className="hr-detail">
