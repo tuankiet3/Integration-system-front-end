@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchNotificationSalary } from "../../../../src/features/salary/salarySlice";
 import "./ModalNotificationsPayroll.scss";
@@ -9,15 +9,74 @@ import {
 import { getEmployee } from "../../../features/employee/employeeAPI";
 import { format } from "date-fns";
 
-const ModalNotificationsPayroll = () => {
+const ModalNotificationsPayroll = ({ onNewNotification }) => {
   const dispatch = useDispatch();
   const notifications = useSelector((state) => state.salary.notificationSalary);
   const { loading, error } = useSelector((state) => state.salary.loading);
+  const [lastNotificationCount, setLastNotificationCount] = useState(0);
+  const [isPolling, setIsPolling] = useState(false);
 
+  // Hàm fetch thông báo
+  const fetchNotifications = async () => {
+    if (isPolling) return;
+
+    try {
+      setIsPolling(true);
+      await dispatch(fetchNotificationSalary()).unwrap();
+
+      // Cập nhật số lượng thông báo mới
+      if (notifications.length > lastNotificationCount) {
+        const newCount = notifications.length - lastNotificationCount;
+        if (onNewNotification) {
+          onNewNotification(newCount);
+          // Reset số lượng thông báo mới sau 1 giây
+          setTimeout(() => {
+            onNewNotification(0);
+          }, 1000);
+        }
+      }
+      setLastNotificationCount(notifications.length);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    } finally {
+      setIsPolling(false);
+    }
+  };
+
+  // Lắng nghe sự kiện thông báo mới từ XHR
+  useEffect(() => {
+    const handleNewNotification = (event) => {
+      if (event.detail && event.detail.type === "newNotificationReceived") {
+        fetchNotifications();
+      }
+    };
+
+    window.addEventListener("newNotificationReceived", handleNewNotification);
+    return () =>
+      window.removeEventListener(
+        "newNotificationReceived",
+        handleNewNotification
+      );
+  }, []);
+
+  // Fetch thông báo ban đầu và thiết lập polling
+  useEffect(() => {
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 5000);
+    return () => clearInterval(interval);
+  }, [dispatch, notifications.length, lastNotificationCount]);
+
+  // Xử lý thông báo kỷ niệm
   useEffect(() => {
     const interval = setInterval(async () => {
-      const res = await postAnniversaryNotification();
-      console.log("Anniversary notification sent", res);
+      try {
+        const res = await postAnniversaryNotification();
+        if (res) {
+          fetchNotifications();
+        }
+      } catch (error) {
+        console.error("Error sending anniversary notification:", error);
+      }
     }, 3000);
 
     return () => clearInterval(interval);
@@ -25,9 +84,10 @@ const ModalNotificationsPayroll = () => {
 
   const userData = localStorage.getItem("user");
   const user = userData ? JSON.parse(userData) : null;
-  const userId = user ? Number(user.id) : null; // Ép kiểu number cho userId
-  const userRole = user ? user.roles : []; // Mặc định mảng rỗng tránh lỗi
+  const userId = user ? Number(user.id) : null;
+  const userRole = user ? user.roles : [];
 
+  // Xử lý thông báo vắng mặt
   useEffect(() => {
     let interval;
 
@@ -43,25 +103,28 @@ const ModalNotificationsPayroll = () => {
               employeeId: userId,
               month: new Date().getMonth() + 1,
             });
-            console.log("Absent notification sent for current user", res);
+            if (res) {
+              fetchNotifications();
+            }
           } catch (err) {
-            console.error("Error sending absent notification", err);
+            console.error("Error sending absent notification:", err);
           }
         }, 3000);
       } else {
         try {
           const list = await getEmployee();
-
           for (const emp of list) {
             const res = await postAbsentNotification({
               employeeId: emp.employeeId,
               month: new Date().getMonth() + 1,
             });
-            console.log(`Absent notification sent for ${emp.employeeId}`, res);
+            if (res) {
+              fetchNotifications();
+            }
           }
         } catch (err) {
           console.error(
-            "Error fetching employees or sending notifications",
+            "Error fetching employees or sending notifications:",
             err
           );
         }
@@ -69,17 +132,10 @@ const ModalNotificationsPayroll = () => {
     };
 
     fetchAbsent();
-
     return () => {
       if (interval) clearInterval(interval);
     };
   }, [userRole, userId]);
-
-  useEffect(() => {
-    if (!notifications.length) {
-      dispatch(fetchNotificationSalary());
-    }
-  }, [dispatch, notifications.length]);
 
   const reversedNotifications = useMemo(() => {
     return [...notifications].reverse();
@@ -92,7 +148,7 @@ const ModalNotificationsPayroll = () => {
     <div className="noti-payroll">
       <div className="noti-content">
         {notifications.length === 0 ? (
-          <div>No notifications available</div>
+          <div>Không có thông báo mới</div>
         ) : (
           reversedNotifications
             .filter((noti) => {
@@ -103,7 +159,7 @@ const ModalNotificationsPayroll = () => {
               ) {
                 return true;
               }
-              return noti.employeeId === userId; // So sánh đúng kiểu number
+              return noti.employeeId === userId;
             })
             .map((noti) => {
               const formattedDate = format(

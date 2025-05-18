@@ -3,7 +3,6 @@ import Header from "../Header/Header";
 import "./PayrollManagement.scss";
 import { Outlet, useNavigate } from "react-router-dom";
 import ModalNotificationsPayroll from "./ModalNotifications/ModalNotificationsPayroll";
-import { useSelector } from "react-redux";
 import { MdDashboard } from "react-icons/md";
 import {
   FaUserTie,
@@ -17,7 +16,9 @@ import {
 const PayrollManagement = () => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [newNotificationCount, setNewNotificationCount] = useState(0);
   const dropdownRef = useRef();
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -28,30 +29,32 @@ const PayrollManagement = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const { error } = useSelector((state) => state.salary);
-  useEffect(() => {
-    if (error) {
-      console.error("Error fetching data:", error);
-      navigate("/error", { state: { error } });
-    }
-  }, [error, navigate]);
   const userData = localStorage.getItem("user");
-  // console.log(userData);
   useEffect(() => {
     if (!userData || !userData.includes("PayrollManagement")) {
       navigate("/error", { state: { error: "401" } });
     }
   }, [userData, navigate]);
+
+  const handleNewNotification = (count) => {
+    setNewNotificationCount(count);
+  };
+
   return (
     <div className="payroll-container">
       <div className="payroll-header">
-        <Header onIconClick={() => setShowDropdown(!showDropdown)} />
+        <Header
+          onIconClick={() => setShowDropdown(!showDropdown)}
+          newNotificationCount={newNotificationCount}
+        />
       </div>
       {showDropdown && (
         <div className="container-dropdown">
           <div className="dropdown-modal" ref={dropdownRef}>
             <div className="dropdown-content">
-              <ModalNotificationsPayroll />
+              <ModalNotificationsPayroll
+                onNewNotification={handleNewNotification}
+              />
             </div>
           </div>
         </div>

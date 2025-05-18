@@ -22,17 +22,17 @@ const useAuthCheck = () => {
           // Token hết hạn
           localStorage.clear();
           dispatch(logout()); // <-- gọi logout Redux
-          navigate("/login");
+          navigate("/login", { replace: true, state: null });
         }
       } catch (error) {
         localStorage.clear();
         dispatch(logout()); // <-- gọi logout Redux
-        navigate("/login");
+        navigate("/login", { replace: true, state: null });
         console.error("Token không hợp lệ:", error);
       }
     } else {
       dispatch(logout()); // <-- gọi logout Redux
-      navigate("/login");
+      navigate("/login", { replace: true, state: null });
     }
   }, [navigate, dispatch]);
 };

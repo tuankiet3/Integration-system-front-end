@@ -1,13 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import Header from "../Header/Header";
 import "./HRManagement.scss";
 import { Outlet, useNavigate } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
-import { FaUserTie, FaFileAlt, FaHistory, FaCalendarCheck } from "react-icons/fa";
+import {
+  FaUserTie,
+  FaFileAlt,
+  FaHistory,
+  FaCalendarCheck,
+} from "react-icons/fa";
 import ModalNotificationsPayroll from "../PayrollManagement/ModalNotifications/ModalNotificationsPayroll";
+
 const HRManagement = () => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = React.useState(false);
+  const [newNotificationCount, setNewNotificationCount] = useState(0);
   const dropdownRef = React.useRef();
 
   React.useEffect(() => {
@@ -20,16 +27,25 @@ const HRManagement = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleNewNotification = (count) => {
+    setNewNotificationCount(count);
+  };
+
   return (
     <div className="hr-container">
       <div className="hr-header">
-        <Header onIconClick={() => setShowDropdown(!showDropdown)} />
+        <Header
+          onIconClick={() => setShowDropdown(!showDropdown)}
+          newNotificationCount={newNotificationCount}
+        />
       </div>
       {showDropdown && (
         <div className="container-dropdown">
           <div className="dropdown-modal" ref={dropdownRef}>
             <div className="dropdown-content">
-              <ModalNotificationsPayroll />
+              <ModalNotificationsPayroll
+                onNewNotification={handleNewNotification}
+              />
             </div>
           </div>
         </div>

@@ -3,12 +3,16 @@ import Header from "../Header/Header";
 import { Outlet, useNavigate } from "react-router-dom";
 import ModalNotificationsPayroll from "../PayrollManagement/ModalNotifications/ModalNotificationsPayroll";
 import { MdDashboard } from "react-icons/md";
-import { FaHistory, FaCalendarCheck, FaUserCog  } from "react-icons/fa";
+import { FaHistory, FaCalendarCheck, FaUserCog } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { logout } from "../../features/Login/AuthSlice";
 
 const Employee = () => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef();
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -22,9 +26,11 @@ const Employee = () => {
   const userData = localStorage.getItem("user");
   useEffect(() => {
     if (!userData) {
-      navigate("/error", { state: { error: "401" } });
+      localStorage.clear();
+      dispatch(logout());
+      navigate("/login", { replace: true, state: null });
     }
-  }, [userData, navigate]);
+  }, [userData, navigate, dispatch]);
   return (
     <div className="hr-container">
       <div className="hr-header">

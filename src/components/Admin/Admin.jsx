@@ -4,13 +4,22 @@ import Header from "../Header/Header";
 import ModalNotificationsPayroll from "../PayrollManagement/ModalNotifications/ModalNotificationsPayroll";
 import useAuthCheck from "../../features/Login/useAuthCheck";
 import { MdDashboard } from "react-icons/md";
-import { FaUserTie, FaUserPlus, FaFileAlt, FaCalendarCheck } from "react-icons/fa";
+import {
+  FaUserTie,
+  FaUserPlus,
+  FaFileAlt,
+  FaCalendarCheck,
+} from "react-icons/fa";
 import "./Admin.scss";
+import { useDispatch } from "react-redux";
+import { logout } from "../../features/Login/AuthSlice";
 
 const Admin = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   useAuthCheck();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [newNotificationCount, setNewNotificationCount] = useState(0);
   const dropdownRef = useRef();
 
   useEffect(() => {
@@ -29,21 +38,32 @@ const Admin = () => {
     const user = userData ? JSON.parse(userData) : null;
 
     if (!user || !user.roles || !user.roles.includes("Admin")) {
-      navigate("/error", { state: { error: "401" } });
+      localStorage.clear();
+      dispatch(logout());
+      navigate("/login", { replace: true, state: null });
     }
-  }, [navigate]);
+  }, [navigate, dispatch]);
+
+  const handleNewNotification = (count) => {
+    setNewNotificationCount(count);
+  };
 
   return (
     <div className="admin-container">
       <div className="payroll-header">
-        <Header onIconClick={() => setShowDropdown(!showDropdown)} />
+        <Header
+          onIconClick={() => setShowDropdown(!showDropdown)}
+          newNotificationCount={newNotificationCount}
+        />
       </div>
 
       {showDropdown && (
         <div className="container-dropdown">
           <div className="dropdown-modal" ref={dropdownRef}>
             <div className="dropdown-content">
-              <ModalNotificationsPayroll />
+              <ModalNotificationsPayroll
+                onNewNotification={handleNewNotification}
+              />
             </div>
           </div>
         </div>
@@ -55,15 +75,24 @@ const Admin = () => {
             <MdDashboard size={24} />
             DashBoard
           </div>
-          <div className="admin-tool-box" onClick={() => navigate("/salary-management")}>
+          <div
+            className="admin-tool-box"
+            onClick={() => navigate("/salary-management")}
+          >
             <FaUserTie size={24} />
             Salary Management
           </div>
-          <div className="admin-tool-box" onClick={() => navigate("/EmployeeManagement")}>
+          <div
+            className="admin-tool-box"
+            onClick={() => navigate("/EmployeeManagement")}
+          >
             <FaUserTie size={24} />
             Employee Management
           </div>
-          <div className="admin-tool-box" onClick={() => navigate("/pr-new-employee")}>
+          <div
+            className="admin-tool-box"
+            onClick={() => navigate("/pr-new-employee")}
+          >
             <FaUserPlus size={24} />
             New Employee
           </div>
@@ -71,7 +100,10 @@ const Admin = () => {
             <FaFileAlt size={24} />
             HR Reports
           </div>
-          <div className="admin-tool-box" onClick={() => navigate("/pr-report")}>
+          <div
+            className="admin-tool-box"
+            onClick={() => navigate("/pr-report")}
+          >
             <FaFileAlt size={24} />
             Salary Reports
           </div>
@@ -88,7 +120,6 @@ const Admin = () => {
         </div>
       </div>
     </div>
-
   );
 };
 

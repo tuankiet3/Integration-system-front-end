@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Dropdown, Modal, Form, Button } from "react-bootstrap";
+import { Table, Dropdown, Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaAngleRight } from "react-icons/fa6";
 import { FaEllipsisV } from "react-icons/fa";
@@ -12,6 +12,10 @@ import {
 } from "../../../features/salary/salarySlice";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
+
+// Toastify
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const NewEmpPayroll = () => {
   const dispatch = useDispatch();
@@ -27,27 +31,26 @@ const NewEmpPayroll = () => {
     salaryMonth: "",
     baseSalary: "",
     bonus: "",
-    deductions: "",
   });
+
   const handleNewSalaryInputChange = (e) => {
     const { name, value } = e.target;
     setNewSalaryData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-    console.log("newSalaryData", newSalaryData);
   };
+
   const handleAddSalary = (emp) => {
     setShowNewMonth(true);
     setSelectedSalary(emp);
     const currentDate = new Date();
-    const formattedDate = currentDate.toISOString().split("T")[0]; // Định dạng ngày tháng
+    const formattedDate = currentDate.toISOString().split("T")[0];
     setNewSalaryData({
       employeeId: emp.employeeId,
       salaryMonth: formattedDate,
       baseSalary: "",
       bonus: "",
-      deductions: "",
     });
   };
 
@@ -56,10 +59,9 @@ const NewEmpPayroll = () => {
   }, [dispatch]);
 
   const handleSaveNewSalary = async () => {
-    const { employeeId, salaryMonth, baseSalary, bonus, deductions } =
-      newSalaryData;
-    if (!salaryMonth || !baseSalary || !bonus || !deductions) {
-      alert("Vui lòng điền đầy đủ thông tin!");
+    const { employeeId, salaryMonth, baseSalary, bonus } = newSalaryData;
+    if (!salaryMonth || !baseSalary || !bonus) {
+      toast.warning("Vui lòng điền đầy đủ thông tin!");
       return;
     }
 
@@ -68,22 +70,21 @@ const NewEmpPayroll = () => {
       salaryMonth,
       baseSalary: parseFloat(baseSalary),
       bonus: parseFloat(bonus),
-      deductions: parseFloat(deductions),
     };
 
     try {
       setIsLoading(true);
       await dispatch(createEmployeeSalary(newSalary)).unwrap();
+      toast.success("Thêm lương thành công!");
       setShowNewMonth(false);
       setNewSalaryData({
         employeeId: "",
         salaryMonth: "",
         baseSalary: "",
         bonus: "",
-        deductions: "",
       });
     } catch (error) {
-      alert("Đã xảy ra lỗi khi lưu lương!");
+      toast.error("Đã xảy ra lỗi khi lưu lương!");
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -100,9 +101,11 @@ const NewEmpPayroll = () => {
 
   if (loading) return <LoadingSpinner isLoading={true} />;
   if (error) return <div>Error: {error}</div>;
+
   return (
     <div className="salary-management-container">
       <LoadingSpinner isLoading={isLoading} />
+      <ToastContainer position="top-right" autoClose={3000} />
       <div className="salary-management-header">
         <div className="smh-top">
           <div className="smh-user">
@@ -125,7 +128,6 @@ const NewEmpPayroll = () => {
                     <th style={{ padding: "15px 0" }}>Actions</th>
                   </tr>
                 </thead>
-
                 <tbody>
                   {currentEmp.map((emp, index) => (
                     <tr key={index}>
@@ -207,15 +209,6 @@ const NewEmpPayroll = () => {
                   type="number"
                   name="bonus"
                   value={newSalaryData.bonus}
-                  onChange={handleNewSalaryInputChange}
-                />
-              </div>
-              <div className="update-pr-box">
-                <div className="up-box-title">Deductions</div>
-                <input
-                  type="number"
-                  name="deductions"
-                  value={newSalaryData.deductions}
                   onChange={handleNewSalaryInputChange}
                 />
               </div>

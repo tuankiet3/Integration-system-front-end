@@ -48,7 +48,7 @@ const ErrorPage = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     dispath(logout());
-    navigate("/login");
+    navigate("/login", { replace: true, state: null });
   };
   return (
     <div className={`error-page-wrapper ${fadeIn ? "fade-in" : "fade-out"}`}>

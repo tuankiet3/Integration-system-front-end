@@ -4,45 +4,47 @@ import user from "../../assets/hue.jpg";
 import bell from "../../assets/bell.png";
 import logo from "../../assets/logo.png";
 import { CiLogout } from "react-icons/ci";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/Login/AuthSlice";
 import { useNavigate } from "react-router-dom";
+import { fetchNotificationSalary } from "../../features/salary/salarySlice";
 
 const Header = ({ onIconClick }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [unreadNotifications, setUnreadNotifications] = useState(0);
-  const [lastNotificationData, setLastNotificationData] = useState(null);
+  const [currentNotificationCount, setCurrentNotificationCount] = useState(0);
+  const notifications = useSelector((state) => state.salary.notificationSalary);
 
-  useEffect(() => {
-    const handleNewSalaryNotification = (event) => {
-      if (event.detail && event.detail.type === "salary_update") {
-        const currentData = event.detail.data;
-        if (
-          !lastNotificationData ||
-          JSON.stringify(currentData) !== JSON.stringify(lastNotificationData)
-        ) {
-          setUnreadNotifications((prev) => prev + 1);
-          setLastNotificationData(currentData);
-        }
+  // Hàm fetch thông báo
+  const fetchNotifications = async () => {
+    try {
+      await dispatch(fetchNotificationSalary()).unwrap();
+      // Cập nhật số lượng thông báo mới
+      if (notifications && notifications.length > currentNotificationCount) {
+        const newCount = notifications.length - currentNotificationCount;
+        setUnreadNotifications((prev) => prev + newCount);
+        setCurrentNotificationCount(notifications.length);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    }
+  };
 
-    window.addEventListener(
-      "newSalaryNotification",
-      handleNewSalaryNotification
-    );
+  // Fetch thông báo khi component mount
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
 
-    return () => {
-      window.removeEventListener(
-        "newSalaryNotification",
-        handleNewSalaryNotification
-      );
-    };
-  }, [lastNotificationData]);
+  // Fetch thông báo liên tục mỗi 0.5 giây
+  useEffect(() => {
+    const interval = setInterval(fetchNotifications, 500);
+    return () => clearInterval(interval);
+  }, [currentNotificationCount, notifications]);
 
   const handleNotificationClick = () => {
     setUnreadNotifications(0);
+    setCurrentNotificationCount(notifications?.length || 0);
     onIconClick();
   };
 
@@ -66,7 +68,23 @@ const Header = ({ onIconClick }) => {
             <div className="header-notification-img">
               <img src={bell} alt="???" onClick={handleNotificationClick} />
               {unreadNotifications > 0 && (
-                <div className="notification-badge">{unreadNotifications}</div>
+                <div
+                  className="notification-badge"
+                  style={{
+                    position: "absolute",
+                    top: "-5px",
+                    right: "-5px",
+                    backgroundColor: "red",
+                    color: "white",
+                    borderRadius: "50%",
+                    padding: "2px 6px",
+                    fontSize: "12px",
+                    minWidth: "18px",
+                    textAlign: "center",
+                  }}
+                >
+                  {unreadNotifications}
+                </div>
               )}
             </div>
           </div>

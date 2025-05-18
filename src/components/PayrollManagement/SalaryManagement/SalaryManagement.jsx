@@ -13,6 +13,7 @@ import {
   setSearchTerm,
   selectCurrentPageSalaries,
   selectTotalPages,
+  fetchNotificationSalary,
 } from "../../../features/salary/salarySlice";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 import { ToastContainer, toast } from "react-toastify";
@@ -22,7 +23,7 @@ const SalaryManagement = () => {
   const dispatch = useDispatch();
   const currentSalaries = useSelector(selectCurrentPageSalaries);
   const totalPages = useSelector(selectTotalPages);
-  const { loading, error, currentPage } = useSelector((state) => state.salary);
+  const { loading, currentPage } = useSelector((state) => state.salary);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedSalary, setSelectedSalary] = useState(null);
   const [showNewMonth, setShowNewMonth] = useState(false);
@@ -128,13 +129,14 @@ const SalaryManagement = () => {
 
       const response = await dispatch(createSalary(newData));
 
-      // Chỉ phát ra sự kiện nếu thêm lương thành công và có dữ liệu mới
-      if (response.payload) {
+      const notificationResponse = await dispatch(fetchNotificationSalary());
+
+      if (notificationResponse.payload) {
         const event = new CustomEvent("newSalaryNotification", {
           detail: {
             type: "salary_update",
             message: `Đã thêm lương mới cho nhân viên ${response.payload.fullName}`,
-            data: response.payload,
+            data: notificationResponse.payload,
           },
         });
         window.dispatchEvent(event);
@@ -170,7 +172,7 @@ const SalaryManagement = () => {
   };
 
   if (loading) return <LoadingSpinner isLoading={true} />;
-  if (error) return <div>Error: {error}</div>;
+  // if (error) return <div>Error: {error}</div>;
   return (
     <div className="salary-management-container">
       <ToastContainer />
