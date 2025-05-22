@@ -17,7 +17,9 @@ const postAnniversaryNotification = async () => {
 };
 
 const postAbsentNotification = async ({ employeeId, month }) => {
-  return instance.post("Notifications/absent", { employeeId, month });
+  return instance.post(
+    `Notifications/absent?employeeId=${employeeId}&month=${month}`
+  );
 };
 
 const getTotalBudget = async (type, month) => {

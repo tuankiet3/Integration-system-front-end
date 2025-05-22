@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { FaAngleRight } from 'react-icons/fa';
-import { Bar, Doughnut } from 'react-chartjs-2';
-import './HRReport.scss';
+import React, { useState, useEffect } from "react";
+import { FaAngleRight } from "react-icons/fa";
+import { Bar, Doughnut } from "react-chartjs-2";
+import "./HRReport.scss";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,11 +10,18 @@ import {
   ArcElement,
   Tooltip,
   Legend,
-} from 'chart.js';
+} from "chart.js";
 
-import { getEmployeeSummary } from '../../../Services/ReportController';
+import { getEmployeeSummary } from "../../../Services/ReportController";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  ArcElement,
+  Tooltip,
+  Legend
+);
 
 const HRReport = () => {
   const [totalEmployees, setTotalEmployees] = useState(0);
@@ -24,7 +31,8 @@ const HRReport = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { totalEmployees, statusCounts, departmentCounts } = await getEmployeeSummary();
+        const { totalEmployees, statusCounts, departmentCounts } =
+          await getEmployeeSummary();
         setTotalEmployees(totalEmployees || 0);
         setStatusCounts(statusCounts || {});
         setDepartmentCounts(departmentCounts || {});
@@ -80,7 +88,6 @@ const HRReport = () => {
     <div className="hrreport-container">
       <div className="hrreport-header">
         <div className="hrh-title">
-          <div className="hrh-user">Hue <FaAngleRight /></div>
           <div className="hrh-fc">HR Report</div>
         </div>
       </div>
@@ -99,10 +106,10 @@ const HRReport = () => {
                 options={{
                   plugins: {
                     legend: {
-                      position: 'bottom',
+                      position: "bottom",
                       labels: {
                         usePointStyle: true,
-                        pointStyle: 'circle',
+                        pointStyle: "circle",
                       },
                     },
                   },
@@ -111,14 +118,16 @@ const HRReport = () => {
               <div className="doughnut-status-container">
                 {Object.entries(statusCounts).map(([status, count]) => (
                   <div key={status} className="doughnut-status">
-                    <span>{status} - {count}</span>
+                    <span>
+                      {status} - {count}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          <div className="hrreport-bottom" style={{ marginTop: '40px' }}>
+          <div className="hrreport-bottom" style={{ marginTop: "40px" }}>
             <Bar data={barData} options={barOptions} />
           </div>
         </div>

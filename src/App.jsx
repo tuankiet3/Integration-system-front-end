@@ -18,7 +18,6 @@ import SalaryHistory from "./components/HRManager/SalaryHistory/SalaryHistory";
 import Employee from "./components/Employee/Employee";
 import HomePage from "./components/Employee/HomePage/HomePage";
 import SalaryOfPayroll from "./components/PayrollManagement/SalaryOfPayroll/SalaryOfPayroll";
-import SalaryHistoryEmplyee from "./components/Employee/Salaryhistory/Salaryhistory";
 import Attendance from "./components/HRManager/AttendancePage/Attendance";
 import AttendanceEmp from "./components/Employee/AttendanceEmp/AttendanceEmp";
 
@@ -57,10 +56,7 @@ const App = () => {
       </Route>
       <Route path="/Employee" element={<Employee />}>
         <Route index element={<HomePage />} />
-        <Route
-          path="SalaryHistory"
-          element={<SalaryHistory />}
-        />
+        <Route path="SalaryHistory" element={<SalaryHistory />} />
         <Route path="AttendanceEmp" element={<AttendanceEmp />} />
       </Route>
     </Routes>

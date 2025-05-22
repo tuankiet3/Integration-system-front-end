@@ -108,9 +108,6 @@ const NewEmpPayroll = () => {
       <ToastContainer position="top-right" autoClose={3000} />
       <div className="salary-management-header">
         <div className="smh-top">
-          <div className="smh-user">
-            Hue <FaAngleRight />
-          </div>
           <div className="smh-fc">New Employee</div>
         </div>
       </div>

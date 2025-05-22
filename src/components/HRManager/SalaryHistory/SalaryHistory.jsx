@@ -48,9 +48,6 @@ const SalaryHistory = () => {
     <div className="salary-history-container">
       <div className="salary-history-header">
         <div className="shh-title">
-          <div className="shh-user">
-            Hue <FaAngleRight />
-          </div>
           <div className="shh-fc">Salary History</div>
         </div>
       </div>

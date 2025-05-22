@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./Header.scss";
-import user from "../../assets/hue.jpg";
 import bell from "../../assets/bell.png";
 import logo from "../../assets/logo.png";
 import { CiLogout } from "react-icons/ci";
@@ -15,16 +14,41 @@ const Header = ({ onIconClick }) => {
   const [unreadNotifications, setUnreadNotifications] = useState(0);
   const [currentNotificationCount, setCurrentNotificationCount] = useState(0);
   const notifications = useSelector((state) => state.salary.notificationSalary);
+  const userData = localStorage.getItem("user");
+  const user = userData ? JSON.parse(userData) : null;
+  const userId = user ? Number(user.id) : null;
+  const userRole = user ? user.roles : [];
+
+  // Hàm lấy số lượng thông báo theo role
+  const getNotificationCountByRole = () => {
+    if (!notifications) return 0;
+
+    // Nếu là Admin, Hr hoặc PayrollManagement thì trả về tổng số thông báo
+    if (
+      userRole.includes("Admin") ||
+      userRole.includes("Hr") ||
+      userRole.includes("PayrollManagement")
+    ) {
+      return notifications.length;
+    }
+
+    // Nếu là Employee thì chỉ đếm thông báo liên quan đến họ
+    return notifications.filter((noti) => noti.employeeId === userId).length;
+  };
 
   // Hàm fetch thông báo
   const fetchNotifications = async () => {
     try {
       await dispatch(fetchNotificationSalary()).unwrap();
+
+      // Lấy số lượng thông báo hiện tại theo role
+      const currentCount = getNotificationCountByRole();
+
       // Cập nhật số lượng thông báo mới
-      if (notifications && notifications.length > currentNotificationCount) {
-        const newCount = notifications.length - currentNotificationCount;
+      if (currentCount > currentNotificationCount) {
+        const newCount = currentCount - currentNotificationCount;
         setUnreadNotifications((prev) => prev + newCount);
-        setCurrentNotificationCount(notifications.length);
+        setCurrentNotificationCount(currentCount);
       }
     } catch (error) {
       console.error("Error fetching notifications:", error);
@@ -86,11 +110,6 @@ const Header = ({ onIconClick }) => {
                   {unreadNotifications}
                 </div>
               )}
-            </div>
-          </div>
-          <div className="header-user">
-            <div className="header-user-img">
-              <img src={user} alt="" />
             </div>
           </div>
           <div className="header-logout" onClick={handleLogout}>

@@ -34,7 +34,6 @@ const HomePage = () => {
       <div className="card">
         <h2 className="title">Employee Information</h2>
         <div className="info-list">
-          <InfoRow label="ID" value={userId} />
           <InfoRow label="Full Name" value={data.fullName} />
           <InfoRow label="Gender" value={data.gender} />
           <InfoRow label="Email" value={data.email} />

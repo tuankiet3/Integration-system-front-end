@@ -24,18 +24,34 @@ const ModalNotificationsPayroll = ({ onNewNotification }) => {
       setIsPolling(true);
       await dispatch(fetchNotificationSalary()).unwrap();
 
-      // Cập nhật số lượng thông báo mới
-      if (notifications.length > lastNotificationCount) {
-        const newCount = notifications.length - lastNotificationCount;
-        if (onNewNotification) {
-          onNewNotification(newCount);
-          // Reset số lượng thông báo mới sau 1 giây
-          setTimeout(() => {
-            onNewNotification(0);
-          }, 1000);
+      let Count = 0;
+
+      if (
+        userRole.includes("Admin") ||
+        userRole.includes("Hr") ||
+        userRole.includes("PayrollManagement")
+      ) {
+        // 👑 Admin, HR, Payroll: đếm tất cả
+        Count = notifications.length - lastNotificationCount;
+
+        if (Count > 0 && onNewNotification) {
+          onNewNotification(Count);
+          setTimeout(() => onNewNotification(0), 1000);
+          setLastNotificationCount(notifications.length);
+        }
+      } else {
+        // 👤 Nhân viên thường: đếm thông báo cá nhân
+        const userNotis = notifications.filter(
+          (noti) => noti.employeeId === userId
+        );
+        Count = userNotis.length - lastNotificationCount;
+
+        if (Count > 0 && onNewNotification) {
+          onNewNotification(Count);
+          setTimeout(() => onNewNotification(0), 1000);
+          setLastNotificationCount(userNotis.length);
         }
       }
-      setLastNotificationCount(notifications.length);
     } catch (error) {
       console.error("Error fetching notifications:", error);
     } finally {

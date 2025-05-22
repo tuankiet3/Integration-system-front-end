@@ -160,9 +160,6 @@ const ReportPayroll = () => {
     <div className="hrreport-container">
       <div className="hrreport-header">
         <div className="hrh-title">
-          <div className="hrh-user">
-            Hue <FaAngleRight />{" "}
-          </div>
           <div className="hrh-fc">Payroll Report</div>
         </div>
       </div>

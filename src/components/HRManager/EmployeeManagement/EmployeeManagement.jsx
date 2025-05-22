@@ -1,13 +1,29 @@
 import "./EmployeeManagement.scss";
 import React, { useState, useEffect } from "react";
-import { Table, Dropdown, Button, Modal, Form, Row, Col } from "react-bootstrap";
+import {
+  Table,
+  Dropdown,
+  Button,
+  Modal,
+  Form,
+  Row,
+  Col,
+} from "react-bootstrap";
 import { FaEllipsisV, FaAngleRight } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
 import "bootstrap/dist/css/bootstrap.min.css";
 import plus from "../../../assets/plus.png";
 import Pagination from "../Pagination/Pagination";
 import Swal from "sweetalert2";
-import { getEmployee, getEmployeeID, addEmployee, updateEmployee, getDepartments, getPositions, handleDeleteEmployee } from "../../../Services/EmployeeController";
+import {
+  getEmployee,
+  getEmployeeID,
+  addEmployee,
+  updateEmployee,
+  getDepartments,
+  getPositions,
+  handleDeleteEmployee,
+} from "../../../Services/EmployeeController";
 
 const EmployeeManagement = () => {
   const [employees, setEmployees] = useState([]); // Danh sách nhân viên gốc
@@ -66,7 +82,10 @@ const EmployeeManagement = () => {
   const itemsPerPage = 5;
   const indexOfLastItem = (currentPage + 1) * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredEmployees.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredEmployees.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   // Function to get status badge color
   const getStatusClass = (status) => {
@@ -93,16 +112,15 @@ const EmployeeManagement = () => {
     const employee = await getEmployeeID(id);
     if (!employee || !employee.id) {
       Swal.fire({
-        icon: 'error',
-        title: 'Không tìm thấy nhân viên!',
-        text: 'Vui lòng thử lại.',
+        icon: "error",
+        title: "Không tìm thấy nhân viên!",
+        text: "Vui lòng thử lại.",
       });
       return;
     }
     setSelectedEmployee(employee);
     console.log("Employee data fetched:", employee);
   };
-
 
   const handleClose = () => {
     setShowUpdate(false);
@@ -141,7 +159,6 @@ const EmployeeManagement = () => {
     return dateStr.replaceAll("/", "-").slice(0, 10);
   };
 
-
   // Add employee
   const handleAddClose = () => {
     setShowAdd(false);
@@ -160,11 +177,13 @@ const EmployeeManagement = () => {
     <div className="employee-management-container">
       <div className="employee-management-header">
         <div className="emh-title">
-          <div className="emh-user">Hue <FaAngleRight /> </div>
           <div className="emh-fc">Employee Management</div>
         </div>
         <div className="emh-button">
-          <button className="emh-button-addemp" onClick={() => setShowAdd(true)}>
+          <button
+            className="emh-button-addemp"
+            onClick={() => setShowAdd(true)}
+          >
             <img src={plus} alt="" className="emh-button-addemp-icon" />
             Add Employee
           </button>
@@ -205,11 +224,23 @@ const EmployeeManagement = () => {
                 <tbody>
                   {currentItems.map((employee, index) => (
                     <tr key={index}>
-                      {["name", "id", "phone", "email", "gender","department", "position"].map((field) => {
+                      {[
+                        "name",
+                        "id",
+                        "phone",
+                        "email",
+                        "gender",
+                        "department",
+                        "position",
+                      ].map((field) => {
                         const value = String(employee[field] || "");
                         const isLongText = value.length > 8; // Kiểm tra nếu nội dung dài hơn 15 ký tự
                         return (
-                          <td key={field} className="td-hover" data-long={isLongText}>
+                          <td
+                            key={field}
+                            className="td-hover"
+                            data-long={isLongText}
+                          >
                             <span>{employee[field]}</span>
                           </td>
                         );
@@ -239,20 +270,34 @@ const EmployeeManagement = () => {
                           : ""}
                       </td>
                       <td>
-                        <span className={`badge ${getStatusClass(employee.status)}`}>
+                        <span
+                          className={`badge ${getStatusClass(employee.status)}`}
+                        >
                           {employee.status}
                         </span>
                       </td>
                       <td className="smt-action">
                         <Dropdown>
-                          <Dropdown.Toggle variant="none" id={`dropdown-${index}`} className="no-caret">
+                          <Dropdown.Toggle
+                            variant="none"
+                            id={`dropdown-${index}`}
+                            className="no-caret"
+                          >
                             <FaEllipsisV />
                           </Dropdown.Toggle>
                           <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => handleDelete(employee.id)} className="delete" style={{ color: "red" }}>
+                            <Dropdown.Item
+                              onClick={() => handleDelete(employee.id)}
+                              className="delete"
+                              style={{ color: "red" }}
+                            >
                               Delete
                             </Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleUpdateClick(employee.id)} className="update" style={{ color: "blue" }}>
+                            <Dropdown.Item
+                              onClick={() => handleUpdateClick(employee.id)}
+                              className="update"
+                              style={{ color: "blue" }}
+                            >
                               Update
                             </Dropdown.Item>
                           </Dropdown.Menu>
@@ -328,9 +373,16 @@ const EmployeeManagement = () => {
                   <Col md={6}>
                     <Form.Group className="mb-3">
                       <Form.Label>Department</Form.Label>
-                      <Form.Select name="department" defaultValue={selectedEmployee.departmentId} required>
+                      <Form.Select
+                        name="department"
+                        defaultValue={selectedEmployee.departmentId}
+                        required
+                      >
                         {departments.map((dept) => (
-                          <option key={dept.departmentId} value={dept.departmentId}>
+                          <option
+                            key={dept.departmentId}
+                            value={dept.departmentId}
+                          >
                             {dept.departmentName}
                           </option>
                         ))}
@@ -343,7 +395,11 @@ const EmployeeManagement = () => {
                   <Col md={6}>
                     <Form.Group className="mb-3">
                       <Form.Label>Position</Form.Label>
-                      <Form.Select name="position" required defaultValue={selectedEmployee.positionId}>
+                      <Form.Select
+                        name="position"
+                        required
+                        defaultValue={selectedEmployee.positionId}
+                      >
                         {positions.map((pos) => (
                           <option key={pos.positionId} value={pos.positionId}>
                             {pos.positionName}
@@ -370,7 +426,11 @@ const EmployeeManagement = () => {
                   <Col md={6}>
                     <Form.Group className="mb-3">
                       <Form.Label>Status</Form.Label>
-                      <Form.Select name="status" defaultValue={selectedEmployee.status} style={{ color: "rgb(90, 88, 88)" }}>
+                      <Form.Select
+                        name="status"
+                        defaultValue={selectedEmployee.status}
+                        style={{ color: "rgb(90, 88, 88)" }}
+                      >
                         <option value="working">working</option>
                         <option value="quit">quit</option>
                         <option value="temporary">temporary</option>
@@ -384,7 +444,9 @@ const EmployeeManagement = () => {
                         style={{ color: "rgb(90, 88, 88)" }}
                         type="date"
                         name="joiningDate"
-                        defaultValue={formatDateForInput(selectedEmployee.joiningDate)}
+                        defaultValue={formatDateForInput(
+                          selectedEmployee.joiningDate
+                        )}
                         required
                       />
                     </Form.Group>
@@ -399,7 +461,9 @@ const EmployeeManagement = () => {
                         style={{ color: "rgb(90, 88, 88)" }}
                         type="date"
                         name="dateofBirth"
-                        defaultValue={formatDateForInput(selectedEmployee.dateofBirth)}
+                        defaultValue={formatDateForInput(
+                          selectedEmployee.dateofBirth
+                        )}
                         required
                       />
                     </Form.Group>
@@ -407,7 +471,11 @@ const EmployeeManagement = () => {
                   <Col md={6}>
                     <Form.Group className="mb-3">
                       <Form.Label>Gender</Form.Label>
-                      <Form.Select name="gender" defaultValue={selectedEmployee.gender} style={{ color: "rgb(90, 88, 88)" }}>
+                      <Form.Select
+                        name="gender"
+                        defaultValue={selectedEmployee.gender}
+                        style={{ color: "rgb(90, 88, 88)" }}
+                      >
                         <option value="Nam">Nam</option>
                         <option value="Nữ">Nữ</option>
                       </Form.Select>
@@ -499,7 +567,10 @@ const EmployeeManagement = () => {
                     <Form.Select name="department" required>
                       <option value="">Select department</option>
                       {departments.map((dept) => (
-                        <option key={dept.departmentId} value={dept.departmentId}>
+                        <option
+                          key={dept.departmentId}
+                          value={dept.departmentId}
+                        >
                           {dept.departmentName}
                         </option>
                       ))}
@@ -548,22 +619,14 @@ const EmployeeManagement = () => {
                 <Col md={6}>
                   <Form.Group className="mb-3">
                     <Form.Label>Joining Date</Form.Label>
-                    <Form.Control
-                      type="date"
-                      name="joiningDate"
-                      required
-                    />
+                    <Form.Control type="date" name="joiningDate" required />
                   </Form.Group>
                 </Col>
 
                 <Col md={6}>
                   <Form.Group className="mb-3">
                     <Form.Label>Date of birth</Form.Label>
-                    <Form.Control
-                      type="date"
-                      name="dateofBirth"
-                      required
-                    />
+                    <Form.Control type="date" name="dateofBirth" required />
                   </Form.Group>
                 </Col>
 

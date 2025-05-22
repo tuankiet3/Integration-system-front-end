@@ -29,9 +29,6 @@ const SalaryManagement = () => {
     <div className="salary-management-container">
       <div className="salary-management-header">
         <div className="smh-top">
-          <div className="smh-user">
-            Hue <FaAngleRight />
-          </div>
           <div className="smh-fc">Salary Management</div>
         </div>
       </div>

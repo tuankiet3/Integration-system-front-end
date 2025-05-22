@@ -179,9 +179,6 @@ const SalaryManagement = () => {
       <LoadingSpinner isLoading={isLoading} />
       <div className="salary-management-header">
         <div className="smh-top">
-          <div className="smh-user">
-            Hue <FaAngleRight />
-          </div>
           <div className="smh-fc">Salary Management</div>
         </div>
       </div>
