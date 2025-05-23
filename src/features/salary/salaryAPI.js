@@ -68,6 +68,10 @@ const getSalaryID = async (salaryID) => {
   }
 };
 
+const postEmailNotification = async (employeeId) => {
+  return instance.post(`email/send-salary-to-employee/${employeeId}`);
+};
+
 export {
   getSalary,
   postSalary,
@@ -77,4 +81,5 @@ export {
   getTotalBudget,
   getAvgSalaryByDept,
   getSalaryID,
+  postEmailNotification,
 };

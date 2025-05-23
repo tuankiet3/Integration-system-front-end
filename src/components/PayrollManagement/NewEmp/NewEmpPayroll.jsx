@@ -12,6 +12,7 @@ import {
 } from "../../../features/salary/salarySlice";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
+import { postEmailNotification } from "../../../features/salary/salaryAPI";
 
 // Toastify
 import { toast, ToastContainer } from "react-toastify";
@@ -75,6 +76,15 @@ const NewEmpPayroll = () => {
     try {
       setIsLoading(true);
       await dispatch(createEmployeeSalary(newSalary)).unwrap();
+
+      // Gửi email thông báo sau khi thêm lương thành công
+      try {
+        await postEmailNotification(employeeId);
+      } catch (emailError) {
+        console.error("Lỗi khi gửi email thông báo:", emailError);
+        // Không hiển thị lỗi cho người dùng vì đây là thao tác phụ
+      }
+
       toast.success("Thêm lương thành công!");
       setShowNewMonth(false);
       setNewSalaryData({

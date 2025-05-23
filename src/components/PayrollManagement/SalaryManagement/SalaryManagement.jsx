@@ -15,6 +15,7 @@ import {
   selectTotalPages,
   fetchNotificationSalary,
 } from "../../../features/salary/salarySlice";
+import { postEmailNotification } from "../../../features/salary/salaryAPI";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -128,6 +129,14 @@ const SalaryManagement = () => {
       };
 
       const response = await dispatch(createSalary(newData));
+
+      // Gửi email thông báo sau khi thêm lương thành công
+      try {
+        await postEmailNotification(newSalaryData.employeeId);
+      } catch (emailError) {
+        console.error("Lỗi khi gửi email thông báo:", emailError);
+        // Không hiển thị lỗi cho người dùng vì đây là thao tác phụ
+      }
 
       const notificationResponse = await dispatch(fetchNotificationSalary());
 

@@ -42,8 +42,6 @@ const DashBoardPayroll = () => {
           <InfoRow label="Phone Number" value={data.phoneNumber} />
           <InfoRow label="Date of Birth" value={formatDate(data.dateOfBirth)} />
           <InfoRow label="Hire Date" value={formatDate(data.hireDate)} />
-          <InfoRow label="Department (ID)" value={data.departmentId} />
-          <InfoRow label="Position (ID)" value={data.positionId} />
         </div>
       </div>
     </div>
